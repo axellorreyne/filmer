@@ -1,5 +1,5 @@
-# filmer
-Project for web development
+![Filmer](https://i.imgur.com/6pkMBuX.png)
+The swiping movie suggestor!
 
 ### Dev setup
 - (setup your python venv)
