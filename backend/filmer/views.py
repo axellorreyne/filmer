@@ -1,9 +1,10 @@
-from django.http import JsonResponse
-from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from filmer.models import Movie
+from filmer.serializer import MovieSerializer
 
 
-# Create your views here.
-
-def random_movie_view(request):
-    data = {}
-    return JsonResponse(data)
+class RandomMovieView(APIView):
+    def get(self, request):
+        movie = Movie.get_random_movie()
+        return Response(MovieSerializer(movie).data)

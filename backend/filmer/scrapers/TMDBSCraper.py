@@ -32,7 +32,7 @@ def get_all_movies(limit=-1, language_set=None):
 
 
 def create_movies():
-    scraped_movies = get_all_movies(language_set=['en'], limit=-1)
+    scraped_movies = get_all_movies(language_set=['en'], limit=200)
     objs = []
     for i in scraped_movies:
         objs.append(Movie(title=i['original_title'], movie_id=i['id']))
