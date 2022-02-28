@@ -3,7 +3,6 @@ The swiping movie suggestor!
 
 ### Dev setup
 Backend:
-- `cd backend`
 - (setup your python venv)
 - `pip install -r requirements.txt`
 - `cd backend`
