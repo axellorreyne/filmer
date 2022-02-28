@@ -6,5 +6,5 @@ The swiping movie suggestor!
 - `pip install -r requirements.txt`
 - `cd backend`
 - `python manage.py migrate`
-- `python manage.py createsuperuser` (chose a password etc)
+- `python manage.py createsuperuser` (choose a password etc)
 - `python manage.py runserver`
