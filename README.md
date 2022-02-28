@@ -9,6 +9,7 @@ Backend:
 - `cd backend`
 - `python manage.py migrate`
 - `python manage.py createsuperuser` (choose a password etc)
+- `python manage.py populateMovies`
 - `python manage.py runserver`   
 
 Frontend:
