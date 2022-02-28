@@ -1,4 +1,4 @@
-from django.core.management.base import BaseCommand, BaseCommand
+from django.core.management.base import BaseCommand
 
 from filmer.scrapers.TMDBSCraper import create_movies
 
