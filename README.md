@@ -5,7 +5,6 @@ The swiping movie suggestor!
 Backend:
 - (setup your python venv)
 - `pip install -r requirements.txt`
-- `cd backend`
 - `python manage.py migrate`
 - `python manage.py createsuperuser` (choose a password etc)
 - `python manage.py populateMovies`
