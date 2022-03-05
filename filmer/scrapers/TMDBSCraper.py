@@ -3,13 +3,22 @@ import requests
 from filmer.models import Movie
 
 OK_CODE = 200
+API_KEY = 'a78a89e01e988127baa984a51f1d0c89'
+API_URL = 'https://api.themoviedb.org/3'
+
+
+# errors
+def error(e):
+    return {'error': e}
+
+
+TMDB_ERROR = error('TMDB ERROR')
 
 
 def get_top_movie(page):
-    req = requests.get(
-        f'https://api.themoviedb.org/3/movie/top_rated/?api_key=a78a89e01e988127baa984a51f1d0c89&page={page}')
+    req = requests.get(f'{API_URL}/movie/top_rated/?api_key={API_KEY}&page={page}')
     if req.status_code != OK_CODE:
-        raise ConnectionError("something went wrong")
+        return TMDB_ERROR
     else:
         res = req.json()
         return res
@@ -38,3 +47,12 @@ def create_movies():
         objs.append(Movie(title=i['original_title'], movie_id=i['id']))
     Movie.objects.all().delete()
     Movie.objects.bulk_create(objs)
+
+
+def get_movie_info(movie_id):
+    req = requests.get(f'{API_URL}/movie/{movie_id}?api_key={API_KEY}')
+    if req.status_code == OK_CODE:
+        return req.json()
+    else:
+        print(req.json())
+        return TMDB_ERROR
