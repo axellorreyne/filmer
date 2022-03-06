@@ -1,4 +1,4 @@
-![Filmer](design/logo/transparant_background.png)\![transparant_background](https://github.ugent.be/storage/user/9272/files/50dfcaf0-1bbe-4eb4-9a3c-3e729d6588a8)
+![Filmer](design/logo/transparant_background.png)
 
 The swiping movie suggestor!
 
