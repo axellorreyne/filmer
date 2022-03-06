@@ -1,0 +1,29 @@
+
+@import url("https://use.typekit.net/dgr3vqv.css");
+
+/* Main styling */
+html, body 
+{
+  color:              #fff !important;
+  background-color:   #202225 !important;
+  font-family:        franklin-gothic-atf, sans-serif !important;
+  height: 100%;
+}
+
+a 
+{
+  color: #bbb !important;
+  text-decoration: none !important;
+}
+
+a:hover
+{
+  color: #fff !important;
+  text-decoration: none !important;
+}
+
+footer
+{
+  color: #bbb;
+  font-size: 0.8rem;
+}
