@@ -10,6 +10,11 @@ import "./logo_transbackground.svg"
 class LandingPage extends Component 
 {
 
+  componentDidMount() {
+    document.title = "Filmer: Where people find their favourite movies!";
+    document.icon = "";
+  }
+
   render ()
   {
     return (
@@ -29,7 +34,8 @@ class LandingPage extends Component
 
   <footer class="mastfoot mt-auto">
     <div class="inner">
-      <p><a href="">About</a> - <a href="">For Developers</a></p>
+      <p><a href="">Terms of Service</a> - <a href="">Privacy Policy</a> - <a href="">Cookie Policy</a> - <a href="">About</a> - <a href="">Developers</a></p>
+      <p>(c) 2022 filmer inc.</p>
     </div>
   </footer>
 
