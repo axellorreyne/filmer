@@ -1,0 +1,26 @@
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: flex;
+  -ms-flex-pack: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.cover-container {
+  max-width: 30em;
+}
+
+footer p 
+{
+  margin-bottom: 2px;
+}
+
+
