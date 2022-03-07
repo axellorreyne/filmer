@@ -1,7 +1,6 @@
 
 @import url("https://use.typekit.net/dgr3vqv.css");
 
-/* Main styling */
 html, body 
 {
   color:              #fff !important;
@@ -12,18 +11,18 @@ html, body
 
 a 
 {
-  color: #bbb !important;
+  color:           #bbb !important;
   text-decoration: none !important;
 }
 
 a:hover
 {
-  color: #fff !important;
+  color:           #fff !important;
   text-decoration: none !important;
 }
 
 footer
 {
-  color: #bbb;
+  color:     #bbb;
   font-size: 0.8rem;
 }

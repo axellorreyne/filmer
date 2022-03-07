@@ -1,10 +1,9 @@
 import {Component} from "react";
 import axios from "axios";
 
-import "./style.css";
 import "./LandingPage.css";
 
-import RsrcLogo from "./resources/logo_transparant.svg";
+import RsrcLogo from "../resources/logo_transparant.svg";
 
 class LandingPage extends Component 
 {
