@@ -13,7 +13,6 @@ ReactDOM.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<LandingPage/>}/>
-      <Route path="/test" element={<Test/>}/>
     </Routes>
   </BrowserRouter>,
   document.getElementById('root')
