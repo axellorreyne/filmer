@@ -1,5 +1,7 @@
 ![Filmer](design/logo/transparant_background.png)
 
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/django/django-original.svg" width="50"/><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original.svg" width="50"/><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" width="50"/><br/>
+
 The swiping movie suggestor!
 
 ## Dev Setup
@@ -60,5 +62,3 @@ Frontend:
 - `cd frontend`
 - `npm i`
 - `npm start`
-
-<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/django/django-original.svg" width="50"/><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original.svg" width="50"/><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" width="50"/><br/>
