@@ -1,7 +1,9 @@
 import {Component} from "react";
 import axios from "axios";
+import { Routes, Route, Link } from "react-router-dom";
 
 import "./LandingPage.css";
+import Test from "../Test";
 
 import RsrcLogo from "../resources/logo_transparant.svg";
 
@@ -22,8 +24,8 @@ class LandingPage extends Component
   <main role="main" class="mb-5">
     <h1 class="cover-heading">Where people find their favourite movies!</h1>
     <div class="mt-5">
-      <button type="button" class="btn btn-light m-1">Sign up</button>
-      <button type="button" class="btn btn-light m-1">Log in</button>
+      <Link to="/createaccountpage"><button type="button" class="btn btn-light m-1">Sign up</button></Link>
+      <Link to="/test"><button type="button" class="btn btn-light m-1">Log in</button></Link>
     </div>
   </main>
   <footer class="mastfoot mt-auto">
