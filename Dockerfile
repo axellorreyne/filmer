@@ -5,18 +5,19 @@ FROM python:3.9-slim as base
 ENV PYTHONUNBUFFERED=1
 
 # Set working directory
-WORKDIR /app
+WORKDIR /backend
 
 # Upgrade pip
 RUN pip install --upgrade pip
 
 # Copy requirements.txt
-COPY requirements.txt /app/
+COPY requirements.txt /backend/
 
 # Install required packages
 RUN pip install -r requirements.txt
 
 # Copy source
+# TODO: exclude frontend
 COPY . .
 
 # Migrate
