@@ -21,10 +21,10 @@ The swiping movie suggestor!
 
 ### Build + start local setup (Docker)
 
-- Build + start container
+- Build + start container + create superuser
 ```shell script
 $ docker-compose up -d --build
-$ docker-compose exec app python manage.py createsuperuser
+$ docker-compose exec backed python manage.py createsuperuser
 ```
 
 
