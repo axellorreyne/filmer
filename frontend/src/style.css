@@ -1,28 +1,31 @@
-
 @import url("https://use.typekit.net/dgr3vqv.css");
+
+::selection 
+{
+  background-color:   #09f9;
+}
 
 html, body 
 {
-  color:              #fff !important;
-  background-color:   #0D1117 !important;
-  font-family:        franklin-gothic-atf, sans-serif !important;
-  height: 100%;
+  color:              #fff;
+  background-color:   #0D1117;
+  font-family:        franklin-gothic-atf, sans-serif;
 }
 
 a 
 {
-  color:           #bbb !important;
-  text-decoration: none !important;
+  color:              #bbb;
+  text-decoration:    none;
 }
 
 a:hover
 {
-  color:           #fff !important;
-  text-decoration: none !important;
+  color:              #fff;
+  text-decoration:    none;
 }
 
 footer
 {
-  color:     #bbb;
-  font-size: 0.8rem;
+  color:              #bbb;
+  font-size:          0.8rem;
 }

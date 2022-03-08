@@ -4,7 +4,8 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import './style.css';
 
-import LandingPage from './landing_page/LandingPage';
+import LandingPage from './page_landing/LandingPage';
+// import HomePage    from './page_home/HomePage';
 
 ReactDOM.render(
   <React.StrictMode>

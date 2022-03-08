@@ -8,7 +8,8 @@ import RsrcLogo from "../resources/logo_transparant.svg";
 class LandingPage extends Component 
 {
 
-  componentDidMount() {
+  componentDidMount() 
+  {
     document.title = "Filmer: Where people find their favourite movies!";
   }
 
@@ -27,7 +28,7 @@ class LandingPage extends Component
     </div>
   </main>
   <footer class="mastfoot mt-auto">
-    <div class="inner">
+    <div>
       <p><a href="">Terms of Service</a> - <a href="">Privacy Policy</a> - <a href="">Cookie Policy</a> - <a href="">About</a> - <a href="">Developers</a></p>
       <p>(c) 2022 filmer inc.</p>
     </div>
