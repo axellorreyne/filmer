@@ -1,6 +1,21 @@
 version: "3.9"
 
 services:
-    app:
+    backend:
       build: .
       command: python manage.py runserver 0.0.0.0:8000
+      networks:
+        - local_network
+      restart: always
+      ports:
+        - "8000:8000"
+    frontend:
+      build: ./frontend
+      command: npm start
+      networks:
+        - local_network
+      ports:
+        - "3000:3000"
+
+networks:
+  local_network:
