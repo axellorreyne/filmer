@@ -1,18 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 
 import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
-
 import './style.css';
 
-import LandingPage from './page_landing/LandingPage';
-import HomePage    from './page_home/HomePage';
+import LandingPage from './page_landing/LandingPage.js';
 
 ReactDOM.render(
-    <React.StrictMode>
-        <HomePage/>
-    </React.StrictMode>,
-    document.getElementById('root')
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<LandingPage/>}/>
+    </Routes>
+  </BrowserRouter>,
+  document.getElementById('root')
 );
 
