@@ -17,15 +17,22 @@ class HomePage extends Component
   render()
   {
     return(
-<div className="container h-100 text-center d-flex flex-column">
-
+<div className="container h-100 d-flex flex-column">
     <FHeader/> 
-     
-    <main>
+    <main class="container">
+        <div class="row">
+            <div class="col-2">
+                
+            </div>
+            <div class="col">
+               <h1>Interstellar</h1>
+            </div>
+            <div class="col-2">
+                
+            </div>
+        </div>
     </main>
-    
     <FFooter/>
-
 </div>
     ); 
   }

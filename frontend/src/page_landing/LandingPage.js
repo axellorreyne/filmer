@@ -16,7 +16,7 @@ class LandingPage extends Component
   render ()
   {
     return (
-<div className="container h-100 text-center d-flex flex-column">
+<div className="container h-100 d-flex flex-column">
     <FHeaderAlt/>
     <main className="mb-5">
         <h1>Where people find their favourite movies!</h1>
