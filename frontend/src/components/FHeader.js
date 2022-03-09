@@ -8,7 +8,7 @@ class FHeader extends Component
   render () 
   {
     return (
-<nav class="m-3 navbar navbar-expand-lg navbar-dark fheader">
+<nav class="navbar navbar-expand-lg navbar-dark fheader container">
     <div class="container-fluid">
         <img src={RsrcLogo} width="100px" class="navbar-brand" alt=""/>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">

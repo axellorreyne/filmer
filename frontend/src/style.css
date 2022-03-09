@@ -11,6 +11,8 @@ html, body
     color:              #fff;
     background-color:   #0D1117;
     font-family:        franklin-gothic-atf, sans-serif;
+    font-weight:        400;
+    font-size:          20px;
 }
 
 #root 
@@ -22,6 +24,7 @@ html, body
 {
     color:              #bbb;
     font-size:          0.8rem;
+    font-weight:        400;
 }
 
 .fheader a, .ffooter a
@@ -36,9 +39,24 @@ html, body
     text-decoration:    none !important;
 }
 
+.ffs-1
+{
+    font-size: 60px; 
+}
 
+.ffs-3
+{
+    font-size: 14px; 
+}
 
+.ffw-2
+{
+    font-weight: 500;
+}
 
-
+.col-secundary
+{
+    color: #bbb;
+}
 
 
