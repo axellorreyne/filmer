@@ -3,6 +3,7 @@ import axios from "axios";
 
 import "./HomePage.css";
 import FHeader from "../components/FHeader.js";
+import FFooter from "../components/FFooter.js";
 import RsrcLogo from "../resources/logo_transparant.svg";
 
 class HomePage extends Component
@@ -16,19 +17,14 @@ class HomePage extends Component
   render()
   {
     return(
-<div class="">
+<div className="container h-100 text-center d-flex flex-column">
 
-  <FHeader/> 
+    <FHeader/> 
      
-  <main>
-  </main>
- 
-  <footer>
-    <div class="text-center">
-      <p><a href="">Terms of Service</a> - <a href="">Privacy Policy</a> - <a href="">Cookie Policy</a> - <a href="">About</a> - <a href="">Developers</a></p>
-      <p>(c) 2022 filmer inc.</p>
-    </div>
-  </footer>
+    <main>
+    </main>
+    
+    <FFooter/>
 
 </div>
     ); 

@@ -7,25 +7,38 @@
 
 html, body 
 {
-  color:              #fff;
-  background-color:   #0D1117;
-  font-family:        franklin-gothic-atf, sans-serif;
+    min-height:         100vh;
+    color:              #fff;
+    background-color:   #0D1117;
+    font-family:        franklin-gothic-atf, sans-serif;
 }
 
-a 
+#root 
 {
-  color:              #bbb;
-  text-decoration:    none;
+    height: 100%;
 }
 
-a:hover
+.ffooter 
 {
-  color:              #fff;
-  text-decoration:    none;
+    color:              #bbb;
+    font-size:          0.8rem;
 }
 
-footer
+.fheader a, .ffooter a
 {
-  color:              #bbb;
-  font-size:          0.8rem;
+    color:              #bbb !important;
+    text-decoration:    none !important;
 }
+
+.fheader a:hover, .ffooter a:hover
+{
+    color:              #fff !important;
+    text-decoration:    none !important;
+}
+
+
+
+
+
+
+

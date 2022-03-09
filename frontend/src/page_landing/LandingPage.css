@@ -1,26 +1,9 @@
-
 html,
 body {
-  height: 100%;
-}
-
-body {
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: flex;
-  -ms-flex-pack: center;
-  -webkit-box-pack: center;
-  justify-content: center;
-  color: #fff;
+  height: 100vh;
 }
 
 .cover-container {
-  max-width: 30em;
+  max-width: 36em;
 }
-
-footer p 
-{
-  margin-bottom: 2px;
-}
-
 
