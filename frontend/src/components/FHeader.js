@@ -8,11 +8,11 @@ class FHeader extends Component
   render () 
   {
     return (
-<nav class="navbar navbar-expand-lg navbar-dark fheader container">
+<nav class="FHeader navbar navbar-expand-lg navbar-dark container">
     <div class="container-fluid">
         <img src={RsrcLogo} width="100px" class="navbar-brand" alt=""/>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="navbar-nav m-auto mb-2 mb-lg-0">
