@@ -1,5 +1,6 @@
 from rest_framework import request, status
 from rest_framework.authtoken.models import Token
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from filmer.models import Movie
@@ -18,3 +19,7 @@ class MovieInfoView(APIView):
         return Response(get_movie_info(movie_id))
 
 
+class AuthenticatedTest(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request):
+        return Response({"authenticated": True})

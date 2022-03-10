@@ -1,11 +1,18 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import AuthService from "../services/auth.service";
+import UserService from "../services/user.service";
+
 class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentUser: AuthService.getCurrentUser()
+            currentUser: AuthService.getCurrentUser(),
+            authenticated: "checking"
         };
+    }
+
+    componentDidMount() {
+        UserService.getAuthTest().then(authed => this.setState({authenticated: authed.authenticated ? "passed" : "failed"}))
     }
 
     render() {
@@ -30,11 +37,10 @@ class Profile extends Component {
                     <strong>Email:</strong>{" "}
                     {currentUser.email}
                 </p>
-                <strong>Authorities:</strong>
-                <ul>
-                    {currentUser.roles &&
-                        currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
-                </ul>
+                <p>
+                    <strong>Authentication check:</strong>{" "}
+                    {this.state.authenticated}
+                </p>
             </div>
         );
     }
