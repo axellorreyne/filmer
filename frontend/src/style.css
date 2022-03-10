@@ -26,3 +26,7 @@ footer
   color:     #bbb;
   font-size: 0.8rem;
 }
+
+.card{
+  background-color: transparent;
+}
