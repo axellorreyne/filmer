@@ -45,24 +45,9 @@ html, body
     background: linear-gradient(200deg, rgba(0,0,43,1) 0%, rgba(11,159,189,1) 100%);
 }
 
-.ffs-1
-{
-    font-size: 60px; 
-}
-
-.ffs-3
-{
-    font-size: 14px; 
-}
-
 .ffw-2
 {
     font-weight: 500;
-}
-
-.col-secundary
-{
-    color: #bbb;
 }
 
 

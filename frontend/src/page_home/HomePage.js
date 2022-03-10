@@ -1,7 +1,6 @@
 import { Component } from "react";
 import axios from "axios";
 
-import "./HomePage.css";
 import FHeader from "../components/FHeader.js";
 import FFooter from "../components/FFooter.js";
 import FTagList from "../components/FTagList.js";
