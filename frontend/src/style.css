@@ -1,30 +1,53 @@
-
 @import url("https://use.typekit.net/dgr3vqv.css");
 
-html, body 
+::selection
 {
-  color:              #fff !important;
-  background-color:   #0D1117 !important;
-  font-family:        franklin-gothic-atf, sans-serif !important;
-  height: 100%;
+  background-color:   #09f9;
 }
 
-a 
+html, body
 {
-  color:           #bbb !important;
-  text-decoration: none !important;
+    min-height:         100vh;
+    color:              #fff;
+    background-color:   #0D1117;
+    font-family:        franklin-gothic-atf, sans-serif;
+    font-weight:        400;
+    font-size:          20px;
 }
 
-a:hover
+#root
 {
-  color:           #fff !important;
-  text-decoration: none !important;
+    height: 100%;
 }
 
-footer
+.FHeader, .FFooter
 {
-  color:     #bbb;
-  font-size: 0.8rem;
+    color:              #bbb;
+    font-size:          0.8rem;
+    font-weight:        400;
+}
+
+.FHeader a, .FFooter a
+{
+    color:              #bbb !important;
+    text-decoration:    none !important;
+}
+
+.FHeader a:hover, .FFooter a:hover
+{
+    color:              #fff !important;
+    text-decoration:    none !important;
+}
+
+.FTag
+{
+    background: rgb(0,0,43);
+    background: linear-gradient(200deg, rgba(0,0,43,1) 0%, rgba(11,159,189,1) 100%);
+}
+
+.ffw-2
+{
+    font-weight: 500;
 }
 
 .card{

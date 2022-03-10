@@ -1,0 +1,9 @@
+html,
+body {
+  height: 100vh;
+}
+
+.page_landing main {
+  max-width: 36em;
+}
+
