@@ -1,28 +1,70 @@
-
 @import url("https://use.typekit.net/dgr3vqv.css");
+
+::selection 
+{
+  background-color:   #09f9;
+}
 
 html, body 
 {
-  color:              #fff !important;
-  background-color:   #0D1117 !important;
-  font-family:        franklin-gothic-atf, sans-serif !important;
-  height: 100%;
+    min-height:         100vh;
+    color:              #fff;
+    background-color:   #0D1117;
+    font-family:        franklin-gothic-atf, sans-serif;
+    font-weight:        400;
+    font-size:          20px;
 }
 
-a 
+#root 
 {
-  color:           #bbb !important;
-  text-decoration: none !important;
+    height: 100%;
 }
 
-a:hover
+.FHeader, .FFooter
 {
-  color:           #fff !important;
-  text-decoration: none !important;
+    color:              #bbb;
+    font-size:          0.8rem;
+    font-weight:        400;
 }
 
-footer
+.FHeader a, .FFooter a
 {
-  color:     #bbb;
-  font-size: 0.8rem;
+    color:              #bbb !important;
+    text-decoration:    none !important;
 }
+
+.FHeader a:hover, .FFooter a:hover
+{
+    color:              #fff !important;
+    text-decoration:    none !important;
+}
+
+.FTag
+{
+    background: rgb(0,0,43);
+    background: linear-gradient(200deg, rgba(0,0,43,1) 0%, rgba(11,159,189,1) 100%);
+}
+
+.ffs-1
+{
+    font-size: 60px; 
+}
+
+.ffs-3
+{
+    font-size: 14px; 
+}
+
+.ffw-2
+{
+    font-weight: 500;
+}
+
+.col-secundary
+{
+    color: #bbb;
+}
+
+
+
+
