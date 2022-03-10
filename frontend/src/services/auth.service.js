@@ -25,6 +25,7 @@ class AuthService {
       password
     });
   }
+
   getCurrentUser() {
     return JSON.parse(localStorage.getItem('user'));;
   }
