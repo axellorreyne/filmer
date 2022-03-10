@@ -5,11 +5,11 @@ import {Routes, Route, Link} from "react-router-dom";
 
 import 'bootstrap/dist/css/bootstrap.css';
 import './style.css';
-import LandingPage from './landing_page/LandingPage';
 import HomePage from './page_home/HomePage'
 import LoginPage from "./account/LoginPage";
 import SignupPage from "./account/SignupPage";
 import ProfilePage from "./account/ProfilePage";
+import LandingPage from "./page_landing/LandingPage";
 
 ReactDOM.render(
     <BrowserRouter>
