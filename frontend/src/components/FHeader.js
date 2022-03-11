@@ -1,5 +1,6 @@
 import {Component} from 'react';
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 import RsrcLogo from "../resources/logo_transparant.svg";
 
@@ -17,7 +18,7 @@ class FHeader extends Component
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="navbar-nav m-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
+                    <Link to="/home"><a class="nav-link" href="#">Home</a></Link>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">My Movies</a>
@@ -27,7 +28,7 @@ class FHeader extends Component
                 </li>
             </ul>
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
+                <Link to="/settings"><li class="nav-item"><a class="nav-link" href="#">Settings</a></li></Link>
             </ul>
         </div>
     </div>

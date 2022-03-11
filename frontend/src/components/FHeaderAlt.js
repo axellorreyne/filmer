@@ -7,8 +7,8 @@ class FHeader extends Component
   render () 
   {
     return (
-<div className="text-center mb-auto">
-    <img src={RsrcLogo} width="100px"/>
+<div className="text-center mt-auto mb-4">
+    <img src={RsrcLogo} width="200px"/>
 </div>
     );
   }

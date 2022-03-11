@@ -45,11 +45,48 @@ html, body
     background: linear-gradient(200deg, rgba(0,0,43,1) 0%, rgba(11,159,189,1) 100%);
 }
 
+.FForm div
+{
+   width: 100%; 
+}
+
+.FFormInput
+{
+    width: 100%;
+    color: #fff;
+    background-color: #0000;
+    border: 2px solid #555;
+    border-radius: 6px;
+    padding: 6px 12px;
+    margin: 0;
+}
+
+input:focus
+{
+    border: 2px solid #f00;
+}
+
 .ffw-2
 {
     font-weight: 500;
 }
 
-.card{
-  background-color: transparent;
+.rgb-1
+{
+    color: #fff;
 }
+
+.rgb-2
+{
+    color: #bbb;
+}
+
+.rgb-alert
+{
+    color: #f33;
+}
+
+
+
+
+
