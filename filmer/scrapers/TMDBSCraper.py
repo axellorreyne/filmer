@@ -1,9 +1,13 @@
 import requests
+from os import getenv
 
 from filmer.models import Movie
+from dotenv import load_dotenv
+
+load_dotenv()
 
 OK_CODE = 200
-API_KEY = 'a78a89e01e988127baa984a51f1d0c89'
+API_KEY = getenv('TMDB_API_KEY')
 API_URL = 'https://api.themoviedb.org/3'
 
 
