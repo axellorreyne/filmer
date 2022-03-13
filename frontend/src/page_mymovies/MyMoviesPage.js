@@ -11,6 +11,7 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import RsrcIconArrowLeft from "../resources/icon_arrow_left.svg";
 import FMovieLine from "../components/FMovieLine";
+import RsrcIconHeart from "../resources/icon_heart.svg";
 
 class MyMoviesPage extends Component
 {
@@ -39,45 +40,49 @@ class MyMoviesPage extends Component
           <main className="mt-5 mb-auto container-fluid">
             <div className="d-lg-flex justify-content-around align-items-center">
                 <div className="col-lg-7" >
-                    <div class="row ">
-                        <div class="col-1">
-                            <img src={RsrcIconArrowLeft} width="32px" className="me-3" alt=""/>
-                        </div>
-                        <div className="col">
-                            <p className="text-muted">Back</p>
-                        </div>
+                    <div className=" d-flex me-4">
+                       <img src={RsrcIconArrowLeft} width="28px" className="me-3" alt=""/>
+                        <p className="h5 text-muted">Back</p>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-4">
+                    <div class="d-flex">
                         <p class = "h1"> My movies</p>
-                        </div>
-                        <div className="col-sm-4">
-                                <p className="h1 text-muted"> 2 movies</p>
+                        <div className="align-self-end">
+                            <p className="h6 text-muted ps-5" > 2 movies</p>
                         </div>
                     </div>
                     <div class="row mt-5 w-100">
-                        <div class="col-sm-4">
-                            <p class="h6">Filter: Title,Seen,Director</p>
-                        </div>
-                        <div className="col-lg-5 align-bottom ">
-                            <div className="row h-100 ">
-                                <div className="col-10 h-100  ">
-                                    <input type="email" className="form-control bg-dark h-75 text-light" id="search"
-                                           placeholder="search"/>
-                                </div>
-
-                                <div className="col-2 h-75 border  ">
-                                    <p className="my-0 text-muted">s</p>
+                        <div class="col-sm-6">
+                            <div className="d-flex">
+                                <p class="h6">Filter: </p>
+                                <div className="dropdown w-50">
+                                    <button type="button" className="btn btn-secondary btn-sm dropdown-toggle"
+                                            data-bs-toggle="dropdown">
+                                        Title,Seen,Director
+                                    </button>
+                                    <ul className="dropdown-menu bg-secondary">
+                                        <li><a className="dropdown-item text-white" href="#">Title</a></li>
+                                        <li><a className="dropdown-item text-white" href="#">Seen</a></li>
+                                        <li><a className="dropdown-item text-white" href="#">Director</a></li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
-                        <div className="col-sm-2">
-                            <p className="h6">add movie</p>
+                        <div className="col-md-6">
+                            <div className="d-flex h-100 justify-content-between">
+                                <div className="d-flex h-75 w-50">
+                                    <input type="email" className="form-control bg-dark  text-light" id="search"
+                                           placeholder="search"/>
+
+                                    <div className=" border  ">
+                                        <p className="my-0 text-muted">s</p>
+                                    </div>
+                                </div>
+                                <p className="h6">add movie</p>
+                            </div>
                         </div>
                     </div>
                     <FMovieLine score={score1} name={movie1} tags={tags1}/>
                     <FMovieLine score={score2} name={movie2} tags={tags2}/>
-                    <hr/>
                 </div>
             </div>
         </main>

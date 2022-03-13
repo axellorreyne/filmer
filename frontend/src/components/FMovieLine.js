@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import FTagList from "./FTagList";
 
 class FMovieLine extends Component
 {
@@ -10,14 +11,14 @@ class FMovieLine extends Component
 
                 <div className="row w-100">
                     <hr/>
-                    <div className="col-6">
+                    <div className="col-md-5">
                         {this.props.name}
                     </div>
-                    <div className="col-2">
+                    <div className="col-md-2">
                         {this.props.score}/10
                     </div>
-                    <div className="col-4">
-                        {this.props.tags.join(", ")}
+                    <div className="col-xxl-5 h-50">
+                        <FTagList tags={this.props.tags}/>
                     </div>
                 </div>
             </div>
