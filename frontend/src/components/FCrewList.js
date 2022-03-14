@@ -9,17 +9,17 @@ class FCrewList extends Component
         const writers = this.props.writers.map((element) => <div>{element}</div>);
         const starring = this.props.starring.map((element) => <div>{element}</div>);
         return (
-            <div className="">
+            <div className="ffw-2">
                 <div className="mb-3">
-                    <div className="col-secundary">Director</div>
+                    <div className="rgb-2">Director</div>
                     {directors}
                 </div>
                 <div className="mb-3">
-                    <div className="col-secundary">Writer</div>
+                    <div className="rgb-2">Writer</div>
                     {writers}
                 </div>
                 <div className="mb-3">
-                    <div className="col-secundary">Starring</div>
+                    <div className="rgb-2">Starring</div>
                     {starring}
                 </div>
             </div>
