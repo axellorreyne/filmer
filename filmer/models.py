@@ -25,5 +25,5 @@ class Movie(models.Model):
 
 class Reaction(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    movie_id = models.CharField(max_length=100, unique=True)
+    movie_id = models.CharField(max_length=100)
     like = models.BooleanField()

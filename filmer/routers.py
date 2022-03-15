@@ -1,6 +1,6 @@
 from rest_framework.routers import SimpleRouter
 
-from filmer.auth.viewsets import LoginViewSet, RegistrationViewSet, RefreshViewSet
+from filmer.auth.viewsets import LoginViewSet, RegistrationViewSet, RefreshViewSet, ReactionViewSet
 from filmer.viewsets import UserViewSet
 
 routes = SimpleRouter()
@@ -13,6 +13,8 @@ routes.register(r'auth/refresh', RefreshViewSet, basename='auth-refresh')
 # USER
 routes.register(r'user', UserViewSet, basename='user')
 
+# REACTION
+routes.register(r'reaction', ReactionViewSet, basename='user')
 
 urlpatterns = [
     *routes.urls
