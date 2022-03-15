@@ -12,7 +12,7 @@ html, body
     background-color:   #0D1117;
     font-family:        franklin-gothic-atf, sans-serif;
     font-weight:        400;
-    font-size:          20px;
+    font-size:          17px;
 }
 
 #root
@@ -57,13 +57,29 @@ html, body
     background-color: #0000;
     border: 2px solid #555;
     border-radius: 6px;
-    padding: 6px 12px;
+    padding: 4px 6px;
     margin: 0;
 }
 
 input:focus
 {
     border: 2px solid #f00;
+}
+
+.fborder
+{
+    border: 2px solid #555;
+    border-radius: 6px;
+}
+
+.ffs-1
+{
+   font-size: 36px; 
+}
+
+.ffs-2
+{
+   font-size: 21px; 
 }
 
 .ffw-2
@@ -81,12 +97,21 @@ input:focus
     color: #bbb;
 }
 
+.rgb-bg-2
+{
+    background-color:   #0D1117;
+}
+
+.rgb-bg-1
+{
+    background-color:   #0c0f14;
+}
+
+
 .rgb-alert
 {
     color: #f33;
 }
-
-
 
 
 

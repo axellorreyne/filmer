@@ -21,11 +21,12 @@ class FHeader extends Component
                     <Link to="/home"><a class="nav-link" href="#">Home</a></Link>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">My Movies</a>
+                    <Link to="/mymovies"><a class="nav-link" href="#">My Movies</a></Link>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Friends</a>
                 </li>
+
             </ul>
             <ul class="navbar-nav">
                 <Link to="/settings"><li class="nav-item"><a class="nav-link" href="#">Settings</a></li></Link>

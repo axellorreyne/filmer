@@ -23,7 +23,7 @@ class LandingPage extends Component
     <main className="mb-5 text-center">
         <h1>Where people find their favourite movies!</h1>
         <div className="mt-5">
-            <Link to="/signup"><button type="button" className="btn btn-light m-1">Sign up</button></Link>
+            <Link to="/signup"><button type="button" className="btn btn-primary m-1">Sign up</button></Link>
             <Link to="/login"><button type="button" className="btn btn-light m-1">Log in</button></Link>
         </div>
     </main>

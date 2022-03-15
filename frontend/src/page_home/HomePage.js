@@ -40,7 +40,7 @@ class HomePage extends Component
     return(
 <div className="h-100 d-flex flex-column">
     <FHeader/> 
-    <main className="mt-5 mb-5 container-fluid">
+    <main className="mt-5 mb-4 container-fluid">
         <div className="d-flex justify-content-around align-items-center">
             <div className="col d-none d-xl-flex justify-content-center">
                <img src={RsrcIconArrowLeft} width="32px" className="me-3" alt=""/> 
@@ -57,7 +57,7 @@ class HomePage extends Component
                        <img src={RsrcIconArrowRight} width="28px" alt=""/> 
                     </div>
                 </div>
-                <h1>{title}</h1>
+                <h1 class="mb-3">{title}</h1>
                 <FTagList tags={tags}/>
                 <p className="my-3">{overview}</p>
                 <div className="d-lg-flex">
