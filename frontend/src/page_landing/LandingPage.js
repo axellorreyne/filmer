@@ -1,11 +1,8 @@
 import {Component} from "react";
-import axios from "axios";
-import { Routes, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import "./LandingPage.css";
 import FFooter from "../components/FFooter.js";
 import FHeaderAlt from "../components/FHeaderAlt.js";
-import RsrcLogo from "../resources/logo_transparant.svg";
 
 class LandingPage extends Component 
 {
@@ -18,7 +15,7 @@ class LandingPage extends Component
   render ()
   {
     return (
-<div className="page_landing container h-100 d-flex flex-column align-items-center">
+<div className="container h-100 d-flex flex-column align-items-center">
     <FHeaderAlt/>
     <main className="mb-5 text-center">
         <h1>Where people find their favourite movies!</h1>
