@@ -1,4 +1,4 @@
-#API Overview
+# API Overview
 (POST requests include body structure)
 ## Unauthenticated
 - GET `/api/random_movie` get a random movie
