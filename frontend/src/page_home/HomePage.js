@@ -1,5 +1,7 @@
 import { Component } from "react";
 
+import MovieService from "../services/movie.service";
+
 import FHeader from "../components/FHeader.js";
 import FFooter from "../components/FFooter.js";
 import FTagList from "../components/FTagList.js";
@@ -11,15 +13,22 @@ import RsrcIconVomit from "../resources/icon_vomit.svg";
 
 class HomePage extends Component
 {
-  
+
+  constructor(props)
+  {
+      super(props)
+      this.state = {movie: {adult: false, backdrop_path: "/hQ4pYsIbP22TMXOUdSfC2mjWrO0.jpg", belongs_to_collection: null, budget: 0, genres: [ { id: 18, name: "Drama" }, { id: 80, name: "Crime" }, { id: 35, name: "Comedy" } ], homepage: "", id: 2, imdb_id: "tt0094675", original_language: "fi", original_title: "Ariel", overview: "Taisto Kasurinen is a Finnish coal miner whose father has just committed suicide and who is framed for a crime he did not commit. In jail, he starts to dream about leaving the country and starting a new life. He escapes from prison but things don't go as planned...", popularity: 13.052, poster_path: "/ojDg0PGvs6R9xYFodRct2kdI6wC.jpg", production_companies: [ { id: 2303, logo_path: null, name: "Villealfa Filmproductions", origin_country: "FI" } ], production_countries: [ { iso_3166_1: "FI", name: "Finland" } ], release_date: "1988-10-21", revenue: 0, runtime: 73, spoken_languages: [ { english_name: "German", iso_639_1: "de", name: "Deutsch" }, { english_name: "Finnish", iso_639_1: "fi", name: "suomi" } ], status: "Released", tagline: "", title: "Ariel", video: false, vote_average: 6.8, vote_count: 157 } }
+  }
+
   componentDidMount()
   {
     document.title = "Filmer: Home";
+    MovieService.getRandomMovieInfo().then(data => {this.setState({movie: data})});
   }
 
   render()
   {
-    const title     = "Interstellar";
+    const title     = "";
     const overview  = "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.";
     const tags      = ["Sci-Fi", "Adventure", "Drama"];
     const video     = "https://www.youtube.com/embed/zSWdZVtXT7E";
@@ -53,9 +62,9 @@ class HomePage extends Component
                        <img src={RsrcIconArrowRight} width="28px" alt=""/> 
                     </div>
                 </div>
-                <p className="mb-3 ffs-1 ffw-2 m-0 p-0">{title}</p>
+                <p className="mb-3 ffs-1 ffw-2 m-0 p-0">{this.state.movie.original_title}</p>
                 <FTagList tags={tags}/>
-                <p className="my-3">{overview}</p>
+                <p className="my-3">{this.state.movie.overview}</p>
                 <div className="d-xl-flex">
                     <div className="col me-3">
                         <div className="ratio ratio-16x9">
