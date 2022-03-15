@@ -7,7 +7,7 @@
 
 html, body
 {
-    min-height:         100vh;
+    height:             100vh;
     color:              #fff;
     background-color:   #0D1117;
     font-family:        franklin-gothic-atf, sans-serif;
@@ -20,20 +20,13 @@ html, body
     height: 100%;
 }
 
-.FHeader, .FFooter
-{
-    color:              #bbb;
-    font-size:          0.8rem;
-    font-weight:        400;
-}
-
-.FHeader a, .FFooter a
+a
 {
     color:              #bbb !important;
     text-decoration:    none !important;
 }
 
-.FHeader a:hover, .FFooter a:hover
+a:hover
 {
     color:              #fff !important;
     text-decoration:    none !important;
@@ -82,9 +75,29 @@ input:focus
    font-size: 21px; 
 }
 
+.ffs-3
+{
+   font-size: 17px; 
+}
+
+.ffs-4
+{
+   font-size: 14px; 
+}
+
+.ffw-1
+{
+    font-weight: 700;
+}
+
 .ffw-2
 {
     font-weight: 500;
+}
+
+.ffw-3
+{
+    font-weight: 400;
 }
 
 .rgb-1
@@ -107,6 +120,10 @@ input:focus
     background-color:   #0c0f14;
 }
 
+.rgb-bg-tr
+{
+    background-color:   #0000;
+}
 
 .rgb-alert
 {

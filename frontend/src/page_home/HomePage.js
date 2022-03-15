@@ -1,21 +1,13 @@
 import { Component } from "react";
-import axios from "axios";
 
 import FHeader from "../components/FHeader.js";
 import FFooter from "../components/FFooter.js";
 import FTagList from "../components/FTagList.js";
-import FCrewList from "../components/FCrewList.js";
-import FIconWText from "../components/FIconWText.js";
 
-import RsrcLogo from "../resources/logo_transparant.svg";
 import RsrcIconArrowLeft from "../resources/icon_arrow_left.svg";
 import RsrcIconArrowRight from "../resources/icon_arrow_right.svg";
-import RsrcIconArrowLeftActive from "../resources/icon_arrow_left_active.svg";
-import RsrcIconArrowRightActive from "../resources/icon_arrow_right_active.svg";
 import RsrcIconHeart from "../resources/icon_heart.svg";
 import RsrcIconVomit from "../resources/icon_vomit.svg";
-import RsrcIconCheck from "../resources/icon_check.svg";
-import RsrcIconStar from "../resources/icon_star.svg";
 
 class HomePage extends Component
 {
@@ -36,18 +28,22 @@ class HomePage extends Component
     const directors = ["Chistopher Nolan"];
     const writers   = ["Christopher Nolan", "Jonathan Nolan"];
     const starring  = ["Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"];
-    
+   
+    const directors_rendered = directors.map((element) => <p className="m-0 p-0">{element}</p>);
+    const writers_rendered   = writers.map((element) => <p className="m-0 p-0">{element}</p>);
+    const starring_rendered  = starring.map((element) => <p className="m-0 p-0">{element}</p>);
+
     return(
-<div className="h-100 d-flex flex-column">
+<div className="h-100 d-flex flex-column p-3">
     <FHeader/> 
-    <main className="mt-5 mb-4 container-fluid">
-        <div className="d-flex justify-content-around align-items-center">
+    <main className="mt-auto mb-1 container-fluid">
+        <div className="mb-5 d-flex justify-content-around align-items-center">
             <div className="col d-none d-xl-flex justify-content-center">
                <img src={RsrcIconArrowLeft} width="32px" className="me-3" alt=""/> 
                <img src={RsrcIconHeart} width="32px" alt=""/> 
             </div>
-            <div className="col-lg-auto">
-                <div className="d-flex mb-3 justify-content-center">
+            <div className="col-xl-7">
+                <div className="d-flex mb-5 justify-content-center">
                     <div className="d-xl-none d-flex me-4">
                        <img src={RsrcIconArrowLeft} width="28px" className="me-3" alt=""/> 
                        <img src={RsrcIconHeart} width="28px" alt=""/> 
@@ -57,25 +53,44 @@ class HomePage extends Component
                        <img src={RsrcIconArrowRight} width="28px" alt=""/> 
                     </div>
                 </div>
-                <h1 class="mb-3">{title}</h1>
+                <p className="mb-3 ffs-1 ffw-2 m-0 p-0">{title}</p>
                 <FTagList tags={tags}/>
                 <p className="my-3">{overview}</p>
-                <div className="d-lg-flex">
+                <div className="d-xl-flex">
                     <div className="col me-3">
                         <div className="ratio ratio-16x9">
-                            <iframe src={video}/>
+                            <iframe src={video} title="title"/>
                         </div>
                         <div className="d-flex mt-3 mb-5">
-                           <FIconWText icon={RsrcIconHeart} text={likes}/> 
-                           <FIconWText icon={RsrcIconVomit} text={dislikes}/> 
+                            <div className="d-flex me-4">
+                                <img src={RsrcIconHeart} width="32px" className="me-2" alt=""/>
+                                <label className="ffs-2">{likes}</label> 
+                            </div>
+                            <div className="d-flex me-4">
+                                <img src={RsrcIconVomit} width="32px" className="me-2" alt=""/>
+                                <label className="ffs-2">{dislikes}</label> 
+                            </div>
                         </div>
                     </div>
-                    <FCrewList directors={directors} writers={writers} starring={starring}/>
+                    <div className="d-sm-flex d-xl-block justify-content-around ffw-2">
+                        <div className="">
+                            <p className="m-0 p-0 mt-3 mb-1 rgb-2">Director</p>
+                            {directors_rendered}
+                        </div>
+                        <div className="">
+                            <p className="m-0 p-0 mt-3 mb-1 rgb-2">Writer</p>
+                            {writers_rendered}
+                        </div>
+                        <div className="">
+                            <p className="m-0 p-0 mt-3 mb-1 rgb-2">Starring</p>
+                            {starring_rendered}
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className="col d-none d-xl-flex justify-content-center">
-               <img src={RsrcIconVomit} width="32px" className="me-3"/> 
-               <img src={RsrcIconArrowRight} width="32px"/> 
+               <img src={RsrcIconVomit} width="32px" className="me-3" alt=""/> 
+               <img src={RsrcIconArrowRight} width="32px" alt=""/> 
             </div>
         </div>
     </main>
