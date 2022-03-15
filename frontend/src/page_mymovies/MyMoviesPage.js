@@ -4,8 +4,10 @@ import { Routes, Route, Link } from "react-router-dom";
 
 import FFooter from "../components/FFooter.js";
 import FHeader from "../components/FHeader";
-import RsrcIconArrowLeft from "../resources/icon_arrow_left.svg";
 import FMovieLine from "../components/FMovieLine";
+
+import RsrcIconArrowLeft from "../resources/icon_arrow_left.svg";
+import RsrcSearchIcon from "../resources/icon_search.svg";
 
 class MyMoviesPage extends Component
 {
@@ -55,7 +57,7 @@ class MyMoviesPage extends Component
                     </div>
                     <div className="d-flex align-items-center">
                         <input type="email" className="FFormInput h-50 w-100 my-2" id="search" placeholder="search"/>
-                        <img src={RsrcIconArrowLeft} width="38px" className="ms-1 fborder p-2" alt=""/>
+                        <img src={RsrcSearchIcon} height="35px" width="38px" className="ms-1 fborder p-2" alt=""/>
                     </div>
                     <button class="btn btn-primary m-0 p-1 ffw-2 d-none d-sm-block">Add movie</button>
                     <button class="btn btn-primary m-0 p-1 ffw-2 d-sm-none w-100 my-3">Add movie</button>
