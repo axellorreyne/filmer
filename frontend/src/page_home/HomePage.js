@@ -20,11 +20,24 @@ class HomePage extends Component
       super(props)
       this.state = {movie: {adult: false, backdrop_path: "", belongs_to_collection: null, budget: 0, genres: [], homepage: "", id: 0, imdb_id: "", original_language: "", original_title: "", overview: "", popularity: 0, poster_path: "", production_companies: [], production_countries: [], status: "", tagline: "", title: "", video: false, vote_average: 0, vote_count: 0} }
   }
+  loadMovie(){
+    MovieService.getRandomMovieInfo().then(data => {this.setState({movie: data})});
+  }
+  rateMovie(liked){
+      UserService.giveReaction(this.state.movie.id,liked)
+      this.loadMovie()
+  }
+  likeMovie(){
+      this.rateMovie(true)
+  }
+  dislikeMovie(){
+      this.rateMovie(false)
+  }
 
   componentDidMount()
   {
     document.title = "Filmer: Home";
-    MovieService.getRandomMovieInfo().then(data => {this.setState({movie: data})});
+    this.loadMovie()
   }
 
   render()
@@ -49,7 +62,7 @@ class HomePage extends Component
     <main className="mt-auto mb-1 container-fluid">
         <div className="mb-5 d-flex justify-content-around align-items-center">
             <div className="col d-none d-xl-flex justify-content-center" >
-                <button className="bg-transparent border-0" onClick={MovieService.getRandomMovieInfo().then(data => {this.setState({movie: data})})}>
+                <button className="bg-transparent border-0" onClick={()=>this.likeMovie()}>
 
                <img src={RsrcIconArrowLeft} width="32px" className="me-3" alt=""/>
                <img src={RsrcIconHeart} width="32px" alt=""/>
