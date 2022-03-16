@@ -18,6 +18,7 @@ class MovieService
     {
         const movie_id = await (await axios.get(API_URL + `random_movie`)).data.movie_id;
         return ( await axios.get(API_URL + `movie/${movie_id}` ) ).data;
+
     }
 }
 
