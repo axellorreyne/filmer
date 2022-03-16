@@ -1,6 +1,7 @@
 import { Component } from "react";
 
 import MovieService from "../services/movie.service";
+import UserService from "../services/user.service";
 
 import FHeader from "../components/FHeader.js";
 import FFooter from "../components/FFooter.js";
@@ -47,9 +48,12 @@ class HomePage extends Component
     <FHeader/> 
     <main className="mt-auto mb-1 container-fluid">
         <div className="mb-5 d-flex justify-content-around align-items-center">
-            <div className="col d-none d-xl-flex justify-content-center">
-               <img src={RsrcIconArrowLeft} width="32px" className="me-3" alt=""/> 
-               <img src={RsrcIconHeart} width="32px" alt=""/> 
+            <div className="col d-none d-xl-flex justify-content-center" >
+                <button className="bg-transparent border-0" onClick={MovieService.getRandomMovieInfo().then(data => {this.setState({movie: data})})}>
+
+               <img src={RsrcIconArrowLeft} width="32px" className="me-3" alt=""/>
+               <img src={RsrcIconHeart} width="32px" alt=""/>
+                </button>
             </div>
             <div className="col-xl-7">
                 <div className="d-flex mb-5 justify-content-center">
@@ -63,7 +67,7 @@ class HomePage extends Component
                     </div>
                 </div>
                 <p className="mb-3 ffs-1 ffw-2 m-0 p-0">{this.state.movie.original_title}</p>
-                <FTagList tags={tags}/>
+                <FTagList tags={this.state.movie.genres.map((element)=>element.name)}/>
                 <p className="my-3">{this.state.movie.overview}</p>
                 <div className="d-xl-flex">
                     <div className="col me-3">
