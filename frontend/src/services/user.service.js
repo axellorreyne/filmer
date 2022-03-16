@@ -10,8 +10,9 @@ class UserService {
   }
 
   giveReaction(movie,like,seen=false){
-       axios.post(API_URL + "reaction/", {movie, like, seen})
-        axios.get(API_URL+"reaction/").then((data)=>console.log(data))
+      axios.post(API_URL + "reaction/", {movie, like, seen},{headers:authHeader()})
+
+      axios.get(API_URL+"reaction/",{headers:authHeader()}).then((data)=>console.log(data))
   }
 }
 export default new UserService();

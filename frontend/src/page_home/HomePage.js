@@ -24,7 +24,7 @@ class HomePage extends Component
     MovieService.getRandomMovieInfo().then(data => {this.setState({movie: data})});
   }
   rateMovie(liked){
-      UserService.giveReaction(this.state.movie.id,liked)
+      UserService.giveReaction(this.state.movie.id.toString(),liked)
       this.loadMovie()
   }
   likeMovie(){
