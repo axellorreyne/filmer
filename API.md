@@ -1,21 +1,39 @@
-#API Overview
+# API Overview
 (POST requests include body structure)
 ## Unauthenticated
 - GET `/api/random_movie` get a random movie
-- GET `/api/movie/{movie_id}` get info about a movie
-
-## Authenticated
-- GET  `/api/reaction/` get a list of a reactions
-- POST `/api/reaction/` create a reaction
 ```
 {
     "movie_id": "{movie_id}",
-    "like": True/False
+    "title": "{string}"
+}
+```
+- GET `/api/movie/{movie_id}` get info about a movie   
+[reference](https://developers.themoviedb.org/3/movies/get-movie-details)
+
+## Authenticated
+- GET  `/api/reaction/` get a list of a reactions for current user
+```
+[
+    {
+        "movie_id": "{movie_id}",
+        "like": true/false,
+        "seen": true/false
+    },
+    ...
+]
+```
+- POST `/api/reaction/` create a reaction for current user
+```
+{
+    "movie_id": "{movie_id}",
+    "like": true/false
+    "seen": true/talse
 }
 ```
 
 ## Authentication
-- POST `/api/auth/register/` register
+- POST `/api/auth/register/` register 
 ```
 {
     "email": "{email}",
