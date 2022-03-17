@@ -45,9 +45,23 @@ CMD python manage.py migrate && python manage.py runserver 0.0.0.0:8000
 ########################
 FROM base as production
 
+# Check deploy
+RUN python manage.py check --deploy
+
+# Collect static
+RUN python manage.py collecstatic --no-input
+
 # Set enviroment to production
 ENV DJANGO_CONFIGURATION=Production
 
-# Start development server
-CMD python manage.py migrate && python manage.py runserver 0.0.0.0:8000
-# TODO: make custom startup shell script
+# Start the server
+gunicorn \
+    --bind=0.0.0.0:80 \
+    --workers=3 \
+    --worker-tmp-dir=/dev/shm \
+    --timeout 300 \
+    --log-file=- \
+    --access-logfile=/var/log/access.log \
+    --error-logfile=/var/log/error.log \
+    --log-level debug \
+    app.wsgi:application
