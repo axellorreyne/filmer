@@ -32,3 +32,5 @@ ENV CHOKIDAR_USEPOLLING=true
 ### Production image ###
 ########################
 FROM base as production
+
+RUN npm run build
