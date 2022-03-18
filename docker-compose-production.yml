@@ -8,6 +8,7 @@ services:
       hostname: backend
       volumes:
         - '.:/code'
+        - 'static:/static'
       command: gunicorn backend.wsgi:application -c gunicorn.config.py --bind 0.0.0.0:8000 --log-file=- --log-level debug
       ports:
         - 8000:8000
@@ -26,6 +27,8 @@ services:
       restart: always
       networks:
         - backend
+      volumes:
+        - 'static:/usr/share/nginx/html/static'
 
 networks:
   backend:
