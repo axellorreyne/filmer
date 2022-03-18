@@ -54,6 +54,9 @@ RUN python manage.py collecstatic --no-input
 # Set enviroment to production
 ENV DJANGO_CONFIGURATION=Production
 
+# install gunicorn
+RUN pip install gunicorn
+
 # Start the server
 gunicorn \
     --bind=0.0.0.0:80 \
