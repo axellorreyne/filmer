@@ -48,23 +48,8 @@ FROM base as production
 # Check deploy
 RUN python manage.py check --deploy
 
-# Collect static
-RUN python manage.py collecstatic --no-input
-
 # Set enviroment to production
 ENV DJANGO_CONFIGURATION=Production
 
 # install gunicorn
-RUN pip install gunicorn
-
-# Start the server
-gunicorn \
-    --bind=0.0.0.0:80 \
-    --workers=3 \
-    --worker-tmp-dir=/dev/shm \
-    --timeout 300 \
-    --log-file=- \
-    --access-logfile=/var/log/access.log \
-    --error-logfile=/var/log/error.log \
-    --log-level debug \
-    app.wsgi:application
+RUN python -m pip install gunicorn
