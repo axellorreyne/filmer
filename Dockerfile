@@ -48,6 +48,8 @@ FROM base as production
 # Check deploy
 RUN python manage.py check --deploy
 
+RUN python manage.py collectstatic --noinput
+
 # Set enviroment to production
 ENV DJANGO_CONFIGURATION=Production
 
