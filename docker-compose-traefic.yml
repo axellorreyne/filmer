@@ -8,8 +8,10 @@ services:
     command:
       #- "--log.level=DEBUG"
       - "--api.insecure=true"
+      - "--api.dashboard=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=traefik"
       - "--entrypoints.web.address=:80"
     ports:
       - "80:80"
@@ -21,7 +23,7 @@ services:
         condition: on-failure
       labels:
         traefik.enable: "true"
-        traefik.http.routers.traefik.rule: "Host(`find-a-film.xyz`)"
+        traefik.http.routers.traefik.rule: "Host(`find-a-film.xyz`) && PathPrefix(`/dashboard`)"
         traefik.http.routers.traefik.entrypoints: websecure
         traefik.http.routers.traefik.middlewares: traefik-auth
         traefik.http.routers.traefik.tls: "true"
