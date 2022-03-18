@@ -10,6 +10,7 @@ services:
       - "--api.insecure=true"
       - "--api.dashboard=true"
       - "--providers.docker=true"
+      - "--providers.docker.endpoint=unix:///var/run/docker.sock"
       - "--providers.docker.exposedbydefault=false"
       - "--providers.docker.network=traefik"
       - "--entrypoints.web.address=:80"
@@ -23,11 +24,10 @@ services:
         condition: on-failure
       labels:
         traefik.enable: "true"
-        traefik.http.routers.traefik.rule: "Host(`find-a-film.xyz`) && PathPrefix(`/dashboard`)"
-        traefik.http.routers.traefik.entrypoints: websecure
-        traefik.http.routers.traefik.middlewares: traefik-auth
-        traefik.http.routers.traefik.tls: "true"
-        traefik.http.routers.traefik.tls.certresolver: letsencrypt
+        traefik.http.routers.traefik.rule: "PathPrefix(`/api`) || PathPrefix(`/dashboard`)"
+        traefik.http.routers.traefik.entrypoints: web
+        # traefik.http.routers.traefik.tls: "true"
+        # traefik.http.routers.traefik.tls.certresolver: letsencrypt
         traefik.http.routers.traefik.service: api@internal
         traefik.http.services.traefik.loadbalancer.server.port: "80"
 

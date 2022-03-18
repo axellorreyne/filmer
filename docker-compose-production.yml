@@ -8,23 +8,18 @@ services:
       hostname: backend
       volumes:
         - '.:/code'
-      command: gunicorn backend.wsgi:application -c gunicorn.config.py --bind 0.0.0.0:8000
+      command: gunicorn backend.wsgi:application -c gunicorn.config.py --bind 0.0.0.0:80 --log-file=- --log-level debu --log-file=- --log-level debug
       networks:
         - backend
         - traefik
       restart: always
-      deploy:
-        replicas: 1
-        restart_policy:
-          condition: on-failure
-        labels:
-          - "traefik.enable=true"
-          - "traefik.http.routers.${VERSION}_backend.rule=Host(`$DOMAIN`)"
-          - "traefik.http.routers.${VERSION}_backend.tls=true"
-          - "traefik.http.routers.${VERSION}_backend.tls.certresolver=letsencrypt"
-          - "traefik.http.routers.${VERSION}_backend.entrypoints=websecure"
-          - "traefik.http.routers.${VERSION}_backend.middlewares=${VERSION}_backend-proxy"
-          - "traefik.http.services.${VERSION}_backend.loadbalancer.server.port=80"
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.backend.rule=PathPrefix(`/admin`)"
+        # - "traefik.http.routers.${VERSION}_backend.tls=true"
+        # - "traefik.http.routers.${VERSION}_backend.tls.certresolver=letsencrypt"
+        - "traefik.http.routers.backend.entrypoints=web"
+        - "traefik.http.services.backend.loadbalancer.server.port=80"
 
     frontend:
       build:
@@ -37,17 +32,13 @@ services:
       restart: always
       networks:
         - traefik
-      deploy:
-        replicas: 1
-        restart_policy:
-          condition: on-failure
-        labels:
-          - "traefik.enable=true"
-          - "traefik.http.routers.${VERSION}_frontend.rule=Host(`$DOMAIN`)"
-          - "traefik.http.routers.${VERSION}_frontend.tls=true"
-          - "traefik.http.routers.${VERSION}_frontend.tls.certresolver=letsencrypt"
-          - "traefik.http.routers.${VERSION}_frontend.entrypoints=websecure"
-          - "traefik.http.services.${VERSION}_frontend.loadbalancer.server.port=80"
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.frontend.rule=PathPrefix(`/`)"
+        # - "traefik.http.routers.${VERSION}_frontend.tls=true"
+        # - "traefik.http.routers.${VERSION}_frontend.tls.certresolver=letsencrypt"
+        - "traefik.http.routers.frontend.entrypoints=web"
+        - "traefik.http.services.frontend.loadbalancer.server.port=80"
 
 networks:
   traefik:
