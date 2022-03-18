@@ -8,7 +8,9 @@ services:
       hostname: backend
       volumes:
         - '.:/code'
-      command: gunicorn backend.wsgi:application -c gunicorn.config.py --bind 0.0.0.0:80 --log-file=- --log-level debu --log-file=- --log-level debug
+      command: gunicorn backend.wsgi:application -c gunicorn.config.py --bind 0.0.0.0:8000 --log-file=- --log-level debu --log-file=- --log-level debug
+      ports:
+        - 8000:8000
       networks:
         - backend
       restart: always
