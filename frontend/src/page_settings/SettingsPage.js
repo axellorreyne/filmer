@@ -103,8 +103,9 @@ class Profile extends Component {
     render() {
         const {currentUser} = this.state;
         return (
-<div className="h-100 d-flex flex-column p-3">
+<div className="h-100 d-flex flex-column">
     <FHeader/>
+    <label className="ffw-2 rgb-alert mx-3 text-center">Functionality not implemented yet!</label>
     <main className="mt-5 mb-5 container-fluid">
         <div className="d-lg-flex justify-content-around align-items-center">
             <div className="col-xxl-7 mx-sm-5" >
@@ -131,7 +132,7 @@ class Profile extends Component {
                         </div>
                     </div>
                     <div className="form-group">
-                      <button className="btn btn-primary btn-block">Save</button>
+                      <button className="btn btn-primary btn-block disabled">Save</button>
                     </div>
                   </div>
                 )}
@@ -144,12 +145,6 @@ class Profile extends Component {
                 )}
                 <CheckButton style={{ display: "none" }} ref={c => { this.checkBtn = c; }} />
                 </Form>
-                <div className="mt-5">
-                    <label className="ffw-2 ffs-2 rgb-2 mb-3">Debug Info</label>
-                    <p className="m-0 p-0">token:    {currentUser.accessToken.substring(0, 20)} ...{" "}{currentUser.accessToken.substr(currentUser.accessToken.length - 20)}</p>
-                    <p className="m-0 p-0">id: {currentUser.id}</p>
-                    <p className="m-0 p-0">auth status: {this.state.authenticated}</p>
-                </div>
             </div>
         </div>
     </main>

@@ -7,128 +7,131 @@
 
 html, body
 {
-    height:             100vh;
-    color:              #fff;
-    background-color:   #0D1117;
-    font-family:        franklin-gothic-atf, sans-serif;
-    font-weight:        400;
-    font-size:          17px;
+  height:             100vh;
+  color:              #fff;
+  background-color:   #0D1117;
+  font-family:        franklin-gothic-atf, sans-serif;
+  font-weight:        400;
+  font-size:          17px;
 }
 
 #root
 {
-    height: 100%;
+  height: 100%;
 }
 
 a
 {
-    color:              #bbb !important;
-    text-decoration:    none !important;
+  color:              #bbb !important;
+  text-decoration:    none !important;
 }
 
 a:hover
 {
-    color:              #fff !important;
-    text-decoration:    none !important;
-}
-
-.FTag
-{
-    background: rgb(0,0,43);
-    background: linear-gradient(200deg, rgba(0,0,43,1) 0%, rgba(11,159,189,1) 100%);
+  color:              #fff !important;
+  text-decoration:    none !important;
 }
 
 .FForm div
 {
-   width: 100%; 
+  width: 100%; 
 }
 
 .FFormInput
 {
-    width: 100%;
-    color: #fff;
-    background-color: #0000;
-    border: 2px solid #555;
-    border-radius: 6px;
-    padding: 4px 6px;
-    margin: 0;
+  width: 100%;
+  color: #fff;
+  background-color: #0000;
+  border: 2px solid #555;
+  border-radius: 6px;
+  padding: 4px 6px;
+  margin: 0;
 }
 
 input:focus
 {
-    border: 2px solid #f00;
+  border: 2px solid #f00;
 }
 
 .fborder
 {
-    border: 2px solid #555;
-    border-radius: 6px;
+  border: 2px solid #555;
+  border-radius: 6px;
 }
 
 .ffs-1
 {
-   font-size: 36px; 
+  font-size: 36px; 
 }
 
 .ffs-2
 {
-   font-size: 21px; 
+  font-size: 21px; 
 }
 
 .ffs-3
 {
-   font-size: 17px; 
+  font-size: 17px; 
 }
 
 .ffs-4
 {
-   font-size: 14px; 
+  font-size: 14px; 
 }
 
 .ffw-1
 {
-    font-weight: 700;
+  font-weight: 700;
 }
 
 .ffw-2
 {
-    font-weight: 500;
+  font-weight: 500;
 }
 
 .ffw-3
 {
-    font-weight: 400;
+  font-weight: 400;
 }
 
 .rgb-1
 {
-    color: #fff;
+  color: #fff;
 }
 
 .rgb-2
 {
-    color: #bbb;
+  color: #bbb;
 }
 
 .rgb-bg-2
 {
-    background-color:   #0D1117;
+  background-color:   #0D1117;
 }
 
 .rgb-bg-1
 {
-    background-color:   #0c0f14;
+  background-color:   #10161D;
+}
+
+.rgb-bg-gr
+{
+  background: rgb(0,0,43);
+  background: linear-gradient(200deg, rgba(0,0,43,1) 0%, rgba(11,159,189,1) 100%);
 }
 
 .rgb-bg-tr
 {
-    background-color:   #0000;
+  background-color:   #0000;
 }
 
 .rgb-alert
 {
-    color: #f33;
+  color: #f33;
 }
 
-
+.hover-bg-dark:hover
+{
+  background-color: #10161D;
+}
 

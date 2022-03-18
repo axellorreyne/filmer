@@ -98,7 +98,7 @@ class SignupPage extends Component
   render() 
   {
     return (
-<div className="h-100 d-flex flex-column p-3">
+<div className="h-100 d-flex flex-column">
     <FHeaderAlt/>
     <main className="mt-5 mb-auto container-fluid">
         <div className="d-lg-flex justify-content-around align-items-center">
