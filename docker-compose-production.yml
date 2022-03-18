@@ -20,7 +20,7 @@ services:
         context: ./frontend
         dockerfile: ./Dockerfile-production
       ports:
-        - '1337:80'
+        - '80:80'
       depends_on:
         - backend
       restart: always
