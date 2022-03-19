@@ -30,7 +30,7 @@ class MyMoviesPage extends Component
     const amount = 2
 
     return (
-      <div className="h-100 d-flex flex-column">
+      <div className="h-100 d-flex flex-column m-3 m-xxl-0">
         <FHeader/>
         <label className="ffw-2 rgb-alert mx-3 text-center">Functionality not implemented yet!</label>
         <main className="mb-5 container-fluid">
