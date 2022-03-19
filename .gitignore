@@ -1,5 +1,8 @@
 .idea
 db.sqlite3
+staticfiles
 
 # Elias' personal files
 startup.bat
+gunicorn.log
+static
