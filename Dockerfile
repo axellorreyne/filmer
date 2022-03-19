@@ -25,27 +25,6 @@ RUN pip install -r ./requirements.txt
 # TODO: exclude frontend
 COPY . .
 
-#########################
-### Development image ###
-#########################
-FROM base as development
-
-# Migrate
-RUN python manage.py migrate --noinput
-
-# Populate movies
-RUN python manage.py populateMovies
-
-
-# Start development server
-CMD python manage.py runserver 0.0.0.0:8000
-
-
-########################
-### Production image ###
-########################
-FROM base as production
-
 # Set enviroment to production
 ENV DJANGO_CONFIGURATION=Production
 
