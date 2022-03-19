@@ -8,7 +8,7 @@ while true; do sleep 12h; certbot renew --deploy-hook "nginx -s reload"; done &
 nginx -qT | sed -n -E '/ server_name /{s/.*//;:s /;/!{H;n;b s;};g;s/[[:space:]]+([[:graph:]]+)/--domain \1 /gp;s/.*//;h}' | xargs certbot -n \
     --nginx \
     --non-interactive \
-    --email "admin@anter.io" \
+    --email "axel.lorreyne@ugent.be" \
     --agree-tos \
     --redirect \
     --allow-subset-of-names \
