@@ -1,4 +1,5 @@
 #!/bin/bash
+set -ex
 
 # Collect static files
 python manage.py collectstatic --no-input
