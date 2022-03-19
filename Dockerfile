@@ -23,7 +23,7 @@ RUN pip install -r ./requirements.txt
 
 # Copy source
 # TODO: exclude frontend
-COPY . /code/
+COPY . .
 
 #########################
 ### Development image ###
@@ -54,4 +54,4 @@ RUN python -m pip install gunicorn
 
 # Start production server
 COPY docker-entrypoint.sh /usr/bin
-CMD /usr/bin/startup.sh
+CMD /usr/bin/docker-entrypoint.sh
