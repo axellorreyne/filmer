@@ -54,7 +54,7 @@ def create_movies():
 
 
 def get_movie_info(movie_id):
-    req = requests.get(f'{API_URL}/movie/{movie_id}?api_key={API_KEY}')
+    req = requests.get(f'{API_URL}/movie/{movie_id}?api_key={API_KEY}&append_to_response=videos,images,credits&include_image_language=en,null&include_videos_language=en,null')
     if req.status_code == OK_CODE:
         return req.json()
     else:
