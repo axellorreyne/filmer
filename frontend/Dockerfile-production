@@ -15,7 +15,7 @@ COPY --from=build /code/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80/tcp 443/tcp
 
-RUN apk update && apk add -no-cache bash certbot certbox-nginx
+RUN apk update && apk add --no-cache bash certbot certbox-nginx
 VOLUME /etc/letsencrypt
 COPY startup.sh startup.sh
 CMD ./startup.sh
