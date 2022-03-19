@@ -20,7 +20,31 @@ class HomePage extends Component
   {
       super(props)
       this.seenCheck = false;
-      this.state = {movie: {adult: false, backdrop_path: "", belongs_to_collection: null, budget: 0, genres: [], homepage: "", id: 0, imdb_id: "", original_language: "", original_title: "", overview: "", popularity: 0, poster_path: "", production_companies: [], production_countries: [], status: "", tagline: "", title: "", video: false, vote_average: 0, vote_count: 0}} 
+      this.state = { movie: {
+        adult: false, 
+        backdrop_path: "", 
+        belongs_to_collection: null, 
+        budget: 0, 
+        genres: [], 
+        homepage: "", 
+        id: 0, 
+        imdb_id: "", 
+        original_language: "", 
+        original_title: "", 
+        overview: "", 
+        popularity: 0, 
+        poster_path: "", 
+        production_companies: [], 
+        production_countries: [], 
+        status: "", 
+        tagline: "", 
+        title: "", 
+        video: false, 
+        videos: {results: [{}]}, 
+        vote_average: 0, 
+        vote_count: 0, 
+        credits: { cast: [{adult: false, gender: 0, id: 0, known_for_department: "", name: "", original_name: "", popularity: 0, profile_path: "", cast_id: 0, character: "", credit_id: "", order: 0}], crew: [{adult: false, gender: 0, id: 0, known_for_department: "", name: "", original_name: "", populariy: "", profile_path: null, credit_id: "", department: "", job: "" }]}}};
+  
   }
 
   loadMovie()
@@ -52,16 +76,24 @@ class HomePage extends Component
 
   render()
   {
-    const video     = "https://www.youtube.com/embed/zSWdZVtXT7E";
-    const likes     = 10293;
-    const dislikes  = 2301;
-    const directors = ["Chistopher Nolan"];
-    const writers   = ["Christopher Nolan", "Jonathan Nolan"];
-    const starring  = ["Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"];
-    
     const icon_width = "19px";
-    const icon_width_2 = "27px";
-    
+    const icon_width_2 = "33px";
+   
+    const movie = this.state.movie;
+    const title = movie.original_title;
+    const description = movie.overview;
+    const genres = movie.genres.map((element)=>element.name);
+    var video = movie.videos.results.filter((x) => x.type === "Trailer")[0];
+    if (typeof video === 'undefined')
+    {
+      video = movie.videos.results[0];
+    }
+    const likes = -1;
+    const dislikes = -1;
+    const directors = movie.credits.crew.filter((x) => x.job === "Director").map((x) => x.name).slice(0,7);
+    const writers = movie.credits.crew.filter((x) => (x.department === "Writing") && (x.job = "Screenplay")).map((x) => x.name).slice(0,7);
+    const starring = movie.credits.cast.filter((x) => x.popularity > 15).map((x) => x.name).slice(0, 7);
+
     return(
 <div className="h-100 d-flex flex-column">
   <FHeader/> 
@@ -92,13 +124,13 @@ class HomePage extends Component
             <input className="form-check-input" type="checkbox" value="0" id="flexCheckDefault" onClick={()=>this.seenCheck=!this.seenCheck}/>
           </div>
         </div>
-        <p className="mb-3 ffs-1 ffw-2 m-0 p-0">{this.state.movie.original_title}</p>
-        <FTagList tags={this.state.movie.genres.map((element)=>element.name)}/>
-        <p className="my-3">{this.state.movie.overview}</p>
+        <p className="mb-3 ffs-1 ffw-2 m-0 p-0">{title}</p>
+        <FTagList tags={genres}/>
+        <p className="my-3">{description}</p>
         <div className="d-xl-flex">
-          <div className="col me-3">
+          <div className="col-9 me-3">
             <div className="ratio ratio-21x9">
-              <iframe src={video} title="title" frameborder="0" allow="" allowfullscreen></iframe>>
+              {<iframe height={video.size} src={"https://www.youtube.com/embed/" + video.key} title={video.name} frameBorder="0" allowFullscreen="true"></iframe>}
             </div>
             <div className="d-flex mt-3 mb-5 justify-content-between">
               <div className="d-flex">
@@ -113,7 +145,7 @@ class HomePage extends Component
               </div>
             </div>
           </div>
-          <div className="d-sm-flex d-xl-block justify-content-around ffw-2">
+          <div className="col d-sm-flex d-xl-block justify-content-around ffw-2">
             <div>
               <p className="m-0 p-0 mt-3 mb-1 rgb-2">Director</p>
               {directors.map((element) => <p className="m-0 p-0">{element}</p>)}
