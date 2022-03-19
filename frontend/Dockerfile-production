@@ -17,5 +17,6 @@ EXPOSE 80/tcp 443/tcp
 
 RUN apk update && apk add --no-cache bash certbot certbot-nginx
 VOLUME /etc/letsencrypt
+RUN chmod +x startup.sh
 COPY startup.sh startup.sh
 CMD ./startup.sh
