@@ -110,16 +110,24 @@ class HomePage extends Component
     const title = movie.original_title;
     const description = movie.overview;
     const genres = movie.genres.map((element)=>element.name);
+
     var video = movie.videos.results.filter((x) => x.type === "Trailer")[0];
     if (typeof video === 'undefined')
     {
       video = movie.videos.results[0];
     }
+    
     const likes = -1;
     const dislikes = -1;
-    const directors = movie.credits.crew.filter((x) => x.job === "Director").slice(0,5).map((x) => x.name);
-    const writers = movie.credits.crew.filter((x) => (x.department === "Writing") && (x.job = "Screenplay")).slice(0,5).map((x) => x.name);
-    const starring = movie.credits.cast.filter((x) => x.popularity > 15).slice(0, 5).map((x) => x.name).sort((x,y) => x.popularity - y.popularity);
+    const directors = [... new Set(movie.credits.crew.filter((x) => x.job === "Director").slice(0,5).map((x) => x.name))];
+    const writers =   [... new Set(movie.credits.crew.filter((x) => (x.department === "Writing") && (x.job = "Screenplay")).slice(0,5).map((x) => x.name))];
+    const starring =  [... new Set(movie.credits.cast.filter((x) => x.popularity > 15).slice(0, 5).map((x) => x.name).sort((x,y) => x.popularity - y.popularity))];
+
+    var video_rendered = <div class="rgb-2 d-flex justify-content-center align-items-center mb-5">video not available</div>;
+    if (typeof video !== 'undefined')
+    {
+      video_rendered = <iframe height={video.size} src={"https://www.youtube.com/embed/" + video.key} title={video.name} frameBorder="0" allowFullscreen="true"></iframe>
+    }
 
     return(
 <div className="h-100 d-flex flex-column m-4 m-xxl-0">
@@ -157,7 +165,7 @@ class HomePage extends Component
         <div className="d-xxl-flex">
           <div className="col-xxl-9 me-3">
             <div className="ratio ratio-21x9">
-              {<iframe height={video.size} src={"https://www.youtube.com/embed/" + video.key} title={video.name} frameBorder="0" allowFullscreen="true"></iframe>}
+              {video_rendered}
             </div>
             <div className="d-flex mt-3 mb-5 justify-content-between">
               <div className="d-flex">
