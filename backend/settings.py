@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-_-5h^#&o5_@n2*w%f))=ktzr#typ*48q6($r90$6djt+=s#y2m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['backend', 'localhost', 'find-a-film.xyz', 'http://find-a-film.xyz/', 'https://find-a-film.xyz/']
 
