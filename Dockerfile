@@ -45,13 +45,12 @@ CMD python manage.py runserver 0.0.0.0:8000
 ########################
 FROM base as production
 
-# Check deploy
-RUN python manage.py check --deploy
-
-RUN python manage.py collectstatic --noinput
-
 # Set enviroment to production
 ENV DJANGO_CONFIGURATION=Production
 
 # install gunicorn
 RUN python -m pip install gunicorn
+
+# Start production server
+COPY docker-entrypoint.sh /usr/bin
+CMD /usr/bin/startup.sh
