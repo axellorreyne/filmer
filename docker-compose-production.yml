@@ -4,7 +4,6 @@ services:
     backend:
       build:
         context: .
-        target: ${TARGET:-production}
       hostname: backend
       volumes:
         - '.:/code'
