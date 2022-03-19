@@ -26,7 +26,7 @@ RUN pip install -r ./requirements.txt
 COPY . /code/
 
 # Migrate
-RUN python manage.py migrate
+RUN python manage.py migrate --noinput
 
 # Populate movies
 RUN python manage.py populateMovies
@@ -37,7 +37,7 @@ RUN python manage.py populateMovies
 FROM base as development
 
 # Start development server
-CMD python manage.py migrate && python manage.py runserver 0.0.0.0:8000
+CMD python manage.py runserver 0.0.0.0:8000
 
 
 ########################
