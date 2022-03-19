@@ -1,22 +1,53 @@
-# build environment
-FROM node as build
+###################
+### Build image ###
+###################
+FROM node:alpine as build
+
+# Workdir is /code
 WORKDIR /code
+
+# Set node modules path
 ENV PATH /code/node_modules/.bin:$PATH
+
+# copy package files
 COPY package.json ./
 COPY package-lock.json ./
+
+# run clean install
 RUN npm ci --silent
+
+# Install react scripts
 RUN npm install react-scripts@4.0.3 -g --silent
+
+# Copy all
 COPY . ./
+
+# Create an optimized production build
 RUN npm run build
 
-# production environment
+#######################
+### Production image ##
+#######################
 FROM nginx:stable-alpine
+
+# Copy nginx build and config files
 COPY --from=build /code/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose http and https port
 EXPOSE 80/tcp 443/tcp
 
+# Install certbox nginx
 RUN apk update && apk add --no-cache bash certbot certbot-nginx
+
+# Mount nginx volume
 VOLUME /etc/letsencrypt
+
+# Copy custom certbot startup & certificate renew script
 COPY startup.sh startup.sh
+
+# Make script file executable
 RUN chmod +x startup.sh
+
+# Run script
 CMD ./startup.sh
