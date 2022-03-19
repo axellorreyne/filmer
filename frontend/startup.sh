@@ -13,7 +13,7 @@ certbot -n \
     --redirect \
     --allow-subset-of-names \
     --renew-with-new-domain \
-find-a-film.xyz
+-d find-a-film.xyz
 
 # Start NGINX
 nginx -g "daemon off;"
