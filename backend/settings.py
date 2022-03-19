@@ -125,8 +125,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # whitelist the frontend
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
-    'http://find-a-film.xyz/',
-    'https://find-a-film.xyz/'
+    'http://find-a-film.xyz',
+    'https://find-a-film.xyz'
 ]
 
 REST_FRAMEWORK = {
