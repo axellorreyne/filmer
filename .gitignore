@@ -3,3 +3,5 @@ db.sqlite3
 
 # Elias' personal files
 startup.bat
+gunicorn.log
+static
