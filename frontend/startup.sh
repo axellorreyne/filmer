@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Check every 12 hours if Let's Encrypt certificate is up for renewal in background
 while true; do sleep 12h; certbot renew --deploy-hook "nginx -s reload"; done &
