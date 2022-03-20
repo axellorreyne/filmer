@@ -11,7 +11,7 @@ class FTagList extends Component
       </div>
     );
     return (
-      <div className="ftags my-1 mb-1 d-flex flex-wrap">
+      <div className="ftags d-flex flex-wrap">
       {tags}
       </div>
     );

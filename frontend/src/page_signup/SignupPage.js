@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {Link} from "react-router-dom";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
@@ -137,6 +138,10 @@ class SignupPage extends Component
               </div>
             )}
             <CheckButton style={{ display: "none" }} ref={c => { this.checkBtn = c; }} />
+            <div className="mt-5 d-flex">
+              <p className="me-3">Already have an account?</p> 
+              <Link to="/login">Log in</Link>
+            </div>
           </Form>
         </div>
     </main>
