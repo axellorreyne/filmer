@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import Form from "react-validation/build/form";
+import {Link} from "react-router-dom";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import AuthService from "../services/auth.service";
@@ -94,6 +95,10 @@ class Login extends Component {
                         <div className="py-2 rgb-alert" role="alert">{this.state.message}</div>
                     </div>)}
                 <CheckButton style={{display: "none"}} ref={c => { this.checkBtn = c; }} />
+              <div className="mt-5 d-flex">
+                <p className="me-3">Don't have account?</p> 
+                <Link to="/signup">Sign up</Link>
+              </div>
             </Form>
         </div>
     </main>

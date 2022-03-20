@@ -154,13 +154,13 @@ class HomePage extends Component
       <div className="col-xxl-7 ms-4 mt-3">
         <div className="d-flex mb-5 mb-xxl-0 justify-content-center">
           <div className="d-xxl-none d-flex me-1">
-            <button className="btn hover-bg-dark" onClick={()=>this.dislikeMovie()}>
+            <button className={"col btn hover-bg-dark " + this.state.disableButtons} onClick={()=>this.dislikeMovie()}>
               <img src={RsrcIconArrowLeft} width={icon_width_mobile} className="me-3" alt=""/>
               <img src={RsrcIconVomit} width={icon_width_mobile} alt=""/>
             </button>
           </div>
           <div className="d-xxl-none d-flex">
-            <button className="btn hover-bg-dark" onClick={()=>this.likeMovie()}>
+            <button className={"col btn hover-bg-dark " + this.state.disableButtons} onClick={()=>this.likeMovie()}>
               <img src={RsrcIconHeart} width={icon_width_mobile} className="me-3" alt=""/>
               <img src={RsrcIconArrowRight} width={icon_width_mobile} alt=""/>
             </button>
