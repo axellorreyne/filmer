@@ -14,6 +14,10 @@ class UserService {
     async createReaction(movie_id, like, seen = false) {
         await axios.post(API_URL + "reaction/", {movie_id, like, seen}, {headers: authHeader()})
     }
+
+    async getReactions(){
+        return ((await axios.get(API_URL + "reaction/", {headers: authHeader()})).data);
+    }
 }
 
 export default new UserService();
