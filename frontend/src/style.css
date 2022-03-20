@@ -5,8 +5,15 @@
   background-color:   #09f9;
 }
 
+body::-webkit-scrollbar 
+{
+  display: none;
+}
+
 html, body
 {
+  -ms-overflow-style: none; 
+  scrollbar-width:    none; 
   height:             100vh;
   color:              #fff;
   background-color:   #0D1117;

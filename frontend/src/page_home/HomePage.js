@@ -21,6 +21,8 @@ class HomePage extends Component
       super(props)
       this.seenCheck = false;
       this.state = { 
+        expandDescription: false,
+        disableButtons: "disabled",
         movie: {
           adult: false, 
           backdrop_path: "", 
@@ -76,7 +78,8 @@ class HomePage extends Component
 
   loadMovie()
   {
-    MovieService.getRandomMovieInfo().then(data => {this.setState({movie: data})});
+    this.setState({disableButtons: "disabled"})
+    MovieService.getRandomMovieInfo().then(data => {this.setState({expandDescription: false, disableButtons: "", movie: data})});
   }
 
   rateMovie(liked)
@@ -103,52 +106,65 @@ class HomePage extends Component
 
   render()
   {
-    const icon_width = "19px";
+    const icon_width   = "19px";
     const icon_width_2 = "33px";
    
     const movie = this.state.movie;
     const title = movie.original_title;
-    const description = movie.overview;
     const genres = movie.genres.map((element)=>element.name);
-
-    var video = movie.videos.results.filter((x) => x.type === "Trailer")[0];
+    
+    const description = movie.overview;
+    const description_elips_length = 400;
+    var description_rendered = <p>{description.slice(0, description_elips_length) + "... "}
+      <button className="m-0 p-0 border-0 rgb-2 rgb-bg-tr ffw-2 hover-bg-dark" onClick={()=>this.setState({expandDescription: true})}>(read more)</button></p>
+    if (this.state.expandDescription || description.length < description_elips_length + 40)
+    {
+     description_rendered = <p>{description}</p>
+    }
+   
+    var videos = movie.videos.results
+    videos = videos.filter((x)=>x.official===true).concat((x)=>x.official=false)
+    var video = videos.filter((x) => x.type === "Trailer")[0];
     if (typeof video === 'undefined')
     {
       video = movie.videos.results[0];
     }
-    
-    const likes = -1;
-    const dislikes = -1;
-    const directors = [... new Set(movie.credits.crew.filter((x) => x.job === "Director").slice(0,5).map((x) => x.name))];
-    const writers =   [... new Set(movie.credits.crew.filter((x) => (x.department === "Writing") && (x.job = "Screenplay")).slice(0,5).map((x) => x.name))];
-    const starring =  [... new Set(movie.credits.cast.filter((x) => x.popularity > 15).slice(0, 5).map((x) => x.name).sort((x,y) => x.popularity - y.popularity))];
-
     var video_rendered = <div class="rgb-2 d-flex justify-content-center align-items-center mb-5">video not available</div>;
     if (typeof video !== 'undefined')
     {
       video_rendered = <iframe height={video.size} src={"https://www.youtube.com/embed/" + video.key} title={video.name} frameBorder="0" allowFullscreen="true"></iframe>
     }
+    
+    const directors = [...new Set(movie.credits.crew.filter((x) => x.job === "Director").slice(0,5).map((x) => x.name))];
+    const writers = [...new Set(movie.credits.crew.filter((x) => (x.department === "Writing") && (x.job = "Screenplay")).slice(0,5).map((x) => x.name))];
+    const starring = [...new Set(movie.credits.cast.filter((x) => x.popularity > 15).slice(0, 5).map((x) => x.name).sort((x,y) => x.popularity - y.popularity))];
+    
+    const likes = 0;
+    const dislikes = 0;
+
+    console.log(this.state.disableButtons);
+    this.state.disableButtons = "disabled";
 
     return(
 <div className="h-100 d-flex flex-column m-4 m-xxl-0">
   <FHeader/> 
-  <main className="mt-auto mb-5 mx-0">
+  <main className="mx-0">
     <div className="mb-5 d-flex justify-content-around">
-      <button className="col d-none d-xxl-flex justify-content-center align-items-center rgb-bg-2 hover-bg-dark my-5 me-5 border-0" onClick={()=>this.dislikeMovie()}>
+      <button className={"btn col rounded d-none d-xxl-flex justify-content-center align-items-center rgb-bg-2 hover-bg-dark mt-5 me-5 border-0 disabled"} onClick={()=>this.dislikeMovie()}>
           <img src={RsrcIconArrowLeft} width={icon_width_2} className="me-3" alt=""/> 
           <img src={RsrcIconVomit} width={icon_width_2} alt=""/>
         </button>
-      <div className="col-xxl-7 mw-50">
-        <div className="d-flex mb-5 justify-content-center">
+      <div className="col-xxl-7 ms-4 mt-5">
+        <div className="d-flex mb-5 mb-xxl-0 justify-content-center">
           <div className="d-xxl-none d-flex me-4">
-            <button className="btn hover-bg-dark shadow" onClick={()=>this.likeMovie()}>
+            <button className="btn hover-bg-dark shadow" onClick={()=>this.dislikeMovie()}>
               <img src={RsrcIconArrowLeft} width={icon_width_2} className="me-3" alt=""/>
-              <img src={RsrcIconHeart} width={icon_width_2} alt=""/>
+              <img src={RsrcIconVomit} width={icon_width_2} className="me-3" alt=""/>
             </button>
           </div>
           <div className="d-xxl-none d-flex">
-            <button className="btn hover-bg-dark shadow" onClick={()=>this.dislikeMovie()}>
-              <img src={RsrcIconVomit} width={icon_width_2} className="me-3" alt=""/>
+            <button className="btn hover-bg-dark shadow" onClick={()=>this.likeMovie()}>
+              <img src={RsrcIconHeart} width={icon_width_2} alt=""/>
               <img src={RsrcIconArrowRight} width={icon_width_2} alt=""/>
             </button>
           </div>
@@ -159,15 +175,14 @@ class HomePage extends Component
             <input className="form-check-input" type="checkbox" value="0" id="flexCheckDefault" onClick={()=>this.seenCheck=!this.seenCheck}/>
           </div>
         </div>
-        <p className="mb-3 ffs-1 ffw-2 m-0 p-0">{title}</p>
+        <label className="ffs-1 ffw-2 m-0 p-0">{title}</label>
         <FTagList tags={genres}/>
-        <p className="my-3">{description}</p>
-        <div className="d-xxl-flex">
-          <div className="col-xxl-9 me-3">
+        <div className="d-xl-flex mt-4">
+          <div className="col-xl-9 me-3">
             <div className="ratio ratio-21x9">
               {video_rendered}
             </div>
-            <div className="d-flex mt-3 mb-5 justify-content-between">
+            <div className="d-flex mt-3 mb-2  justify-content-between">
               <div className="d-flex">
                 <div className="d-flex me-4">
                   <img src={RsrcIconHeart} width={icon_width} className="me-2" alt=""/>
@@ -179,24 +194,27 @@ class HomePage extends Component
                 </div>
               </div>
             </div>
+            <div className="mb-3 mt-auto">
+              {description_rendered}
+            </div>
           </div>
-          <div className="col d-sm-flex d-xxl-block justify-content-around ffw-2">
-            <div>
+          <div className="col d-sm-flex d-xl-block justify-content-left ffw-2 ms-1">
+            <div className="me-5 mb-3">
               <p className="m-0 p-0 mb-1 rgb-2">Director</p>
               {directors.map((element) => <p className="m-0 p-0">{element}</p>)}
             </div>
-            <div>
-              <p className="m-0 p-0 mt-3 mb-1 rgb-2">Writer</p>
+            <div className="me-5 mb-3">
+              <p className="m-0 p-0 mb-1 rgb-2">Writer</p>
               {writers.map((element) => <p className="m-0 p-0">{element}</p>)}
             </div>
             <div>
-              <p className="m-0 p-0 mt-3 mb-1 rgb-2">Starring</p>
+              <p className="m-0 p-0 mb-1 rgb-2">Starring</p>
               {starring.map((element) => <p className="m-0 p-0">{element}</p>)}
             </div>
           </div>
         </div>
       </div>
-      <button className="col d-none d-xxl-flex justify-content-center align-items-center rgb-bg-2 hover-bg-dark my-5 ms-5 border-0" onClick={()=>this.likeMovie()}>
+      <button className="col rounded d-none d-xxl-flex justify-content-center align-items-center rgb-bg-2 hover-bg-dark mt-5 ms-5 border-0" onClick={()=>this.likeMovie()}>
         <img src={RsrcIconHeart} width={icon_width_2} className="me-3" alt=""/>
         <img src={RsrcIconArrowRight} width={icon_width_2} alt=""/>
       </button>
