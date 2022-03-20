@@ -37,8 +37,8 @@ class FMovieLine extends Component
                             </div>
                         </div>
                     </div>
-                    <div className="me-auto ffs-2 ffw-2 mb-md-2">
-                            <FTagList tags={tags}/>
+                    <div>
+                      <FTagList tags={tags}/>
                     </div>
                 </div>
             </div>

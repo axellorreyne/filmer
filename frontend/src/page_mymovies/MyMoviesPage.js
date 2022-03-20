@@ -90,9 +90,9 @@ class MyMoviesPage extends Component
                   <div className="dropdown h-50 w-100">
                     <button type="button" className="FFormInput ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown">Sort</button>
                     <ul className="dropdown-menu fborder rgb-bg-1 w-100">
-                      <li><a className="dropdown-item text-white" onClick={()=>this.setFilterName()}>Title</a></li>
-                      <li><a className="dropdown-item text-white" onClick={()=>this.setFilterSeen()}>Seen</a></li>
-                      <li><a className="dropdown-item text-white" onClick={()=>this.setFilterDirectors()}>Directors</a></li>
+                      <li><a className="dropdown-item hover-bg-dark btn rounded-0" onClick={()=>this.setFilterName()}>Title</a></li>
+                      <li><a className="dropdown-item hover-bg-dark btn rounded-0" onClick={()=>this.setFilterSeen()}>Seen</a></li>
+                      <li><a className="dropdown-item hover-bg-dark btn rounded-0" onClick={()=>this.setFilterDirectors()}>Directors</a></li>
                     </ul>
                   </div>
                 </div>
