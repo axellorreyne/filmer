@@ -15,7 +15,6 @@ import RsrcIconVomit from "../resources/icon_vomit.svg";
 class HomePage extends Component
 {
   
-  
   constructor(props)
   {
       super(props)
@@ -108,6 +107,7 @@ class HomePage extends Component
   {
     const icon_width   = "19px";
     const icon_width_2 = "33px";
+    const icon_width_mobile = "27px";
    
     const movie = this.state.movie;
     const title = movie.original_title;
@@ -132,7 +132,7 @@ class HomePage extends Component
     var video_rendered = <div class="rgb-2 d-flex justify-content-center align-items-center mb-5">video not available</div>;
     if (typeof video !== 'undefined')
     {
-      video_rendered = <iframe height={video.size} src={"https://www.youtube.com/embed/" + video.key} title={video.name} frameBorder="0" allowFullscreen="true"></iframe>
+      video_rendered = <iframe height={video.size} src={"https://www.youtube.com/embed/" + video.key + "?autoplay=1&origin=http://find-a-film.xyz"} title={video.name} allow='autoplay; encrypted-media'  frameBorder="0" allowFullscreen="true"></iframe>
     }
     
     const directors = [...new Set(movie.credits.crew.filter((x) => x.job === "Director").slice(0,5).map((x) => x.name))];
@@ -142,30 +142,27 @@ class HomePage extends Component
     const likes = 0;
     const dislikes = 0;
 
-    console.log(this.state.disableButtons);
-    this.state.disableButtons = "disabled";
-
     return(
-<div className="h-100 d-flex flex-column m-4 m-xxl-0">
+<div className="h-100 d-flex flex-column m-xxl-0">
   <FHeader/> 
   <main className="mx-0">
     <div className="mb-5 d-flex justify-content-around">
-      <button className={"btn col rounded d-none d-xxl-flex justify-content-center align-items-center rgb-bg-2 hover-bg-dark mt-5 me-5 border-0 disabled"} onClick={()=>this.dislikeMovie()}>
+      <button className={"btn col rounded d-none d-xxl-flex justify-content-center align-items-center rgb-bg-2 hover-bg-dark mt-5 me-5 border-0 " + this.state.disableButtons} onClick={()=>this.dislikeMovie()}>
           <img src={RsrcIconArrowLeft} width={icon_width_2} className="me-3" alt=""/> 
           <img src={RsrcIconVomit} width={icon_width_2} alt=""/>
         </button>
-      <div className="col-xxl-7 ms-4 mt-5">
+      <div className="col-xxl-7 ms-4 mt-3">
         <div className="d-flex mb-5 mb-xxl-0 justify-content-center">
-          <div className="d-xxl-none d-flex me-4">
-            <button className="btn hover-bg-dark shadow" onClick={()=>this.dislikeMovie()}>
-              <img src={RsrcIconArrowLeft} width={icon_width_2} className="me-3" alt=""/>
-              <img src={RsrcIconVomit} width={icon_width_2} className="me-3" alt=""/>
+          <div className="d-xxl-none d-flex me-1">
+            <button className="btn hover-bg-dark" onClick={()=>this.dislikeMovie()}>
+              <img src={RsrcIconArrowLeft} width={icon_width_mobile} className="me-3" alt=""/>
+              <img src={RsrcIconVomit} width={icon_width_mobile} alt=""/>
             </button>
           </div>
           <div className="d-xxl-none d-flex">
-            <button className="btn hover-bg-dark shadow" onClick={()=>this.likeMovie()}>
-              <img src={RsrcIconHeart} width={icon_width_2} alt=""/>
-              <img src={RsrcIconArrowRight} width={icon_width_2} alt=""/>
+            <button className="btn hover-bg-dark" onClick={()=>this.likeMovie()}>
+              <img src={RsrcIconHeart} width={icon_width_mobile} className="me-3" alt=""/>
+              <img src={RsrcIconArrowRight} width={icon_width_mobile} alt=""/>
             </button>
           </div>
         </div>
@@ -214,7 +211,7 @@ class HomePage extends Component
           </div>
         </div>
       </div>
-      <button className="col rounded d-none d-xxl-flex justify-content-center align-items-center rgb-bg-2 hover-bg-dark mt-5 ms-5 border-0" onClick={()=>this.likeMovie()}>
+      <button className={"btn col rounded d-none d-xxl-flex justify-content-center align-items-center rgb-bg-2 hover-bg-dark mt-5 ms-5 border-0 " + this.state.disableButtons} onClick={()=>this.likeMovie()}>
         <img src={RsrcIconHeart} width={icon_width_2} className="me-3" alt=""/>
         <img src={RsrcIconArrowRight} width={icon_width_2} alt=""/>
       </button>
