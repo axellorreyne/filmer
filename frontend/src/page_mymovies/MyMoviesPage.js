@@ -20,8 +20,10 @@ class MyMoviesPage extends Component
     this.setFilterSeen = this.setFilterSeen.bind(this);
     this.setFilterName = this.setFilterName.bind(this);
     this.setFilterDirectors = this.setFilterDirectors.bind(this);
+    this.newSortOption = this.newSortOption.bind(this);
     this.searchTerm = "";
     this.state = {movies:[],filter:(i,o)=>0};
+    this.sortName = "Sort"
   }
 
     setSearchTerm(st){
@@ -43,6 +45,7 @@ class MyMoviesPage extends Component
     }
 
     setFilterSearch(){
+      this.sortName="Sort"
       let func = (i,o)=>0
       if(this.searchTerm.length===1)
           func=(i,o)=> {
@@ -82,6 +85,15 @@ class MyMoviesPage extends Component
       })
     }
 
+    newSortOption(name,click){
+        const clickEvent = ()=>{
+            this.sortName=name
+            click()
+        }
+        return  <li>
+                    <a className="dropdown-item hover-bg-dark btn rounded-0" onClick={clickEvent}>{name}</a>
+                </li>
+    }
 
   componentDidMount()
   {
@@ -100,13 +112,17 @@ class MyMoviesPage extends Component
   render ()
   {
     const amount = this.state.movies.length
-
     const rendered = (amount === 0)?
         <div className="container-fluid mt-5">
           <h5 >No movies to show.</h5>
           <h5>Like movies on the homepage to view them here!</h5>
         </div>
     : this.state.movies.sort(this.state.filter).map(ele=><FMovieLine movie={ele.movie} seen={ele.seen}/>)
+    const sortName = this.sortName
+
+      const titleSort = this.newSortOption("Title",this.setFilterName)
+      const directorSort = this.newSortOption("Directors",this.setFilterDirectors)
+      const seenSort = this.newSortOption("Seen",this.setFilterSeen)
 
     return (
       <div className="h-100 d-flex flex-column m-3 m-xxl-0">
@@ -118,11 +134,11 @@ class MyMoviesPage extends Component
               <div className="d-sm-flex mt-4 justify-content-between align-items-center">
                 <div className="d-flex align-items-center">
                   <div className="dropdown h-50 w-100">
-                    <button type="button" className="FFormInput ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown">Sort</button>
+                    <button type="button" className="FFormInput ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown">{sortName}</button>
                     <ul className="dropdown-menu fborder rgb-bg-1 w-100">
-                      <li><a className="dropdown-item hover-bg-dark btn rounded-0" onClick={this.setFilterName}>Title</a></li>
-                      <li><a className="dropdown-item hover-bg-dark btn rounded-0" onClick={this.setFilterSeen}>Seen</a></li>
-                      <li><a className="dropdown-item hover-bg-dark btn rounded-0" onClick={this.setFilterDirectors}>Directors</a></li>
+                        {titleSort}
+                        {directorSort}
+                        {seenSort}
                     </ul>
                   </div>
                 </div>
