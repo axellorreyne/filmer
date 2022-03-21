@@ -15,82 +15,116 @@ class MyMoviesPage extends Component
 
   constructor(probs) {
     super(probs);
+
     this.setFilterSearch = this.setFilterSearch.bind(this);
     this.setSearchTerm = this.setSearchTerm.bind(this);
-    this.setFilterSeen = this.setFilterSeen.bind(this);
-    this.setFilterName = this.setFilterName.bind(this);
-    this.setFilterDirectors = this.setFilterDirectors.bind(this);
+    this.sortOnSeen = this.sortOnSeen.bind(this);
+    this.sortOnTitle = this.sortOnTitle.bind(this);
+    this.sortOnDirectors = this.sortOnDirectors.bind(this);
     this.newSortOption = this.newSortOption.bind(this);
+    this.newSearchOption = this.newSearchOption.bind(this);
+    this.formatTitle = this.formatTitle.bind(this);
+    this.formatDirector = this.formatDirector.bind(this);
+
     this.searchTerm = "";
-    this.state = {movies:[],filter:(i,o)=>0};
+    this.searchOption = "Title"
     this.sortName = "Sort"
+
+    //movies: list of movie objects (see reference)
+    //filter: compare functie die 2 waarden neemt, en hun verband tussen -1 en 1 teruggeeft
+    //searchFormat: een functie om een movie object naar string om te zetten voor de search
+    this.state = {movies:[],filter:(i,o)=>0,searchFormat:this.formatTitle};
   }
 
     setSearchTerm(st){
       this.searchTerm = st.target.value
     }
 
-
     setFilter(filter){
       this.setState({filter})
     }
 
-    setFilterSeen(){
-     this.setFilter((i,o)=>(i.seen===o.seen)?0:(i.seen)?1:-1)
+    sortOnSeen(i,o){
+     return (i.seen===o.seen)?0:(i.seen)?1:-1
     }
 
-    setFilterName(){
-     this.setFilter((i,o)=>(i.movie.original_title===o.movie.original_title)?0:
-                            (i.movie.original_title>o.movie.original_title)?1:-1)
+    sortOnTitle(i,o){
+      return (i.movie.original_title===o.movie.original_title)?0:
+                            (i.movie.original_title>o.movie.original_title)?1:-1
+    }
+
+    sortOnDirectors(i,o){
+      const id = i.movie.credits.crew.filter(x=>x.job==="Director").slice(0,3)
+        .map(x=>x.name).sort()
+      const od = o.movie.credits.crew.filter(x=>x.job==="Director").slice(0,3)
+        .map(x=>x.name).sort()
+      for(let ind =0;ind<3;ind++){
+          if(id.length<=ind && od.length<=ind)
+              return 0
+          if(id.length<=ind)
+              return -1
+          if(od.length<=ind)
+              return 1
+          if(id[ind]<od[ind])
+              return -1
+          if(id[ind]>od[ind])
+              return 1
+      }
+      return 0
     }
 
     setFilterSearch(){
       this.sortName="Sort"
-      let func = (i,o)=>0
-      if(this.searchTerm.length===1)
-          func=(i,o)=> {
-                const iT = i.movie.original_title.toUpperCase()
-                const oT = o.movie.original_title.toUpperCase()
-                const upper = this.searchTerm.toUpperCase()
-              return (oT.split(upper).length-1) / oT.length
-                  - (iT.split(upper).length-1) / iT.length
+
+      let func = (i,o)=>0;
+      if(this.searchTerm.length!==0) {
+          const upper = this.searchTerm.toUpperCase()
+          if (this.searchTerm.length === 1)
+              func = (i, o) => {
+                  const iT = this.state.searchFormat(i).toUpperCase()
+                  const oT = this.state.searchFormat(o).toUpperCase()
+                  return (oT.split(upper).length - 1) / oT.length
+                      - (iT.split(upper).length - 1) / iT.length
+              }
+          else {
+              func = (i, o) => {
+                  const iT = this.state.searchFormat(i).toUpperCase()
+                  const oT = this.state.searchFormat(o).toUpperCase()
+                  return (stringSimilarity.compareTwoStrings(oT, upper)+(oT.includes(upper)?0.2:0))
+                      - (stringSimilarity.compareTwoStrings(iT, upper)+(iT.includes(upper)?0.2:0))
+              }
           }
-      else if(this.searchTerm!== "") {
-          func = (i, o) =>
-              stringSimilarity.compareTwoStrings(o.movie.original_title.toUpperCase(), this.searchTerm.toUpperCase())
-              - stringSimilarity.compareTwoStrings(i.movie.original_title.toUpperCase(), this.searchTerm.toUpperCase())
       }
-          this.setFilter(func)
+      this.setFilter(func)
     }
 
-    setFilterDirectors(){
-      this.setFilter((i,o)=>{
-          const id = i.movie.credits.crew.filter(x=>x.job==="Director").slice(0,3)
-            .map(x=>x.name).sort()
-          const od = o.movie.credits.crew.filter(x=>x.job==="Director").slice(0,3)
-            .map(x=>x.name).sort()
-          for(let ind =0;ind<3;ind++){
-              if(id.length<=ind && od.length<=ind)
-                  return 0
-              if(id.length<=ind)
-                  return -1
-              if(od.length<=ind)
-                  return 1
-              if(id[ind]<od[ind])
-                  return -1
-              if(id[ind]>od[ind])
-                  return 1
-          }
-          return 0
-      })
+    formatTitle(movie){
+      return movie.movie.original_title
     }
 
-    newSortOption(name,click){
+    formatDirector(movie){
+      return movie.movie.credits.crew.filter(x=>x.job==="Director").slice(0,3)
+            .map(x=>x.name).sort().join(" ")
+    }
+
+    newSortOption(name,filter){
         const clickEvent = ()=>{
             this.sortName=name
-            click()
+            this.setFilter(filter)
         }
-        return  <li>
+        return this.newDropDown(clickEvent,name)
+    }
+
+    newSearchOption(name,searchFormat){
+      const clickEvent = ()=>{
+          this.searchOption = name
+          this.setState({searchFormat,filter:(i,o)=>0})
+      }
+      return this.newDropDown(clickEvent,name)
+    }
+
+    newDropDown(clickEvent,name){
+      return    <li>
                     <a className="dropdown-item hover-bg-dark btn rounded-0" onClick={clickEvent}>{name}</a>
                 </li>
     }
@@ -101,7 +135,7 @@ class MyMoviesPage extends Component
         movie=>MovieService.getMovieInfo(movie.movie_id).then(
             info=> {
               if (info.error === undefined) {
-                this.setState((prev, _) => ({movies: prev.movies.concat([{movie:info,seen:movie.seen}]),filter:prev.filter}))
+                this.setState((prev, _) => ({movies: prev.movies.concat([{movie:info,seen:movie.seen}])}))
               }
             }
         )
@@ -120,9 +154,12 @@ class MyMoviesPage extends Component
     : this.state.movies.sort(this.state.filter).map(ele=><FMovieLine movie={ele.movie} seen={ele.seen}/>)
     const sortName = this.sortName
 
-      const titleSort = this.newSortOption("Title",this.setFilterName)
-      const directorSort = this.newSortOption("Directors",this.setFilterDirectors)
-      const seenSort = this.newSortOption("Seen",this.setFilterSeen)
+      const titleSort = this.newSortOption("Title",this.sortOnTitle)
+      const directorSort = this.newSortOption("Directors",this.sortOnDirectors)
+      const seenSort = this.newSortOption("Seen",this.sortOnSeen)
+
+      const searchByTitle=this.newSearchOption("Title",this.formatTitle)
+      const searchByDir = this.newSearchOption("Directors",this.formatDirector)
 
     return (
       <div className="h-100 d-flex flex-column m-3 m-xxl-0">
@@ -143,7 +180,14 @@ class MyMoviesPage extends Component
                   </div>
                 </div>
                 <div className="d-flex align-items-center">
-                  <input type="email" className="FFormInput h-50 w-100 my-2" id="search"
+                    <div className="dropdown h-50 w-50">
+                    <button type="button" className="FFormInput ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown">{this.searchOption}</button>
+                    <ul className="dropdown-menu fborder rgb-bg-1 w-100">
+                        {searchByTitle}
+                        {searchByDir}
+                    </ul>
+                  </div>
+                  <input type="text" className="FFormInput h-50 w-100 my-2 ms-2" id="search"
                          placeholder="Search"  onChange={this.setSearchTerm}/>
                   <button className="bg-transparent border-0" onClick={this.setFilterSearch}>
                         <img src={RsrcSearchIcon} height="35px" width="38px" className="ms-1 fborder p-2" alt=""/>
