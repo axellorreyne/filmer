@@ -44,17 +44,17 @@
 - GET `/api/user/` get user account info
 ```
 {
-    "id": 2
-    "email": "new@new.new",
-    "username": "newtest"
+    "id": {user_id}
+    "email": "{email}",
+    "username": "{username}"
 }
 ```
 - PATCH `/api/user/` update user account info
 ```
 {
-    "email": "new@new.new", (OPTIONAL)
-    "password": "12345678", (OPTIONAL)
-    "username": "newtest" (OPTIONAL)
+    "email": "{email}", (OPTIONAL)
+    "password": "{password}", (OPTIONAL)
+    "username": "{username}" (OPTIONAL)
 }
 ```
 
