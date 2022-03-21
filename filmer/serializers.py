@@ -14,7 +14,7 @@ class MovieSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'is_active']
+        fields = ['id', 'username', 'email']
         read_only_field = ['is_active']
 
 

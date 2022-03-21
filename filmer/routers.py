@@ -1,7 +1,7 @@
 from rest_framework.routers import SimpleRouter
 
-from filmer.auth.viewsets import LoginViewSet, RegistrationViewSet, RefreshViewSet, ReactionViewSet
-from filmer.viewsets import UserViewSet
+from filmer.auth.viewsets import LoginViewSet, RegistrationViewSet, RefreshViewSet
+from filmer.viewsets import UserViewSet, ReactionViewSet
 
 routes = SimpleRouter()
 
