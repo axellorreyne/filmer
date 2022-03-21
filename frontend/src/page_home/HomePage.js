@@ -19,6 +19,9 @@ class HomePage extends Component
   {
       super(props)
       this.seenCheck = false;
+      this.likeMovie = this.likeMovie.bind(this);
+      this.dislikeMovie = this.dislikeMovie.bind(this);
+      this.flipSeen = this.flipSeen.bind(this);
       this.state = { 
         expandDescription: false,
         disableButtons: "disabled",
@@ -75,6 +78,10 @@ class HomePage extends Component
             ]}}};
   }
 
+  flipSeen(){
+    this.seenCheck=!this.seenCheck
+  }
+
   loadMovie()
   {
     this.setState({disableButtons: "disabled"})
@@ -83,7 +90,7 @@ class HomePage extends Component
 
   rateMovie(liked)
   {
-      UserService.createReaction(this.state.movie.id.toString(),liked,this.seenCheck)
+      UserService.createReaction(this.state.movie.id,liked,this.seenCheck)
       this.loadMovie()
   }
 
@@ -115,21 +122,21 @@ class HomePage extends Component
     
     const description = movie.overview;
     const description_elips_length = 400;
-    var description_rendered = <p>{description.slice(0, description_elips_length) + "... "}
+    let description_rendered = <p>{description.slice(0, description_elips_length) + "... "}
       <button className="m-0 p-0 border-0 rgb-2 rgb-bg-tr ffw-2 hover-bg-dark" onClick={()=>this.setState({expandDescription: true})}>(read more)</button></p>
     if (this.state.expandDescription || description.length < description_elips_length + 40)
     {
      description_rendered = <p>{description}</p>
     }
    
-    var videos = movie.videos.results
+    let videos = movie.videos.results
     videos = videos.filter((x)=>x.official===true).concat((x)=>x.official=false)
-    var video = videos.filter((x) => x.type === "Trailer")[0];
+    let video = videos.filter((x) => x.type === "Trailer")[0];
     if (typeof video === 'undefined')
     {
       video = movie.videos.results[0];
     }
-    var video_rendered = <div class="rgb-2 d-flex justify-content-center align-items-center mb-5">video not available</div>;
+    let video_rendered = <div class="rgb-2 d-flex justify-content-center align-items-center mb-5">video not available</div>;
     if (typeof video !== 'undefined')
     {
       video_rendered = <iframe height={video.size} src={"https://www.youtube.com/embed/" + video.key + "?autoplay=1&origin=http://find-a-film.xyz"} title={video.name} allow='autoplay; encrypted-media'  frameBorder="0" allowFullscreen="true"></iframe>
@@ -147,20 +154,20 @@ class HomePage extends Component
   <FHeader/> 
   <main className="mx-0">
     <div className="mb-5 d-flex justify-content-around">
-      <button className={"btn col rounded d-none d-xxl-flex justify-content-center align-items-center rgb-bg-2 hover-bg-dark mt-5 me-5 border-0 " + this.state.disableButtons} onClick={()=>this.dislikeMovie()}>
+      <button className={"btn col rounded d-none d-xxl-flex justify-content-center align-items-center rgb-bg-2 hover-bg-dark mt-5 me-5 border-0 " + this.state.disableButtons} onClick={this.dislikeMovie}>
           <img src={RsrcIconArrowLeft} width={icon_width_2} className="me-3" alt=""/> 
           <img src={RsrcIconVomit} width={icon_width_2} alt=""/>
         </button>
       <div className="col-xxl-7 ms-4 mt-3">
         <div className="d-flex mb-5 mb-xxl-0 justify-content-center">
           <div className="d-xxl-none d-flex me-1">
-            <button className={"col btn hover-bg-dark " + this.state.disableButtons} onClick={()=>this.dislikeMovie()}>
+            <button className={"col btn hover-bg-dark " + this.state.disableButtons} onClick={this.dislikeMovie}>
               <img src={RsrcIconArrowLeft} width={icon_width_mobile} className="me-3" alt=""/>
               <img src={RsrcIconVomit} width={icon_width_mobile} alt=""/>
             </button>
           </div>
           <div className="d-xxl-none d-flex">
-            <button className={"col btn hover-bg-dark " + this.state.disableButtons} onClick={()=>this.likeMovie()}>
+            <button className={"col btn hover-bg-dark " + this.state.disableButtons} onClick={this.likeMovie}>
               <img src={RsrcIconHeart} width={icon_width_mobile} className="me-3" alt=""/>
               <img src={RsrcIconArrowRight} width={icon_width_mobile} alt=""/>
             </button>
@@ -169,7 +176,7 @@ class HomePage extends Component
         <div className="d-flex mb-4">
           <div className="form-check">
             <label className="form-check-label" htmlFor="flexCheckDefault">Seen</label>
-            <input className="form-check-input" type="checkbox" value="0" id="flexCheckDefault" onClick={()=>this.seenCheck=!this.seenCheck}/>
+            <input className="form-check-input" type="checkbox" value="0" id="flexCheckDefault" onClick={this.flipSeen}/>
           </div>
         </div>
         <label className="ffs-1 ffw-2 m-0 p-0">{title}</label>
@@ -211,7 +218,7 @@ class HomePage extends Component
           </div>
         </div>
       </div>
-      <button className={"btn col rounded d-none d-xxl-flex justify-content-center align-items-center rgb-bg-2 hover-bg-dark mt-5 ms-5 border-0 " + this.state.disableButtons} onClick={()=>this.likeMovie()}>
+      <button className={"btn col rounded d-none d-xxl-flex justify-content-center align-items-center rgb-bg-2 hover-bg-dark mt-5 ms-5 border-0 " + this.state.disableButtons} onClick={this.likeMovie}>
         <img src={RsrcIconHeart} width={icon_width_2} className="me-3" alt=""/>
         <img src={RsrcIconArrowRight} width={icon_width_2} alt=""/>
       </button>
