@@ -28,6 +28,12 @@ class UserViewSet(viewsets.ModelViewSet):
 
         return obj
 
+    def patch(self, request, *args, **kwargs):
+        serializer = self.get_serializer(request.user, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(status=status.HTTP_200_OK)
+
 
 class ReactionViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -40,5 +46,5 @@ class ReactionViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = serializer.save(user=request.user)
+        serializer.save(user=request.user)
         return Response(status=status.HTTP_201_CREATED)

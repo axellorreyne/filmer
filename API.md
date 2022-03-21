@@ -31,6 +31,22 @@
     "seen": true/talse
 }
 ```
+- GET `/api/user/` gett user account info
+```
+{
+    "id": 2
+    "email": "new@new.new",
+    "username": "newtest"
+}
+```
+- PATCH `/api/user/` update user account info
+```
+{
+    "email": "new@new.new",
+    "password": "12345678",
+    "username": "newtest"
+}
+```
 
 ## Authentication
 - POST `/api/auth/register/` register 
