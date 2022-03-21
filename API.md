@@ -31,7 +31,7 @@
     "seen": true/talse
 }
 ```
-- GET `/api/user/` gett user account info
+- GET `/api/user/` get user account info
 ```
 {
     "id": 2
