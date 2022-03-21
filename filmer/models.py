@@ -28,3 +28,6 @@ class Reaction(models.Model):
     movie_id = models.CharField(max_length=100)
     like = models.BooleanField()
     seen = models.BooleanField()
+
+    class Meta:
+        unique_together = ('user', 'movie_id')
