@@ -15,7 +15,6 @@ class MyMoviesPage extends Component
 
   constructor(probs) {
     super(probs);
-
     this.setFilterSearch = this.setFilterSearch.bind(this);
     this.setSearchTerm = this.setSearchTerm.bind(this);
     this.sortOnSeen = this.sortOnSeen.bind(this);
@@ -32,7 +31,7 @@ class MyMoviesPage extends Component
 
     //movies: list of movie objects (see reference)
     //filter: compare functie die 2 waarden neemt, en hun verband tussen -1 en 1 teruggeeft
-    //searchFormat: een functie om een movie object naar string om te zetten voor de search
+    //searchFormat: een functie om een movie object naar een lijst van strings om te zetten voor de search
     this.state = {movies:[],filter:(i,o)=>0,searchFormat:this.formatTitle};
   }
 
@@ -73,38 +72,49 @@ class MyMoviesPage extends Component
       return 0
     }
 
+    setFilterList(compare){
+      this.setFilter((i,o)=>this.compareMaxLikeliness(i,o,compare))
+    }
+
     setFilterSearch(){
       this.sortName="Sort"
 
-      let func = (i,o)=>0;
+      let func = (x,term)=>0;
       if(this.searchTerm.length!==0) {
-          const upper = this.searchTerm.toUpperCase()
           if (this.searchTerm.length === 1)
-              func = (i, o) => {
-                  const iT = this.state.searchFormat(i).toUpperCase()
-                  const oT = this.state.searchFormat(o).toUpperCase()
-                  return (oT.split(upper).length - 1) / oT.length
-                      - (iT.split(upper).length - 1) / iT.length
-              }
+              func = (x,term)=>(x.split(term).length - 1) / x.length
           else {
-              func = (i, o) => {
-                  const iT = this.state.searchFormat(i).toUpperCase()
-                  const oT = this.state.searchFormat(o).toUpperCase()
-                  return (stringSimilarity.compareTwoStrings(oT, upper)+(oT.includes(upper)?0.2:0))
-                      - (stringSimilarity.compareTwoStrings(iT, upper)+(iT.includes(upper)?0.2:0))
-              }
+              func = (x,term)=>stringSimilarity.compareTwoStrings(x, term)+(x.includes(term)?0.2:0)
+
           }
       }
-      this.setFilter(func)
+      this.setFilterList(func)
+    }
+
+    compareMaxLikeliness(i,o,compare){
+        return this.getMaxLikeliness(this.state.searchFormat(o),compare)
+            - this.getMaxLikeliness(this.state.searchFormat(i),compare)
+    }
+
+    getMaxLikeliness(i,compare){
+      const upper = this.searchTerm.toUpperCase()
+      const max = i.map(x=>
+          compare(x.toUpperCase(),upper)
+          )
+      return Math.max.apply(Math,max)
     }
 
     formatTitle(movie){
-      return movie.movie.original_title
+      return [movie.movie.original_title]
     }
 
     formatDirector(movie){
       return movie.movie.credits.crew.filter(x=>x.job==="Director").slice(0,3)
-            .map(x=>x.name).sort().join(" ")
+            .map(x=>x.name)
+    }
+
+    formatGenres(movie){
+      return movie.movie.genres.map(x=>x.name)
     }
 
     newSortOption(name,filter){
@@ -160,6 +170,7 @@ class MyMoviesPage extends Component
 
       const searchByTitle=this.newSearchOption("Title",this.formatTitle)
       const searchByDir = this.newSearchOption("Directors",this.formatDirector)
+      const searchByGen = this.newSearchOption("Genres",this.formatGenres)
 
     return (
       <div className="h-100 d-flex flex-column m-3 m-xxl-0">
@@ -185,6 +196,7 @@ class MyMoviesPage extends Component
                     <ul className="dropdown-menu fborder rgb-bg-1 w-100">
                         {searchByTitle}
                         {searchByDir}
+                        {searchByGen}
                     </ul>
                   </div>
                   <input type="text" className="FFormInput h-50 w-100 my-2 ms-2" id="search"
