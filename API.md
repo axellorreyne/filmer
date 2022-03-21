@@ -31,6 +31,16 @@
     "seen": true/talse
 }
 ```
+- PATCH  `/api/reaction/{movie_id}` update a reaction for current user
+```
+{
+    "movie_id": "{movie_id}", (OPTIONAL)
+    "like": true/false, (OPTIONAL)
+    "seen": true/false (OPTIONAL)
+}
+```
+- DEL `/api/reaction/{movie_id}` delete a reaction for current user
+
 - GET `/api/user/` get user account info
 ```
 {
@@ -42,9 +52,9 @@
 - PATCH `/api/user/` update user account info
 ```
 {
-    "email": "new@new.new",
-    "password": "12345678",
-    "username": "newtest"
+    "email": "new@new.new", (OPTIONAL)
+    "password": "12345678", (OPTIONAL)
+    "username": "newtest" (OPTIONAL)
 }
 ```
 

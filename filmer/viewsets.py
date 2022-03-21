@@ -38,7 +38,8 @@ class UserViewSet(viewsets.ModelViewSet):
 class ReactionViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = ReactionSerializer
-    http_method_names = ['post', 'get']
+    http_method_names = ['post', 'get', 'patch', 'delete']
+    lookup_field = "movie_id"
 
     def get_queryset(self):
         return Reaction.objects.filter(user=self.request.user)
@@ -48,3 +49,4 @@ class ReactionViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save(user=request.user)
         return Response(status=status.HTTP_201_CREATED)
+
