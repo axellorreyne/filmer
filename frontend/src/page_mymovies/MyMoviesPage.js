@@ -46,11 +46,11 @@ class MyMoviesPage extends Component
       let func = (i,o)=>0
       if(this.searchTerm.length===1)
           func=(i,o)=> {
-                const iT = i.movie.original_title
-                const oT = o.movie.original_title
-                const reg = new RegExp(this.searchTerm,"g")
-              return (oT.match(reg)||[]).length / oT.length
-                  - (iT.match(reg)||[]).length / iT.length
+                const iT = i.movie.original_title.toUpperCase()
+                const oT = o.movie.original_title.toUpperCase()
+                const upper = this.searchTerm.toUpperCase()
+              return (oT.split(upper).length-1) / oT.length
+                  - (iT.split(upper).length-1) / iT.length
           }
       else if(this.searchTerm!== "") {
           func = (i, o) =>
