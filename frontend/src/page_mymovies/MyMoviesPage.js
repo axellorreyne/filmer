@@ -26,13 +26,13 @@ class MyMoviesPage extends Component
     this.formatDirector = this.formatDirector.bind(this);
 
     this.searchTerm = "";
-    this.searchOption = "Title"
+    this.proposedFormat = this.formatTitle
     this.sortName = "Sort"
 
     //movies: list of movie objects (see reference)
     //filter: functie die lijst van movies transformeert
     //searchFormat: een functie om een movie object naar een lijst van strings om te zetten voor de search
-    this.state = {movies:[],filter:(ms)=>ms,searchFormat:this.formatTitle};
+    this.state = {movies:[],filter:(ms)=>ms,searchFormat:this.formatTitle,searchOption:"Title"};
   }
 
     setSearchTerm(st){
@@ -74,9 +74,12 @@ class MyMoviesPage extends Component
 
     setFilterList(compare) {
       const minimum_likelihood = 0.25;
-      this.setFilter(ms=>
-            ms.filter(i=>this.getMaxLikeliness(i,compare) > minimum_likelihood)
-              .sort((i,o)=>this.compareMaxLikeliness(i,o,compare)))
+      this.setState({
+            filter:ms=>
+                ms  .filter(i=>this.getMaxLikeliness(i,compare) > minimum_likelihood)
+                    .sort((i,o)=>this.compareMaxLikeliness(i,o,compare)),
+            searchFormat:this.proposedFormat})
+
     }
 
     setFilterSearch(){
@@ -124,12 +127,12 @@ class MyMoviesPage extends Component
         return this.newDropDown(clickEvent,name)
     }
 
-    newSearchOption(name,searchFormat){
+    newSearchOption(searchOption,searchFormat){
       const clickEvent = ()=>{
-          this.searchOption = name
-          this.setState({searchFormat,filter:ms=>ms})
+          this.proposedFormat = searchFormat
+          this.setState({searchOption})
       }
-      return this.newDropDown(clickEvent,name)
+      return this.newDropDown(clickEvent,searchOption)
     }
 
     newDropDown(clickEvent,name){
@@ -166,7 +169,8 @@ class MyMoviesPage extends Component
             <h5>{text}</h5>
         </div>
     }
-    const sortName = this.sortName
+    const sortName = this.sortName;
+    const searchOption = this.state.searchOption
 
       const titleSort = this.newSortOption("Title",this.sortOnTitle)
       const directorSort = this.newSortOption("Directors",this.sortOnDirectors)
@@ -194,7 +198,7 @@ class MyMoviesPage extends Component
                   </div>
                 <div className="col-md-6 d-flex align-items-center">
                   <div className="col-xl-3 dropdown">
-                    <button type="button" className="FFormInput ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown">{this.searchOption}</button>
+                    <button type="button" className="FFormInput ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown">{searchOption}</button>
                     <ul className="dropdown-menu fborder rgb-bg-1 w-100">
                         {searchByTitle}
                         {searchByDir}
