@@ -72,9 +72,10 @@ class MyMoviesPage extends Component
       return 0
     }
 
-    setFilterList(compare){
+    setFilterList(compare) {
+      const minimum_likelihood = 0.25;
       this.setFilter(ms=>
-          ms.filter(i=>this.getMaxLikeliness(i,compare)!==0)
+            ms.filter(i=>this.getMaxLikeliness(i,compare) > minimum_likelihood)
               .sort((i,o)=>this.compareMaxLikeliness(i,o,compare)))
     }
 
@@ -180,11 +181,10 @@ class MyMoviesPage extends Component
         <FHeader/>
         <main className="mb-5 container-fluid">
           <div className="my-5 d-lg-flex justify-content-around align-items-center">
-            <div className="col-lg-7 mx-sm-5 mb-5" >
+            <div className="col-lg-7 mx-md-5 mb-5" >
               <p className="ffs-1 ffw-2 m-0 p-0 me-4">My movies ({amount})</p>
-              <div className="d-sm-flex mt-4 justify-content-between align-items-center">
-                <div className="d-flex align-items-center">
-                  <div className="dropdown h-50 w-100">
+              <div className="d-md-flex mt-4 justify-content-between align-items-center">
+                  <div className="col-md-2 dropdown h-50">
                     <button type="button" className="FFormInput ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown">{sortName}</button>
                     <ul className="dropdown-menu fborder rgb-bg-1 w-100">
                         {titleSort}
@@ -192,9 +192,8 @@ class MyMoviesPage extends Component
                         {seenSort}
                     </ul>
                   </div>
-                </div>
-                <div className="d-flex align-items-center">
-                    <div className="dropdown h-50 w-50">
+                <div className="col-md-6 d-flex align-items-center">
+                  <div className="col-xl-3 dropdown">
                     <button type="button" className="FFormInput ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown">{this.searchOption}</button>
                     <ul className="dropdown-menu fborder rgb-bg-1 w-100">
                         {searchByTitle}
@@ -205,11 +204,11 @@ class MyMoviesPage extends Component
                   <input type="text" className="FFormInput h-50 w-100 my-2 ms-2" id="search"
                          placeholder="Search"  onChange={this.setSearchTerm}/>
                   <button className="bg-transparent border-0" onClick={this.setFilterSearch}>
-                        <img src={RsrcSearchIcon} height="35px" width="38px" className="ms-1 fborder p-2" alt=""/>
+                        <img src={RsrcSearchIcon} height="35px" width="38px" className="hover-bg-dark fborder p-2" alt=""/>
                   </button>
                   </div>
-                <button className="btn btn-primary m-0 p-1 ffw-2 d-none d-sm-block disabled">Add movie</button>
-                <button className="btn btn-primary m-0 p-1 ffw-2 d-sm-none w-100 my-3 disabled">Add movie</button>
+                <button className="btn btn-primary m-0 p-1 ffw-2 d-none d-md-block disabled">Add movie</button>
+                <button className="btn btn-primary m-0 p-1 ffw-2 d-md-none w-100 my-3 disabled">Add movie</button>
               </div>
               {rendered}
             </div>
