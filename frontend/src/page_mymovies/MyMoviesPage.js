@@ -30,9 +30,9 @@ class MyMoviesPage extends Component
     this.sortName = "Sort"
 
     //movies: list of movie objects (see reference)
-    //filter: compare functie die 2 waarden neemt, en hun verband tussen -1 en 1 teruggeeft
+    //filter: functie die lijst van movies transformeert
     //searchFormat: een functie om een movie object naar een lijst van strings om te zetten voor de search
-    this.state = {movies:[],filter:(i,o)=>0,searchFormat:this.formatTitle};
+    this.state = {movies:[],filter:(ms)=>ms,searchFormat:this.formatTitle};
   }
 
     setSearchTerm(st){
@@ -73,31 +73,29 @@ class MyMoviesPage extends Component
     }
 
     setFilterList(compare){
-      this.setFilter((i,o)=>this.compareMaxLikeliness(i,o,compare))
+      this.setFilter(ms=>
+          ms.filter(i=>this.getMaxLikeliness(i,compare)!==0)
+              .sort((i,o)=>this.compareMaxLikeliness(i,o,compare)))
     }
 
     setFilterSearch(){
-      this.sortName="Sort"
-
-      let func = (x,term)=>0;
-      if(this.searchTerm.length!==0) {
-          if (this.searchTerm.length === 1)
-              func = (x,term)=>(x.split(term).length - 1) / x.length
-          else {
-              func = (x,term)=>stringSimilarity.compareTwoStrings(x, term)+(x.includes(term)?0.2:0)
-
-          }
-      }
+      this.sortName="Sort";
+      let func = (x,term)=>stringSimilarity.compareTwoStrings(x, term)+(x.includes(term)?0.2:0);
+      if (this.searchTerm.length === 1)
+          func = (x,term)=>(x.split(term).length - 1) / x.length
       this.setFilterList(func)
     }
 
     compareMaxLikeliness(i,o,compare){
-        return this.getMaxLikeliness(this.state.searchFormat(o),compare)
-            - this.getMaxLikeliness(this.state.searchFormat(i),compare)
+        return this.getMaxLikeliness(o,compare)
+            - this.getMaxLikeliness(i,compare)
     }
 
-    getMaxLikeliness(i,compare){
-      const upper = this.searchTerm.toUpperCase()
+    getMaxLikeliness(iS,compare){
+      const i = this.state.searchFormat(iS)
+      const upper = this.searchTerm.toUpperCase();
+      if(upper.length===0)
+          return 1
       const max = i.map(x=>
           compare(x.toUpperCase(),upper)
           )
@@ -120,7 +118,7 @@ class MyMoviesPage extends Component
     newSortOption(name,filter){
         const clickEvent = ()=>{
             this.sortName=name
-            this.setFilter(filter)
+            this.setFilter(ms=>ms.sort(filter))
         }
         return this.newDropDown(clickEvent,name)
     }
@@ -128,7 +126,7 @@ class MyMoviesPage extends Component
     newSearchOption(name,searchFormat){
       const clickEvent = ()=>{
           this.searchOption = name
-          this.setState({searchFormat,filter:(i,o)=>0})
+          this.setState({searchFormat,filter:ms=>ms})
       }
       return this.newDropDown(clickEvent,name)
     }
@@ -155,13 +153,18 @@ class MyMoviesPage extends Component
 
   render ()
   {
-    const amount = this.state.movies.length
-    const rendered = (amount === 0)?
-        <div className="container-fluid mt-5">
-          <h5 >No movies to show.</h5>
-          <h5>Like movies on the homepage to view them here!</h5>
+    const filteredMovies = this.state.filter(this.state.movies)
+    const amount = filteredMovies.length
+    let rendered = filteredMovies.map(ele=><FMovieLine movie={ele.movie} seen={ele.seen}/>);
+    if(amount === 0) {
+        let text = "Change your search term to see more movies!"
+        if(this.state.movies.length===0)
+            text = "Like movies on the homepage to view them here!"
+        rendered = <div className="container-fluid mt-5">
+            <h5>No movies to show.</h5>
+            <h5>{text}</h5>
         </div>
-    : this.state.movies.sort(this.state.filter).map(ele=><FMovieLine movie={ele.movie} seen={ele.seen}/>)
+    }
     const sortName = this.sortName
 
       const titleSort = this.newSortOption("Title",this.sortOnTitle)
