@@ -20,27 +20,29 @@ class MyMoviesPage extends Component
     this.sortOnSeen = this.sortOnSeen.bind(this);
     this.sortOnTitle = this.sortOnTitle.bind(this);
     this.sortOnDirectors = this.sortOnDirectors.bind(this);
+    this.sortOnScore = this.sortOnScore.bind(this);
+
     this.newSortOption = this.newSortOption.bind(this);
     this.newSearchOption = this.newSearchOption.bind(this);
+
     this.formatTitle = this.formatTitle.bind(this);
     this.formatDirector = this.formatDirector.bind(this);
+    this.formatGenres = this.formatGenres.bind(this)
 
     this.searchTerm = "";
-    this.proposedFormat = this.formatTitle
-    this.sortName = "Sort"
+    this.proposedFormat = this.formatTitle;
+    this.sortName = "Sort";
+    this.searchView = false
 
     //movies: list of movie objects (see reference)
-    //filter: functie die lijst van movies transformeert
-    //searchFormat: een functie om een movie object naar een lijst van strings om te zetten voor de search
-    this.state = {movies:[],filter:(ms)=>ms,searchFormat:this.formatTitle,searchOption:"Title"};
+    //sorter: een compare die 2 movie objecten neemt, en een gelijkenis tussen -1 en 1 teruggeeft
+    //searchOption: naam van de gekozen zoek optie
+    //score: neemt een movie en geeft een gelijkenis met de zoekterm terug. Wordt gebruikt door sorteren en filter
+    this.state = {movies:[],sorter:(i,o)=>0,searchOption:"Title",score:(i)=>1};
   }
 
     setSearchTerm(st){
       this.searchTerm = st.target.value
-    }
-
-    setFilter(filter){
-      this.setState({filter})
     }
 
     sortOnSeen(i,o){
@@ -72,38 +74,38 @@ class MyMoviesPage extends Component
       return 0
     }
 
-    setFilterList(compare) {
-      const minimum_likelihood = 0.25;
-      this.setState({
-            filter:ms=>
-                ms  .filter(i=>this.getMaxLikeliness(i,compare) > minimum_likelihood)
-                    .sort((i,o)=>this.compareMaxLikeliness(i,o,compare)),
-            searchFormat:this.proposedFormat})
-
+    sortOnScore(i,o){
+        return this.state.score(o)
+            - this.state.score(i)
     }
 
     setFilterSearch(){
-      this.sortName="Sort";
-      let func = (x,term)=>stringSimilarity.compareTwoStrings(x, term)+(x.includes(term)?0.2:0);
-      if (this.searchTerm.length === 1)
-          func = (x,term)=>(x.split(term).length - 1) / x.length
-      this.setFilterList(func)
-    }
+      const format = this.proposedFormat;
+      const finalTerm = this.searchTerm.toUpperCase();
 
-    compareMaxLikeliness(i,o,compare){
-        return this.getMaxLikeliness(o,compare)
-            - this.getMaxLikeliness(i,compare)
-    }
+      let score = (x)=>stringSimilarity.compareTwoStrings(x, finalTerm)+(x.includes(finalTerm)?0.2:0);
+      if (finalTerm.length === 1)
+          score = (x)=>(x.split(finalTerm).length - 1) / x.length;
+      if(finalTerm.length===0) {
+          score = (x)=>1
+          if(this.sortName==="Search"){
+              this.sortName="Sort";
+              this.state.sorter = (i,o)=>0
+          }
+      }else{
+          this.sortName="Search"
+          this.state.sorter = this.sortOnScore
+      }
 
-    getMaxLikeliness(iS,compare){
-      const i = this.state.searchFormat(iS)
-      const upper = this.searchTerm.toUpperCase();
-      if(upper.length===0)
-          return 1
-      const max = i.map(x=>
-          compare(x.toUpperCase(),upper)
-          )
-      return Math.max.apply(Math,max)
+      this.searchView = finalTerm.length!==0;
+      this.setState({score:iS=>{
+            const i = format(iS)
+            const max = i.map(x=>
+                score(x.toUpperCase())
+            )
+            return Math.max.apply(Math,max)
+            }
+      })
     }
 
     formatTitle(movie){
@@ -119,10 +121,10 @@ class MyMoviesPage extends Component
       return movie.movie.genres.map(x=>x.name)
     }
 
-    newSortOption(name,filter){
+    newSortOption(name,sorter){
         const clickEvent = ()=>{
             this.sortName=name
-            this.setFilter(ms=>ms.sort(filter))
+            this.setState({sorter})
         }
         return this.newDropDown(clickEvent,name)
     }
@@ -157,20 +159,28 @@ class MyMoviesPage extends Component
 
   render ()
   {
-    const filteredMovies = this.state.filter(this.state.movies)
+    const minimum_likelihood = 0.2;
+
+    const filteredMovies = this.state.movies.sort(this.state.sorter)
+        .filter(i=>this.state.score(i)>=minimum_likelihood)
     const amount = filteredMovies.length
     let rendered = filteredMovies.map(ele=><FMovieLine movie={ele.movie} seen={ele.seen}/>);
     if(amount === 0) {
-        let text = "Change your search term to see more movies!"
-        if(this.state.movies.length===0)
-            text = "Like movies on the homepage to view them here!"
+        let text = "Like movies on the homepage to view them here!"
+        if(this.searchView)
+            text = "Change your search term to see more movies!"
         rendered = <div className="container-fluid mt-5">
             <h5>No movies to show.</h5>
             <h5>{text}</h5>
         </div>
     }
+
+    let proximity =<div/>
+    if(this.searchView){
+        proximity = this.newSortOption("Search",this.sortOnScore)
+    }
     const sortName = this.sortName;
-    const searchOption = this.state.searchOption
+    const searchOption = this.state.searchOption;
 
       const titleSort = this.newSortOption("Title",this.sortOnTitle)
       const directorSort = this.newSortOption("Directors",this.sortOnDirectors)
@@ -194,11 +204,12 @@ class MyMoviesPage extends Component
                         {titleSort}
                         {directorSort}
                         {seenSort}
+                        {proximity}
                     </ul>
                   </div>
                 <div className="col-md-6 d-flex align-items-center">
                   <div className="col-xl-3 dropdown">
-                    <button type="button" className="FFormInput ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown">{searchOption}</button>
+                    <button type="button" className="FFormInput ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown">{ searchOption}</button>
                     <ul className="dropdown-menu fborder rgb-bg-1 w-100">
                         {searchByTitle}
                         {searchByDir}
