@@ -7,6 +7,7 @@ from filmer.serializers import MovieSerializer
 
 
 class RandomMovieView(APIView):
+    print("gvd")
     def get(self, request):
         movie = Movie.get_random_movie()
         return Response(MovieSerializer(movie).data)
@@ -26,15 +27,19 @@ class AuthenticatedTest(APIView):
 
 # Error handling pages
 def custom_bad_request_view(request, exception):
-    return render(request, '400.html', status=400)
+    return render(request, 'error.html', status=400, 
+            context={code: "400", message: "Test"})
 
 def custom_permission_denied_view(request, exception):
-    return render(request, '403.html', status=403)
+    return render(request, 'error.html', status=403,
+            context={code: "403", message: "Test"})
 
 def custom_page_not_found_view(request, exception):
-    return render(request, '404.html', status=404)
+    return render(request, 'error.html', status=404,
+            context={code: "404", message: "Test"})
 
 def custom_error_view(request):
-    return render(request, '500.html', status=500)
+    return render(request, 'error.html', status=500,
+            context={code: "500", message: "Test"})
 
 
