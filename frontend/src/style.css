@@ -19,7 +19,7 @@ html, body
   background-color:   #0D1117;
   font-family:        franklin-gothic-atf, sans-serif;
   font-weight:        400;
-  font-size:          17px;
+  font-size:          13px;
 }
 
 #root
@@ -51,7 +51,7 @@ a:hover
 
 .FFormInput
 {
-  width: 100%;
+  text-align: left;
   color: #fff;
   background-color: #0000;
   border: 2px solid #555;

@@ -9,6 +9,7 @@ import LoginPage from "../page_login/LoginPage";
 import SignupPage from "../page_signup/SignupPage";
 import SettingsPage from "../page_settings/SettingsPage";
 import MyMoviesPage from "../page_mymovies/MyMoviesPage";
+import FriendsPage from "../page_friends/FriendsPage";
 import NotImplementedPage from "../page_notimplemented/NotImplementedPage";
 
 class FTotalRoutes extends Component {
@@ -40,6 +41,7 @@ class FTotalRoutes extends Component {
                         <Route path="/signup" element={<SignupPage/>}/>
                         <Route path="/settings" element={this.check(<SettingsPage/>)}/>
                         <Route path="/mymovies" element={this.check(<MyMoviesPage/>)}/>
+                        <Route path="/friends" element={<FriendsPage/>}/>
                         <Route path="/notimplemented" element={<NotImplementedPage/>}/>
                     </Routes>
                 </BrowserRouter>
