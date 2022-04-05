@@ -191,7 +191,7 @@ class MyMoviesPage extends Component
       const searchByGen = this.newSearchOption("Genres",this.formatGenres)
 
     return (
-      <div className="h-100 d-flex flex-column m-3 m-xxl-0">
+      <div className="h-100 d-flex flex-column m-3 m-xl-0">
         <FHeader/>
         <main className="mb-5 container-fluid">
           <div className="my-5 d-lg-flex justify-content-around align-items-center">
@@ -199,7 +199,7 @@ class MyMoviesPage extends Component
               <p className="ffs-1 ffw-2 m-0 p-0 me-4">My movies ({amount})</p>
               <div className="d-md-flex mt-4 justify-content-between align-items-center">
                   <div className="col-md-2 dropdown h-50">
-                    <button type="button" className="FFormInput ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown">{sortName}</button>
+                    <button type="button" className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown">{sortName}</button>
                     <ul className="dropdown-menu fborder rgb-bg-1 w-100">
                         {titleSort}
                         {directorSort}
@@ -208,20 +208,20 @@ class MyMoviesPage extends Component
                     </ul>
                   </div>
                 <div className="col-md-6 d-flex align-items-center">
+                  <input type="text" className="FFormInput h-50 w-100 my-2 me-2" id="search"
+                         placeholder="Search"  onChange={this.setSearchTerm}/>
                   <div className="col-xl-3 dropdown">
-                    <button type="button" className="FFormInput ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown">{ searchOption}</button>
+                    <button type="button" className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown">{ searchOption}</button>
                     <ul className="dropdown-menu fborder rgb-bg-1 w-100">
                         {searchByTitle}
                         {searchByDir}
                         {searchByGen}
                     </ul>
                   </div>
-                  <input type="text" className="FFormInput h-50 w-100 my-2 ms-2" id="search"
-                         placeholder="Search"  onChange={this.setSearchTerm}/>
                   <button className="bg-transparent border-0" onClick={this.setFilterSearch}>
-                        <img src={RsrcSearchIcon} height="35px" width="38px" className="hover-bg-dark fborder p-2" alt=""/>
+                        <img src={RsrcSearchIcon} height="30px" width="30px" className="hover-bg-dark fborder p-2" alt=""/>
                   </button>
-                  </div>
+                </div>
                 <button className="btn btn-primary m-0 p-1 ffw-2 d-none d-md-block disabled">Add movie</button>
                 <button className="btn btn-primary m-0 p-1 ffw-2 d-md-none w-100 my-3 disabled">Add movie</button>
               </div>

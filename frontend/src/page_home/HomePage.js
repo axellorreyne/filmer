@@ -150,23 +150,23 @@ class HomePage extends Component
     const dislikes = 0;
 
     return(
-<div className="h-100 d-flex flex-column m-xxl-0">
+<div className="h-100 d-flex flex-column m-xl-0">
   <FHeader/> 
   <main className="mx-0">
     <div className="mb-5 d-flex justify-content-around">
-      <button className={"btn col rounded d-none d-xxl-flex justify-content-center align-items-center rgb-bg-2 hover-bg-dark mt-5 me-5 border-0 " + this.state.disableButtons} onClick={this.dislikeMovie}>
+      <button className={"btn col rounded d-none d-xl-flex justify-content-center align-items-center rgb-bg-2 hover-bg-dark mt-5 me-5 border-0 " + this.state.disableButtons} onClick={this.dislikeMovie}>
           <img src={RsrcIconArrowLeft} width={icon_width_2} className="me-3" alt=""/> 
           <img src={RsrcIconVomit} width={icon_width_2} alt=""/>
         </button>
-      <div className="col-xxl-7 ms-4 mt-3">
-        <div className="d-flex mb-5 mb-xxl-0 justify-content-center">
-          <div className="d-xxl-none d-flex me-1">
+      <div className="col-xl-7 ms-4 mt-3">
+        <div className="d-flex mb-5 mb-xl-0 justify-content-center">
+          <div className="d-xl-none d-flex me-1">
             <button className={"col btn hover-bg-dark " + this.state.disableButtons} onClick={this.dislikeMovie}>
               <img src={RsrcIconArrowLeft} width={icon_width_mobile} className="me-3" alt=""/>
               <img src={RsrcIconVomit} width={icon_width_mobile} alt=""/>
             </button>
           </div>
-          <div className="d-xxl-none d-flex">
+          <div className="d-xl-none d-flex">
             <button className={"col btn hover-bg-dark " + this.state.disableButtons} onClick={this.likeMovie}>
               <img src={RsrcIconHeart} width={icon_width_mobile} className="me-3" alt=""/>
               <img src={RsrcIconArrowRight} width={icon_width_mobile} alt=""/>
@@ -218,7 +218,7 @@ class HomePage extends Component
           </div>
         </div>
       </div>
-      <button className={"btn col rounded d-none d-xxl-flex justify-content-center align-items-center rgb-bg-2 hover-bg-dark mt-5 ms-5 border-0 " + this.state.disableButtons} onClick={this.likeMovie}>
+      <button className={"btn col rounded d-none d-xl-flex justify-content-center align-items-center rgb-bg-2 hover-bg-dark mt-5 ms-5 border-0 " + this.state.disableButtons} onClick={this.likeMovie}>
         <img src={RsrcIconHeart} width={icon_width_2} className="me-3" alt=""/>
         <img src={RsrcIconArrowRight} width={icon_width_2} alt=""/>
       </button>
