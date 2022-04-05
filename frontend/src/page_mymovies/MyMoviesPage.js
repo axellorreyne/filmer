@@ -92,7 +92,7 @@ class MyMoviesPage extends Component
               this.sortName="Sort";
               this.state.sorter = (i,o)=>0
           }
-      }else{
+      } else {
           this.sortName="Search"
           this.state.sorter = this.sortOnScore
       }

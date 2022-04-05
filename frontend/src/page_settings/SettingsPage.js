@@ -105,11 +105,10 @@ class Profile extends Component {
         return (
 <div className="h-100 d-flex flex-column m-3 m-xxl-0">
     <FHeader/>
-    <label className="ffw-2 rgb-alert mx-3 text-center">Functionality not implemented yet!</label>
-    <main className="mt-5 mb-5 container-fluid">
-        <div className="d-lg-flex justify-content-around align-items-center">
-            <div className="col-xxl-7 mx-sm-5" >
-                <label className="ffs-1 ffw-2 m-0 p-0 me-4">Settings</label>
+    <main className="mb-5 container-fluid">
+        <div className="my-5 d-lg-flex justify-content-around align-items-center">
+            <div className="col-lg-7 mx-md-5 mb-5" >
+                <p className="ffs-1 ffw-2 m-0 p-0 me-4">Settings</p>
                 <hr/> 
                 <Form onSubmit={this.handleRegister} ref={c => { this.form = c; }} >
                     {!this.state.successful && (
@@ -117,17 +116,17 @@ class Profile extends Component {
                     <div className="mb-5">
                         <div className="FForm d-lg-flex mb-3 align-items-center">
                           <label className="form-label col-2 rgb-2 ffw-2" htmlFor="username">Username</label>
-                          <Input placeholder={currentUser.username} type="text" className="FFormInput" name="username" value={this.state.username} 
+                          <Input placeholder={currentUser.username} type="text" className="FFormInput w-100" name="username" value={this.state.username} 
                                 onChange={this.onChangeUsername} validations={[required, vusername]} />
                         </div>
                         <div className="FForm d-lg-flex mb-3 align-items-center">
                           <label className="form-label col-2 rgb-2 ffw-2" htmlFor="email">Email</label>
-                          <Input placeholder={currentUser.email} type="text" className="FFormInput" name="email" value={this.state.email}
+                          <Input placeholder={currentUser.email} type="text" className="FFormInput w-100" name="email" value={this.state.email}
                                 onChange={this.onChangeEmail} validations={[required, email]} />
                         </div>
                         <div className="FForm d-lg-flex mb-3 align-items-center">
                           <label className="form-label col-2 rgb-2 ffw-2" htmlFor="password">Password</label>
-                          <Input type="password" className="FFormInput" name="password" value={this.state.password} 
+                          <Input type="password" className="FFormInput w-100" name="password" value={this.state.password} 
                              onChange={this.onChangePassword} validations={[required, vpassword]} />
                         </div>
                     </div>
