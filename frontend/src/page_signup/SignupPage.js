@@ -111,17 +111,17 @@ class SignupPage extends Component
                 <div className="mb-5">
                     <div className="FForm d-lg-flex mb-3 align-items-center">
                       <label className="form-label col-2 rgb-2 ffw-2" htmlFor="username">Username</label>
-                      <Input type="text" className="FFormInput" name="username" value={this.state.username} 
+                      <Input type="text" className="FFormInput w-100" name="username" value={this.state.username} 
                             onChange={this.onChangeUsername} validations={[required, vusername]} />
                     </div>
                     <div className="FForm d-lg-flex mb-3 align-items-center">
                       <label className="form-label col-2 rgb-2 ffw-2" htmlFor="email">Email</label>
-                      <Input type="text" className="FFormInput" name="email" value={this.state.email}
+                      <Input type="text" className="FFormInput w-100" name="email" value={this.state.email}
                             onChange={this.onChangeEmail} validations={[required, email]} />
                     </div>
                     <div className="FForm d-lg-flex mb-3 align-items-center">
                       <label className="form-label col-2 rgb-2 ffw-2" htmlFor="password">Password</label>
-                      <Input type="password" className="FFormInput" name="password" value={this.state.password} 
+                      <Input type="password" className="FFormInput w-100" name="password" value={this.state.password} 
                          onChange={this.onChangePassword} validations={[required, vpassword]} />
                     </div>
                 </div>
