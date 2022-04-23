@@ -4,9 +4,9 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from filmer.models import Reaction
+from filmer.models.Reaction import Reaction
+from filmer.models.Movie import Movie
 from filmer.serializers import UserSerializer, ReactionSerializer
-
 
 class UserViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'patch']

@@ -1,7 +1,7 @@
 import requests
 from os import getenv
 
-from filmer.models import Movie
+from filmer.models.Movie import Movie
 from dotenv import load_dotenv
 
 load_dotenv()
