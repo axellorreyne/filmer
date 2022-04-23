@@ -46,7 +46,7 @@ const vpassword = value =>
 class Profile extends Component {
     constructor(props) {
         super(props);
-        this.handleRegister = this.handleRegister.bind(this);
+        this.handlePatch = this.handlePatch.bind(this);
         this.onChangeUsername = this.onChangeUsername.bind(this);
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
@@ -72,18 +72,16 @@ class Profile extends Component {
       this.setState({ password: e.target.value });
     }
 
-    handleRegister(e) 
+    handlePatch(e) 
     {
       e.preventDefault();
       this.setState({ message: "", successful: false });
-      this.form.validateAll();
       if (this.checkBtn.context._errors.length === 0) 
       {
-        AuthService.register( this.state.username, this.state.email, this.state.password).then(
+        AuthService.updateUser( this.state.username, this.state.email, this.state.password).then(
           response => 
           {
             this.setState({ message: response.data.message, successful: true });
-            this.props.navigate("/home");
             window.location.reload();
           },
           error => 
@@ -100,6 +98,7 @@ class Profile extends Component {
         UserService.getAuthTest().then(authed => this.setState({authenticated: authed.authenticated ? "passed" : "failed"}))
     }
 
+
     render() {
         const {currentUser} = this.state;
         return (
@@ -110,28 +109,34 @@ class Profile extends Component {
             <div className="col-lg-7 mx-md-5 mb-5" >
                 <p className="ffs-1 ffw-2 m-0 p-0 me-4">Settings</p>
                 <hr/> 
-                <Form onSubmit={this.handleRegister} ref={c => { this.form = c; }} >
+                <Form onSubmit={this.handlePatch} ref={c => { this.form = c; }} >
                     {!this.state.successful && (
                   <div>
                     <div className="mb-5">
                         <div className="FForm d-lg-flex mb-3 align-items-center">
-                          <label className="form-label col-2 rgb-2 ffw-2" htmlFor="username">Username</label>
+                          <label className="form-label col-2 rgb-2 ffw-2" htmlFor="username">New Username</label>
                           <Input placeholder={currentUser.username} type="text" className="FFormInput w-100" name="username" value={this.state.username} 
-                                onChange={this.onChangeUsername} validations={[required, vusername]} />
+                                onChange={this.onChangeUsername} validations={[vusername]} />
                         </div>
                         <div className="FForm d-lg-flex mb-3 align-items-center">
-                          <label className="form-label col-2 rgb-2 ffw-2" htmlFor="email">Email</label>
+                          <label className="form-label col-2 rgb-2 ffw-2" htmlFor="email">New Email</label>
                           <Input placeholder={currentUser.email} type="text" className="FFormInput w-100" name="email" value={this.state.email}
-                                onChange={this.onChangeEmail} validations={[required, email]} />
+                                onChange={this.onChangeEmail} validations={[email]} />
                         </div>
                         <div className="FForm d-lg-flex mb-3 align-items-center">
-                          <label className="form-label col-2 rgb-2 ffw-2" htmlFor="password">Password</label>
+                          <label className="form-label col-2 rgb-2 ffw-2" htmlFor="password">New Password</label>
                           <Input type="password" className="FFormInput w-100" name="password" value={this.state.password} 
-                             onChange={this.onChangePassword} validations={[required, vpassword]} />
+                             onChange={this.onChangePassword} validations={[vpassword]} />
+                        </div>
+                        // TODO (Elias): Check if this is correct
+                        <div className="FForm d-lg-flex mb-3 align-items-center mt-5">
+                          <label className="form-label col-2 rgb-2 ffw-2" htmlFor="password">Current Password</label>
+                          <Input type="password" className="FFormInput w-100" name="password" value={this.state.password} 
+                             onChange={this.onChangePassword} validations={[vpassword]} />
                         </div>
                     </div>
                     <div className="form-group">
-                      <button className="btn btn-primary btn-block disabled">Save</button>
+                      <button className="btn btn-primary btn-block">Save</button>
                     </div>
                   </div>
                 )}
