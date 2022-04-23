@@ -137,6 +137,12 @@ input:focus
   background-color:   #0000;
 }
 
+.rgb-bg-solid
+{
+  background-color:   #7C4DFF;
+}
+
+
 .rgb-alert
 {
   color: #f33;
@@ -146,3 +152,9 @@ input:focus
 {
   background-color: #1F2836;
 }
+
+.hover-bg-solid:hover
+{
+  background-color:   #653add;
+}
+

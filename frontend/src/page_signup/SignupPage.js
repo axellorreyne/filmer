@@ -7,6 +7,7 @@ import { isEmail } from "validator";
 import AuthService from "../services/auth.service";
 import {withRouter} from "../tools/WithRouter";
 
+import RsrcIconArrowLeft from "../resources/icon_arrow_left.svg";
 import FHeaderAlt from "../components/FHeaderAlt.js";
 import FFooter    from "../components/FFooter.js";
 
@@ -104,11 +105,15 @@ class SignupPage extends Component
     <main className="mt-5 mb-auto container-fluid">
         <div className="d-lg-flex justify-content-around align-items-center">
           <Form className="col-lg-7" onSubmit={this.handleRegister} ref={c => { this.form = c; }} >
+            <div className="d-flex mb-3">
+              <img src={RsrcIconArrowLeft} width="12px" className="me-2"/>
+              <Link to="/">Back to landingpage</Link>
+            </div>
             <h1>Create Account</h1>
             <hr/>
             {!this.state.successful && (
               <div>
-                <div className="mb-5">
+                <div className="mb-4">
                     <div className="FForm d-lg-flex mb-3 align-items-center">
                       <label className="form-label col-2 rgb-2 ffw-2" htmlFor="username">Username</label>
                       <Input type="text" className="FFormInput w-100" name="username" value={this.state.username} 
