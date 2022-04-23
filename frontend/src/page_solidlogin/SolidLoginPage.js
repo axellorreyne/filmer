@@ -81,17 +81,9 @@ class Login extends Component {
                 <hr/>
                 <div className="mb-4"> 
                     <div className="FForm d-lg-flex mb-3 align-items-baseline">
-                        <label className="form-label col-2 rgb-2 ffw-2 " htmlFor="username">Solid url</label>
-                        <Input type="text" className="FFormInput w-100" name="username" value={this.state.username} onChange={this.onChangeUsername} validations={[required]}/>
+                      <label className="form-label col-2 rgb-2 ffw-2 " htmlFor="username">Solid url*</label>
+                      <Input type="text" className="FFormInput w-100" name="username" value={this.state.username} onChange={this.onChangeUsername} validations={[required]}/>
                     </div>
-                    <div className="FForm d-lg-flex mb-3 align-items-baseline">
-                      <label className="form-label col-2 rgb-2 ffw-2 " htmlFor="username">Authentication</label>
-                      <div className="dropdown w-100">
-                        <button type="button" className="FFormInput w-100  btn-sm dropdown-toggle" data-bs-toggle="dropdown">type</button>
-                        <ul className="dropdown-menu fborder rgb-bg-1 w-100">
-                        </ul>
-                      </div>
-                    </div> 
                   </div> 
                 <div className="form-group">
                     <button className="btn rgb-bg-solid rgb-1 btn-block" disabled={this.state.loading} >
@@ -107,6 +99,7 @@ class Login extends Component {
                         <div className="py-2 rgb-alert" role="alert">{this.state.message}</div>
                     </div>)}
                 <CheckButton style={{display: "none"}} ref={c => { this.checkBtn = c; }} />
+                <p className="mt-5 rgb-2">*The only pod authentication system supported is www.gvdkutpods.com</p>
             </Form>
         </div>
     </main>
