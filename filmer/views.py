@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from filmer.models.Movie import Movie
+from filmer.models.Reaction import Reaction
 from filmer.scrapers.TMDBSCraper import get_movie_info, get_movies_by_string
 from filmer.serializers import MovieSerializer
 
@@ -20,6 +21,12 @@ class RandomMovieView(APIView):
 class MovieInfoView(APIView):
     def get(self, request, movie_id):
         return Response(get_movie_info(movie_id))
+
+
+class ReactionCountView(APIView):
+    def get(self, request, movie_id):
+        return Response(Reaction.objects.filter(movie_id=movie_id, like=True).count())
+
 
 
 class MovieSearchView(APIView):
