@@ -18,6 +18,10 @@ class UserService {
     async getReactions(){
         return ((await axios.get(API_URL + "reaction/", {headers: authHeader()})).data);
     }
+
+    async changeReaction(movie_id,like,seen){
+        await axios.patch(API_URL+"reaction/"+movie_id+"/",{movie_id,like,seen},{headers: authHeader()})
+    }
 }
 
 export default new UserService();
