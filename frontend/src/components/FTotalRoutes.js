@@ -12,6 +12,7 @@ import MyMoviesPage from "../page_mymovies/MyMoviesPage";
 import FriendsPage from "../page_friends/FriendsPage";
 import NotImplementedPage from "../page_notimplemented/NotImplementedPage";
 import SolidLoginPage from "../page_solidlogin/SolidLoginPage";
+import RoomPage from "../page_room/RoomPage";
 
 class FTotalRoutes extends Component {
 
@@ -45,6 +46,7 @@ class FTotalRoutes extends Component {
                         <Route path="/friends" element={<FriendsPage/>}/>
                         <Route path="/notimplemented" element={<NotImplementedPage/>}/>
                         <Route path="/solidlogin" element={<SolidLoginPage/>}/>
+                        <Route path="/room" element={<RoomPage/>}/>
                     </Routes>
                 </BrowserRouter>
     }

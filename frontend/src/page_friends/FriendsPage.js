@@ -84,6 +84,7 @@ class FriendsPage extends Component
       </div>
     );
 
+    // TODO (Elias): Search currently working without the button, do we need to implement this or not?
     return (
       <div className="h-100 d-flex flex-column m-3 m-xxl-0">
         <FHeader/>
