@@ -1,7 +1,9 @@
+import urllib
+
 import requests
 from os import getenv
 
-from filmer.models import Movie
+from filmer.models.Movie import Movie
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -54,9 +56,19 @@ def create_movies():
 
 
 def get_movie_info(movie_id):
-    req = requests.get(f'{API_URL}/movie/{movie_id}?api_key={API_KEY}&append_to_response=videos,images,credits&include_image_language=en,null&include_videos_language=en,null')
+    req = requests.get(
+        f'{API_URL}/movie/{movie_id}?api_key={API_KEY}&append_to_response=videos,images,credits&include_image_language=en,null&include_videos_language=en,null')
     if req.status_code == OK_CODE:
         return req.json()
+    else:
+        print(req.json())
+        return TMDB_ERROR
+
+
+def get_movies_by_string(search):
+    req = requests.get(f'{API_URL}/search/movie?api_key={API_KEY}&query={urllib.parse.quote_plus(search)}')
+    if req.status_code == OK_CODE:
+        return req.json()['results']
     else:
         print(req.json())
         return TMDB_ERROR

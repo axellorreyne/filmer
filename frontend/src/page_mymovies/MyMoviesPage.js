@@ -166,7 +166,7 @@ class MyMoviesPage extends Component
         })
         this.allMovies = filtered.length
     })
-    document.title = "Filmer: Where people find their favourite movies!";
+    document.title = "Filmer: My Movies";
   }
 
   render ()

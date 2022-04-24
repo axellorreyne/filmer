@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Filmer: Not Found</title>
+    <style>
+html
+{
+  font-family: franklin-gothic-atf, sans-serif;
+  color: #E2E7EB;
+  background-color: #0D1117;
+}
+body
+{
+  display: flex;
+  justify-content: center;
+}
+.main
+{
+  padding: 40px;
+  width: 50em;
+}
+pre
+{
+  background-color: #14181F;
+  padding: 21px 30px;
+  border-radius: 6px;
+}
+    </style>  
+  </head>
+  <body>
+  <div class="main">
+<h1><b>Error 403:</b> Access to the requested resource is forbidden.</h1>
+<hr>
+<h1 id="api-overview">API Overview</h1>
+<p>(POST requests include body structure)</p>
+<h2 id="unauthenticated">Unauthenticated</h2>
+<ul>
+<li>GET <code>/api/random_movie</code> get a random movie<pre><code>{
+  <span class="hljs-attr">"movie_id"</span>: <span class="hljs-string">"{movie_id}"</span>,
+  <span class="hljs-attr">"title"</span>: <span class="hljs-string">"{string}"</span>
+}
+</code></pre></li>
+<li>GET <code>/api/movie/{movie_id}</code> get info about a movie<br><a href="https://developers.themoviedb.org/3/movies/get-movie-details">reference</a></li>
+</ul>
+<h2 id="authenticated">Authenticated</h2>
+<ul>
+<li>GET  <code>/api/reaction/</code> get a list of a reactions for current user<pre><code>[
+  {
+      <span class="hljs-attr">"movie_id"</span>: <span class="hljs-string">"{movie_id}"</span>,
+      <span class="hljs-attr">"like"</span>: <span class="hljs-literal">true</span>/<span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"seen"</span>: <span class="hljs-literal">true</span>/<span class="hljs-literal">false</span>
+  },
+  ...
+]
+</code></pre></li>
+<li>POST <code>/api/reaction/</code> create a reaction for current user<pre><code>{
+  <span class="hljs-attr">"movie_id"</span>: <span class="hljs-string">"{movie_id}"</span>,
+  <span class="hljs-attr">"like"</span>: <span class="hljs-literal">true</span>/<span class="hljs-literal">false</span>
+  <span class="hljs-string">"seen"</span>: <span class="hljs-literal">true</span>/talse
+}
+</code></pre></li>
+<li>PATCH  <code>/api/reaction/{movie_id}</code> update a reaction for current user<pre><code>{
+  <span class="hljs-string">"movie_id"</span>: <span class="hljs-string">"{movie_id}"</span>, (<span class="hljs-name">OPTIONAL</span>)
+  <span class="hljs-string">"like"</span>: <span class="hljs-literal">true</span>/<span class="hljs-literal">false</span>, (<span class="hljs-name">OPTIONAL</span>)
+  <span class="hljs-string">"seen"</span>: <span class="hljs-literal">true</span>/<span class="hljs-literal">false</span> (<span class="hljs-name">OPTIONAL</span>)
+}
+</code></pre></li>
+<li><p>DEL <code>/api/reaction/{movie_id}</code> delete a reaction for current user</p>
+</li>
+<li><p>GET <code>/api/user/</code> get user account info</p>
+<pre><code>{
+  <span class="hljs-string">"id"</span>: {user_id}
+  <span class="hljs-string">"email"</span>: <span class="hljs-string">"{email}"</span>,
+  <span class="hljs-string">"username"</span>: <span class="hljs-string">"{username}"</span>
+}
+</code></pre></li>
+<li>PATCH <code>/api/user/</code> update user account info<pre><code>{
+  <span class="hljs-string">"email"</span>: <span class="hljs-string">"{email}"</span>, (<span class="hljs-name">OPTIONAL</span>)
+  <span class="hljs-string">"password"</span>: <span class="hljs-string">"{password}"</span>, (<span class="hljs-name">OPTIONAL</span>)
+  <span class="hljs-string">"username"</span>: <span class="hljs-string">"{username}"</span> (<span class="hljs-name">OPTIONAL</span>)
+}
+</code></pre></li>
+</ul>
+<h2 id="authentication">Authentication</h2>
+<ul>
+<li>POST <code>/api/auth/register/</code> register <pre><code>{
+  <span class="hljs-attr">"email"</span>: <span class="hljs-string">"{email}"</span>,
+  <span class="hljs-attr">"password"</span>: <span class="hljs-string">"{password(&gt;8 chars)}"</span>,
+  <span class="hljs-attr">"username"</span>: <span class="hljs-string">"{username}"</span>
+}
+</code></pre></li>
+<li>POST <code>/api/auth/login/</code> log in<pre><code>{
+  <span class="hljs-attr">"password"</span>: <span class="hljs-string">"{password}"</span>,
+  <span class="hljs-attr">"username"</span>: <span class="hljs-string">"{username}"</span>
+}
+</code></pre></li>
+</ul>
+  </div>
+  </body>
+</html>

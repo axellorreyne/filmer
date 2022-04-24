@@ -1,6 +1,7 @@
 import axios from "axios";
 const API_URL = "/api/auth/";
 class AuthService {
+  
   login(username, password) {
     return axios
       .post(API_URL + "login/", {
@@ -15,9 +16,11 @@ class AuthService {
         return response.data;
       });
   }
+  
   logout() {
     localStorage.removeItem("user");
   }
+  
   register(username, email, password) {
     return axios.post(API_URL + "register/", {
       username,
@@ -29,5 +32,6 @@ class AuthService {
   getCurrentUser() {
     return JSON.parse(localStorage.getItem('user'));;
   }
+
 }
 export default new AuthService();
