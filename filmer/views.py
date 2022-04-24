@@ -1,14 +1,17 @@
+import json
+
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from filmer.models.Movie import Movie
-from filmer.scrapers.TMDBSCraper import get_movie_info
+from filmer.scrapers.TMDBSCraper import get_movie_info, get_movies_by_string
 from filmer.serializers import MovieSerializer
 
 
 class RandomMovieView(APIView):
     print("gvd")
+
     def get(self, request):
         movie = Movie.get_random_movie()
         return Response(MovieSerializer(movie).data)
@@ -19,28 +22,13 @@ class MovieInfoView(APIView):
         return Response(get_movie_info(movie_id))
 
 
+class MovieSearchView(APIView):
+    def get(self, request):
+        return Response(get_movies_by_string(request.body))
+
+
 class AuthenticatedTest(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
         return Response({"authenticated": True})
-
-
-# Error handling pages
-def custom_bad_request_view(request, exception):
-    return render(request, 'error.html', status=400, 
-            context={code: "400", message: "Test"})
-
-def custom_permission_denied_view(request, exception):
-    return render(request, 'error.html', status=403,
-            context={code: "403", message: "Test"})
-
-def custom_page_not_found_view(request, exception):
-    return render(request, 'error.html', status=404,
-            context={code: "404", message: "Test"})
-
-def custom_error_view(request):
-    return render(request, 'error.html', status=500,
-            context={code: "500", message: "Test"})
-
-

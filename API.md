@@ -9,6 +9,10 @@
 }
 ```
 - GET `/api/movie/{movie_id}` get info about a movie   
+- GET `/api/searchmovie` get a random movie
+```
+Some search term
+```
 [reference](https://developers.themoviedb.org/3/movies/get-movie-details)
 
 ## Authenticated
