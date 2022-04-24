@@ -9,11 +9,13 @@
 }
 ```
 - GET `/api/movie/{movie_id}` get info about a movie   
+[reference](https://developers.themoviedb.org/3/movies/get-movie-details)
 - GET `/api/searchmovie` get a random movie
 ```
 Some search term
 ```
-[reference](https://developers.themoviedb.org/3/movies/get-movie-details)
+- GET `/api/like_count/{movie_id}` get amount of likes for movie id
+- GET `/api/dislike_count/{movie_id}` get amount of dislikes for movie id
 
 ## Authenticated
 - GET  `/api/reaction/` get a list of a reactions for current user
