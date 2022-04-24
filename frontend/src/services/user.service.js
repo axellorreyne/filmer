@@ -5,10 +5,26 @@ import MovieService from "./movie.service";
 const API_URL = "/api/";
 
 class UserService {
+ 
+  getUserBrowserStrorage() {
+    return JSON.parse(localStorage.getItem('user'));;
+  }
   
+  async getUser() {
+    return(
+      await axios.get(API_URL + 'user', {headers: authHeader()}).then(
+        response => {
+          return response.data[0]
+        },
+        error => {
+          return ({data: "failed"})
+        }
+      ));
+  }
+
   async getAuthTest() 
   {
-    return (await axios.get(API_URL + 'auth_test', {headers: authHeader()}).catch(e => {return ({data: "failed"})})).data;
+    return(await axios.get(API_URL + 'auth_test', {headers: authHeader()}).catch(e => {return ({data: "failed"})})).data;
   }
 
   async createReaction(movie_id, like, seen = false) 
@@ -36,7 +52,8 @@ class UserService {
     {
       params.password = password;
     }
-    return await axios.patch(API_URL + 'user/', params, { headers: authHeader() }).data;
+    console.log(params)
+    return(await axios.patch(API_URL + 'user/', params, { headers: authHeader() }).data);
   }
 
 }
