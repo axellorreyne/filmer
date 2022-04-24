@@ -23,10 +23,14 @@ class MovieInfoView(APIView):
         return Response(get_movie_info(movie_id))
 
 
-class ReactionCountView(APIView):
+class LikeCountView(APIView):
     def get(self, request, movie_id):
         return Response(Reaction.objects.filter(movie_id=movie_id, like=True).count())
 
+
+class DislikeCountView(APIView):
+    def get(self, request, movie_id):
+        return Response(Reaction.objects.filter(movie_id=movie_id, like=False).count())
 
 
 class MovieSearchView(APIView):
