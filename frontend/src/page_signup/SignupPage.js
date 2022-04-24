@@ -38,7 +38,7 @@ const vusername = value =>
 const vpassword = value => 
 {
   if (value.length < 8 || value.length > 40) 
-    {
+  {
     return (<div className="rgb-alert" role="alert"> 
         The password must be between 8 and 40 characters. </div>
     );

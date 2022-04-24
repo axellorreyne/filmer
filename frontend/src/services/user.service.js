@@ -6,7 +6,7 @@ const API_URL = "/api/";
 
 class UserService {
  
-  getUserBrowserStrorage() {
+  async getUserFromBrowserStrorage() {
     return JSON.parse(localStorage.getItem('user'));;
   }
   

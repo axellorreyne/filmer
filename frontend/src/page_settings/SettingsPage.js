@@ -9,9 +9,15 @@ import UserService from "../services/user.service";
 import FFooter from "../components/FFooter.js";
 import FHeader from "../components/FHeader";
 
+function requiredValidationTest(value)
+{
+  return((value) ? undefined : 
+    (<div className="rgb-alert" role="alert">This field is required!</div>));
+}
+
 function passwordValidationTest(value)
 {
-  return((value.length >= 8 || value.length <= 40) ? undefined : 
+  return((value.length == 0 || (value.length >= 8 && value.length <= 40)) ? undefined : 
     (<div className="rgb-alert" role="alert"> 
       The password must be between 8 and 40 characters. 
     </div>));
@@ -19,7 +25,7 @@ function passwordValidationTest(value)
 
 function emailValidationTest(value)
 {
-  return((isEmail(value)) ? undefined : 
+  return((value.length == 0 || isEmail(value)) ? undefined : 
     (<div className="rgb-alert" role="alert">This is not a valid email.</div>));
 }
 
@@ -31,6 +37,7 @@ class Profile extends Component {
     this.buttonSetStateUsername = this.buttonSetStateUsername.bind(this);
     this.buttonSetStateEmail = this.buttonSetStateEmail.bind(this);
     this.buttonSetStatePassword = this.buttonSetStatePassword.bind(this);
+    this.buttonSetStateCurrentPassword = this.buttonSetStateCurrentPassword.bind(this);
     this.patchUser = this.patchUser.bind(this);
     this.state = 
       {
@@ -38,9 +45,10 @@ class Profile extends Component {
         password: "",
         email: "",
         loading: false,
-        message: "this is a test error response",
+        message: "",
         currentUsername: "",
         currentEmail: "",
+        currentPassword: "",
       }
   } 
 
@@ -50,7 +58,6 @@ class Profile extends Component {
   {
     document.title = "Filmer: Settings";
     UserService.getUser().then((data) => {
-      console.log(data);
       this.setState({
         currentUsername: data.username,
         currentEmail: data.email,
@@ -73,6 +80,10 @@ class Profile extends Component {
     this.setState({password: button.target.value}) ;
   }
 
+  buttonSetStateCurrentPassword(button)
+  {
+    this.setState({currentPassword: button.target.value}) ;
+  }
 
   patchUser(form)
   {
@@ -81,28 +92,43 @@ class Profile extends Component {
     this.form.validateAll();
     if (this.checkBtn.context._errors.length === 0) 
     {
-      UserService.updateUser(this.state.username, this.state.email, this.state.password).then(
-        () => window.location.reload(),
-        error =>
+      AuthService.login(this.state.currentUsername, this.state.currentPassword).then(
+        () => 
         {
-          const response = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
-          this.setState({loading: false, message: response});
+          UserService.updateUser(this.state.username, this.state.email, this.state.password).then(
+            () => 
+            {
+              window.location.reload()
+            },
+            error =>
+            {
+              const response = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+              this.setState({loading: false, message: response});
+            }
+          )
+        },
+        error => 
+        {
+          const response = error.response
+          let message = "";
+          switch (response.status) 
+          {
+            case (401):
+              message = "You entered a wrong password";
+              break;
+            default:
+              message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+          }
+          this.setState({loading: false, message: message});
         }
       )
     }
+    else 
+    {
+      this.setState({loading: false});
+    }
   }
  
-/*
-   
-1. [x] get button value
-2. [x] execute patch query
-3. [x] show placeholders
-4. [x] show response message on error
-5. [x] check for valid data before sending request
-6. [ ] check old password before sending patch
-
-*/
-
   render() {
     return (
 <div className="h-100 d-flex flex-column m-3 m-xxl-0">
@@ -115,20 +141,25 @@ class Profile extends Component {
         <Form onSubmit={this.patchUser} ref={form => this.form = form}>
           <div>
             <div className="mb-5">
-              <div className="FForm d-lg-flex mb-3 align-items-center">
+              <div className="FForm d-lg-flex mb-3 align-items-baseline">
                 <label className="form-label col-2 rgb-2 ffw-2" htmlFor="username">New Username</label>
                 <Input type="text" className="FFormInput w-100" name="new-username" placeholder={this.state.currentUsername}
                   value={this.state.username} onChange={this.buttonSetStateUsername}/>
               </div>
-              <div className="FForm d-lg-flex mb-3 align-items-center">
+              <div className="FForm d-lg-flex mb-3 align-items-baseline">
                 <label className="form-label col-2 rgb-2 ffw-2" htmlFor="email">New Email</label>
                 <Input type="text" className="FFormInput w-100" name="new-email" placeholder={this.state.currentEmail}
                   value={this.state.email} onChange={this.buttonSetStateEmail} validations={[emailValidationTest]}/>
               </div>
-              <div className="FForm d-lg-flex mb-3 align-items-center">
+              <div className="FForm d-lg-flex mb-3 align-items-baseline">
                 <label className="form-label col-2 rgb-2 ffw-2" htmlFor="password">New Password</label>
-                <Input type="password" className="FFormInput w-100" name="new-password" placeholder={this.state.currentPassword}
+                <Input type="password" className="FFormInput w-100" name="new-password"
                   value={this.state.password} onChange={this.buttonSetStatePassword} validations={[passwordValidationTest]}/>
+              </div>
+              <div className="FForm d-lg-flex mb-3 mt-5 align-items-baseline">
+                <label className="form-label col-2 rgb-2 ffw-2" htmlFor="password">Current Password</label>
+                <Input type="password" className="FFormInput w-100" name="current-password"
+                  value={this.state.currentPassword} onChange={this.buttonSetStateCurrentPassword} validations={[requiredValidationTest]}/>
               </div>
             </div>
             <div className="form-group">
