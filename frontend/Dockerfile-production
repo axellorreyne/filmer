@@ -14,7 +14,7 @@ COPY package.json ./
 COPY package-lock.json ./
 
 # run clean install
-RUN npm ci --silent
+RUN npm ci --silent --force
 
 # Install react scripts
 RUN npm install react-scripts@4.0.3 -g --silent
