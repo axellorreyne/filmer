@@ -4,6 +4,10 @@ import stringSimilarity from "string-similarity";
 import FFooter from "../components/FFooter.js";
 import FHeader from "../components/FHeader";
 import FMovieLine from "../components/FMovieLine";
+import RsrcIconArrowLeft from "../resources/icon_arrow_left.svg";
+import RsrcIconArrowRight from "../resources/icon_arrow_right.svg";
+import RsrcIconArrowLeftActive from "../resources/icon_arrow_left_active.svg";
+import RsrcIconArrowRightActive from "../resources/icon_arrow_right_active.svg";
 
 import MovieService from "../services/movie.service";
 import UserService from "../services/user.service";
@@ -30,7 +34,7 @@ class MyMoviesPage extends Component
     this.formatDirector = this.formatDirector.bind(this);
     this.formatGenres = this.formatGenres.bind(this);
 
-    this.maxOnPage=20
+    this.maxOnPage=18
 
     this.searchTerm = "";
     this.proposedFormat = this.formatTitle;
@@ -216,20 +220,20 @@ class MyMoviesPage extends Component
         proximity = this.newSortOption("Search",this.sortOnScore)
     }
 
-    let prevPage = (this.state.page===1)?
-        <button className="bg-secondary border-white border-1 me-2" disabled >
-            <h3>&#60;</h3>
-                  </button>:
-        <button className="bg-secondary border-white border-1 me-2" onClick={()=>this.changePage(-1)}>
-            <h3>&#60;</h3>
-                  </button>;
-      let nextPage = (this.state.page===Math.ceil(filteredMovies.length/this.maxOnPage))?
-        <button className="bg-secondary border-white border-1 me-2" disabled>
-            <h3>&#62;</h3>
-                  </button>:
-        <button className="bg-secondary border-white border-1 me-2" onClick={()=>this.changePage(1)}>
-            <h3>&#62;</h3>
-                  </button>;
+    let prevPage = (this.state.page===1) ?
+        (<button className="btn" disabled>
+          <img src={RsrcIconArrowLeft} width="21px"/>
+        </button>) :
+        (<button className="btn" onClick={()=>this.changePage(-1)}>
+          <img src={RsrcIconArrowLeftActive} width="21px"/>
+        </button>);
+      let nextPage = (this.state.page===Math.ceil(filteredMovies.length/this.maxOnPage)) ? 
+        (<button className="btn disabled" disabled>
+          <img src={RsrcIconArrowRight} width="21px"/>
+        </button>) :
+        (<button className="btn" onClick={()=>this.changePage(1)}>
+          <img src={RsrcIconArrowRightActive} width="21px"/>
+        </button>);
 
 
     const sortName = this.sortName;
@@ -278,10 +282,10 @@ class MyMoviesPage extends Component
                 <button className="btn btn-primary m-0 p-1 ffw-2 d-md-none w-100 my-3 disabled">Add movie</button>
               </div>
               {rendered}
-              <div className="d-flex pt-5 m-3 m-xl-0 justify-content-center">
+              <div className="d-flex pt-5 m-5 m-xl-0 justify-content-center align-items-baseline">
                   {prevPage}
+                  <p className="ffw-2 mx-2">page {this.state.page}</p>
                   {nextPage}
-                  <h3>page: {this.state.page}</h3>
               </div>
             </div>
           </div>
