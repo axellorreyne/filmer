@@ -84,8 +84,18 @@ class SignupPage extends Component
         response => 
         {
           this.setState({ message: response.data.message, successful: true });
-          this.props.navigate("/home");
-          window.location.reload();
+          AuthService.login(this.state.username, this.state.password).then(
+              () => 
+              {
+                  this.props.navigate("/home");
+                  window.location.reload();
+              },
+              error => 
+              {
+                  const resMessage = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+                  this.setState({successful: false, message: resMessage});
+              }
+          );
         },
         error => 
         {
