@@ -299,7 +299,7 @@ class MyMoviesPage extends Component
                         <img src={RsrcSearchIcon} height="30px" width="30px" className="hover-bg-dark fborder p-2" alt=""/>
                   </button>
                 </div>
-                <div className="col-md-2 dropdown h-50">
+                <div className="col-md-2 col-xxl-1 dropdown h-50">
                   <button type="button" className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown">{sortName}</button>
                   <ul className="dropdown-menu fborder rgb-bg-1 w-100">
                       {titleSort}
