@@ -14,8 +14,9 @@ import UserService from "../services/user.service";
 
 import RsrcSearchIcon from "../resources/icon_search.svg";
 import RsrcLikeIcon from "../resources/icon_heart.svg"
+import RsrcDislikeIcon from "../resources/icon_vomit.svg"
 
-class AddMoviesPage extends Component
+class SearchMoviesPage extends Component
 {
 
   constructor(probs) {
@@ -35,7 +36,7 @@ class AddMoviesPage extends Component
     //sorter: een compare die 2 movie objecten neemt, en een gelijkenis tussen -1 en 1 teruggeeft
     //searchOption: naam van de gekozen zoek optie
     //score: neemt een movie en geeft een gelijkenis met de zoekterm terug. Wordt gebruikt door sorteren en filter
-    this.state = {searchTerm:"",loading:0,movies:[],likedMovies:[],seen:new Map(),sorter:(i,o)=>0};
+    this.state = {searchTerm:"",loading:0,movies:[],likedMovies:new Map(),seen:new Map(),sorter:(i,o)=>0};
   }
 
     setSearchTerm(st){
@@ -43,9 +44,9 @@ class AddMoviesPage extends Component
     }
 
     sortOnSeen(i,o){
-      const iSeen = this.state.likedMovies.includes(i.id.toString())
-      const oSeen = this.state.likedMovies.includes(o.id.toString())
-     return (iSeen===oSeen)?0:(iSeen)?1:-1
+      const iSeen = this.state.likedMovies.get(i.id.toString())
+      const oSeen = this.state.likedMovies.get(o.id.toString())
+     return (iSeen)?(oSeen)?0:1:(oSeen)?-1:0
     }
 
     sortOnTitle(i,o){
@@ -69,12 +70,24 @@ class AddMoviesPage extends Component
       if(finalTerm.length===0){
           this.setState({movies:[],seen:new Map(),loading:false})
       }
-      else
-          UserService.searchMovie(finalTerm).then(movies=> {
-              this.sortName="Search"
-                  this.setState(prev=>({sorter:this.sortOnScore,loading:prev.loading-1,movies,seen:new Map(movies.map(movie=>[movie.id,false]))}))
+      else {
+          UserService.searchMovie(finalTerm).then(movies => {
+                  this.sortName = "Search"
+
+                    movies.forEach(movie => {
+                        if(!this.state.seen.has(movie.id.toString()))
+                            this.state.seen.set(movie.id.toString(), false)})
+                    movies.forEach(movie => {
+                        if(!this.state.likedMovies.has(movie.id.toString()))
+                            this.state.likedMovies.set(movie.id.toString(), false)})
+                  this.setState(prev => ({
+                      sorter: this.sortOnScore,
+                      loading: prev.loading - 1,
+                      movies
+                  }))
               }
           )
+      }
     }
 
     newSortOption(name,sorter){
@@ -96,8 +109,10 @@ class AddMoviesPage extends Component
       this.setState(prev=>({loading:prev.loading+1}))
     UserService.getReactions().then(reactions=>{
             this.allReactions=reactions.map(reaction=>reaction.movie_id)
-            let likedMovies = reactions.filter(reaction=>reaction.like).map(reaction=>reaction.movie_id)
-            this.setState(prev=>({likedMovies,loading:prev.loading-1}))
+            reactions.forEach(react=>this.state.seen.set(react.movie_id,react.seen))
+        console.log(this.state.seen)
+            reactions.forEach(reaction=>this.state.likedMovies.set(reaction.movie_id,reaction.like))
+            this.setState(prev=>({loading:prev.loading-1}))
         })
     document.title = "Filmer: Add Movies";
   }
@@ -118,26 +133,36 @@ class AddMoviesPage extends Component
     let rendered = this.state.movies.sort(this.state.sorter)
         .map(ele=>{
             let id = ele.id.toString()
-            return <FMovieLine renderButtons={!this.state.likedMovies.includes(id)} movie={ele} seen={this.state.seen.get(ele.id)}
-                    onSeen={()=>this.setState(prev=>{
-                        prev.seen.set(ele.id,!prev.seen.get(ele.id))
+            return <FMovieLine movie={ele} seen={this.state.seen.get(id)}
+                    onSeen={()=>{this.setState(prev=>{
+                        prev.seen.set(id,!prev.seen.get(id))
                         return prev
-                    })}
+                    })
+                    if(this.allReactions.includes(id)){
+                        console.log(id)
+                        console.log(this.state.likedMovies.get(id))
+                        console.log(this.state.seen.get(id))
+                            UserService.changeReaction(id,this.state.likedMovies.get(id),!this.state.seen.get(id))
+                        }else{
+                            UserService.createReaction(id,this.state.likedMovies.get(id),!this.state.seen.get(id))
+                            this.allReactions.push(id)
+                        }
+                    }}
                     onReact={()=>{
                         this.setState(prev=>{
-                            prev.likedMovies.push(id)
+                            prev.likedMovies.set(id,!prev.likedMovies.get(id))
                             return prev
                         })
-                        console.log(this.state.seen.get(ele.id))
                         if(this.allReactions.includes(id)){
-                            UserService.changeReaction(ele.id,true,this.state.seen[ele.id])
+                            UserService.changeReaction(id,!this.state.likedMovies.get(id),this.state.seen.get(id))
                         }else{
-                            UserService.createReaction(ele.id,true,this.state.seen[ele.id])
+                            UserService.createReaction(id,!this.state.likedMovies.get(id),this.state.seen.get(id))
+                            this.allReactions.push(id)
                         }
                     }}
                     isLinked={true}
                     renderInfo={false}
-                    reactIcon={RsrcLikeIcon}/>}
+                    reactIcon={(this.state.likedMovies.get(id))?RsrcDislikeIcon:RsrcLikeIcon}/>}
 
     )
     if(rendered.length===0) {
@@ -159,14 +184,14 @@ class AddMoviesPage extends Component
     const sortName = this.sortName;
       const popuSort = this.newSortOption("Popularity",this.sortOnPopularity)
       const titleSort = this.newSortOption("Title",this.sortOnTitle)
-      const seenSort = this.newSortOption("Seen",this.sortOnSeen)
+      const seenSort = this.newSortOption("Reaction",this.sortOnSeen)
     return (
       <div className="h-100 d-flex flex-column m-3 m-xl-0">
         <FHeader/>
         <main className="mb-5 container-fluid">
           <div className="my-5 d-lg-flex justify-content-around align-items-center">
             <div className="col-lg-7 mx-md-5 mb-5" >
-              <p className="ffs-1 ffw-2 m-0 p-0 me-4">Add movies</p>
+              <p className="ffs-1 ffw-2 m-0 p-0 me-4">Search Movies</p>
               <div className="d-md-flex mt-4 justify-content-start align-items-center">
                   <div className="col-md-2 dropdown h-50">
                     <button type="button" className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown">{sortName}</button>
@@ -196,5 +221,5 @@ class AddMoviesPage extends Component
 
 }
 
-export default AddMoviesPage;
+export default SearchMoviesPage;
 

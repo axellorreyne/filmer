@@ -15,7 +15,6 @@ class FMovieLine extends Component
     render ()
     {
         const linked = this.props.isLinked
-        const buttons = this.props.renderButtons
         const info = this.props.renderInfo
         const setSeen = this.props.onSeen
         const setDislike = this.props.onReact
@@ -33,14 +32,12 @@ class FMovieLine extends Component
             <img src={RsrcIconSeen} width="18px" className="me-2" alt=""/>
             :<img src={RsrcIconNotSeen} width="18px" className="me-2" alt=""/>
 
-        const check = (buttons)?
-            <button onClick={()=>setSeen()} className="bg-transparent border-0">
+        const check = <button onClick={()=>setSeen()} className="bg-transparent border-0">
                 {inner}
-            </button>:<></>
-        const vomit = (buttons)?
-            <button className="bg-transparent border-0 " onClick={()=>setDislike()}>
+            </button>
+        const vomit = <button className="bg-transparent border-0 " onClick={()=>setDislike()}>
                     <img src={reactIcon} width="18px" className="me-2" alt=""/>
-                </button>:<></>
+                </button>
         let line ;
         if(info){
             const tags = this.props.movie.genres.map(genre=>genre.name)

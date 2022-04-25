@@ -12,7 +12,7 @@ import MyMoviesPage from "../page_mymovies/MyMoviesPage";
 import FriendsPage from "../page_friends/FriendsPage";
 import NotImplementedPage from "../page_notimplemented/NotImplementedPage";
 import SolidLoginPage from "../page_solidlogin/SolidLoginPage";
-import AddMoviesPage from "../page_addmovies/AddMoviesPage";
+import SearchMoviesPage from "../page_searchmovies/SearchMoviesPage";
 import FHeader from "./FHeader";
 import FFooter from "./FFooter";
 
@@ -57,7 +57,7 @@ class FTotalRoutes extends Component {
                         <Route path="/friends" element={this.check(<FriendsPage/>)}/>
                         <Route path="/notimplemented" element={<NotImplementedPage/>}/>
                         <Route path="/solidlogin" element={<SolidLoginPage/>}/>
-                        <Route path="/addmovies" element={this.check(<AddMoviesPage/>)}/>
+                        <Route path="/addmovies" element={this.check(<SearchMoviesPage/>)}/>
                     </Routes>
                 </BrowserRouter>
     }
