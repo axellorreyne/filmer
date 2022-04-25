@@ -25,7 +25,7 @@ class AddMoviesPage extends Component
     this.sortOnSeen = this.sortOnSeen.bind(this);
     this.sortOnTitle = this.sortOnTitle.bind(this);
     this.sortOnScore = this.sortOnScore.bind(this);
-
+    this.sortOnPopularity = this.sortOnPopularity.bind(this)
     this.newSortOption = this.newSortOption.bind(this);
 
     this.allReactions = []
@@ -53,6 +53,9 @@ class AddMoviesPage extends Component
                             (i.original_title.toUpperCase()>o.original_title.toUpperCase())?1:-1
     }
 
+    sortOnPopularity(i,o){
+      return o.vote_average-i.vote_average
+    }
 
     sortOnScore(i,o){
         return stringSimilarity.compareTwoStrings(o.original_title,this.currentSearchTerm)+(this.currentSearchTerm.includes(i.id.toString())?0.2:0)
@@ -154,7 +157,7 @@ class AddMoviesPage extends Component
 
 
     const sortName = this.sortName;
-
+      const popuSort = this.newSortOption("Popularity",this.sortOnPopularity)
       const titleSort = this.newSortOption("Title",this.sortOnTitle)
       const seenSort = this.newSortOption("Seen",this.sortOnSeen)
     return (
@@ -170,6 +173,7 @@ class AddMoviesPage extends Component
                     <ul className="dropdown-menu fborder rgb-bg-1 w-100">
                         {titleSort}
                         {seenSort}
+                        {popuSort}
                         {proximity}
                     </ul>
                   </div>

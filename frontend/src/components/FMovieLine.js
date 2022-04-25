@@ -21,6 +21,7 @@ class FMovieLine extends Component
         const setDislike = this.props.onReact
         const reactIcon = this.props.reactIcon
         const name = this.props.movie.original_title
+        const score = this.props.movie.vote_average.toFixed(1)
         const link = (linked)?<button className="bg-transparent border-0" onClick={()=>{
                                         HomePage.preloaded=this.props.movie.id
                                         this.props.navigate("/home")
@@ -43,7 +44,6 @@ class FMovieLine extends Component
         let line ;
         if(info){
             const tags = this.props.movie.genres.map(genre=>genre.name)
-            const score = this.props.movie.vote_average.toFixed(1)
             const director = this.props.movie.credits.crew.filter(x=>x.job==="Director").slice(0,3).map(x=>x.name).sort().join(", ")
 
             line=
@@ -67,6 +67,8 @@ class FMovieLine extends Component
                     <div className="d-flex justify-content-end align-items-end">
                         <div className="d-flex justify-content-between">
                             <div className="d-flex align-items-center me-3">
+                                <img src={RsrcIconStar} width="18px" className="me-2" alt=""/>
+                                {score}
                             </div>
                             {check}
                             {vomit}

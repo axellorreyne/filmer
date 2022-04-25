@@ -28,6 +28,8 @@ class MyMoviesPage extends Component
     this.sortOnTitle = this.sortOnTitle.bind(this);
     this.sortOnDirectors = this.sortOnDirectors.bind(this);
     this.sortOnScore = this.sortOnScore.bind(this);
+    this.sortOnPopularity = this.sortOnPopularity.bind(this)
+
     this.newSortOption = this.newSortOption.bind(this);
     this.newSearchOption = this.newSearchOption.bind(this);
 
@@ -90,6 +92,10 @@ class MyMoviesPage extends Component
     sortOnScore(i,o){
         return this.state.score(o)
             - this.state.score(i)
+    }
+
+    sortOnPopularity(i,o){
+      return o.movie.vote_average-i.movie.vote_average
     }
 
     setFilterSearch(){
@@ -246,6 +252,7 @@ class MyMoviesPage extends Component
     const sortName = this.sortName;
     const searchOption = this.state.searchOption;
 
+      const popuSort = this.newSortOption("Popularity",this.sortOnPopularity)
       const titleSort = this.newSortOption("Title",this.sortOnTitle)
       const directorSort = this.newSortOption("Directors",this.sortOnDirectors)
       const seenSort = this.newSortOption("Seen",this.sortOnSeen)
@@ -267,6 +274,7 @@ class MyMoviesPage extends Component
                         {titleSort}
                         {directorSort}
                         {seenSort}
+                        {popuSort}
                         {proximity}
                     </ul>
                   </div>

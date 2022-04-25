@@ -54,10 +54,10 @@ class FTotalRoutes extends Component {
                         <Route path="/signup" element={<SignupPage/>}/>
                         <Route path="/settings" element={this.check(<SettingsPage/>)}/>
                         <Route path="/mymovies" element={this.check(<MyMoviesPage/>)}/>
-                        <Route path="/friends" element={<FriendsPage/>}/>
+                        <Route path="/friends" element={this.check(<FriendsPage/>)}/>
                         <Route path="/notimplemented" element={<NotImplementedPage/>}/>
                         <Route path="/solidlogin" element={<SolidLoginPage/>}/>
-                        <Route path="/addmovies" element={<AddMoviesPage/>}/>
+                        <Route path="/addmovies" element={this.check(<AddMoviesPage/>)}/>
                     </Routes>
                 </BrowserRouter>
     }
