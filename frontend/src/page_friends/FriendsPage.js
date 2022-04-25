@@ -58,7 +58,15 @@ class FriendsPage extends Component
       </div>
     );
 
-    let namesSearch = ["vim", "Elias"];
+    let namesSearch = [
+      "vim", 
+      "vim", 
+      "vim", 
+      "vim", 
+      "vim", 
+      "vim", 
+      "Elias"
+    ];
     let addFriendButton = (x) => 
     {
       if (names.includes(x)) {

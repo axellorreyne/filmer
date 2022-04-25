@@ -22,9 +22,11 @@ class HomePage extends Component
       this.likeMovie = this.likeMovie.bind(this);
       this.dislikeMovie = this.dislikeMovie.bind(this);
       this.flipSeen = this.flipSeen.bind(this);
-      this.state = { 
+      this.state = {
         expandDescription: false,
         disableButtons: "disabled",
+        likes: "",
+        dislikes : "",
         movie: {
           adult: false, 
           backdrop_path: "", 
@@ -85,7 +87,11 @@ class HomePage extends Component
   loadMovie()
   {
     this.setState({disableButtons: "disabled"})
-    MovieService.getRandomMovieInfo().then(data => {this.setState({expandDescription: false, disableButtons: "", movie: data})});
+    MovieService.getRandomMovieInfo().then(data => {
+      this.setState({expandDescription: false, disableButtons: "", movie: data})
+      UserService.likeCount(data.id).then((likes)=>this.setState({likes}))
+      UserService.dislikeCount(data.id).then((dislikes)=>this.setState({dislikes}))
+    });
   }
 
   rateMovie(liked)
@@ -112,6 +118,7 @@ class HomePage extends Component
 
   render()
   {
+    console.log(this.state.movie.id)
     const icon_width   = "19px";
     const icon_width_2 = "33px";
     const icon_width_mobile = "27px";
@@ -145,9 +152,13 @@ class HomePage extends Component
     const directors = [...new Set(movie.credits.crew.filter((x) => x.job === "Director").slice(0,5).map((x) => x.name))];
     const writers = [...new Set(movie.credits.crew.filter((x) => (x.department === "Writing") && (x.job = "Screenplay")).slice(0,5).map((x) => x.name))];
     const starring = [...new Set(movie.credits.cast.filter((x) => x.popularity > 15).slice(0, 5).map((x) => x.name).sort((x,y) => x.popularity - y.popularity))];
-    
-    const likes = 0;
-    const dislikes = 0;
+
+    let likes = this.state.likes;
+    let dislikes = this.state.dislikes;
+    if(likes==="" ||dislikes===""){
+      likes=""
+      dislikes=""
+    }
 
     return(
 <div className="h-100 d-flex flex-column m-xl-0">

@@ -7,7 +7,6 @@ from django.db import models
 # Create your models here.
 from django.db.models import Max
 
-
 class Movie(models.Model):
     title = models.CharField(max_length=100)
     movie_id = models.CharField(max_length=100, unique=True)
@@ -21,13 +20,3 @@ class Movie(models.Model):
             category = Movie.objects.filter(pk=pk).first()
             if category:
                 return category
-
-
-class Reaction(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    movie_id = models.CharField(max_length=100)
-    like = models.BooleanField()
-    seen = models.BooleanField()
-
-    class Meta:
-        unique_together = ('user', 'movie_id')

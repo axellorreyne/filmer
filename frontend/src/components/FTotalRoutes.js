@@ -11,6 +11,7 @@ import SettingsPage from "../page_settings/SettingsPage";
 import MyMoviesPage from "../page_mymovies/MyMoviesPage";
 import FriendsPage from "../page_friends/FriendsPage";
 import NotImplementedPage from "../page_notimplemented/NotImplementedPage";
+import SolidLoginPage from "../page_solidlogin/SolidLoginPage";
 
 class FTotalRoutes extends Component {
 
@@ -43,6 +44,7 @@ class FTotalRoutes extends Component {
                         <Route path="/mymovies" element={this.check(<MyMoviesPage/>)}/>
                         <Route path="/friends" element={<FriendsPage/>}/>
                         <Route path="/notimplemented" element={<NotImplementedPage/>}/>
+                        <Route path="/solidlogin" element={<SolidLoginPage/>}/>
                     </Routes>
                 </BrowserRouter>
     }
