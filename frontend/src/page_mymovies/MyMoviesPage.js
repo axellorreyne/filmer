@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import stringSimilarity from "string-similarity";
+import {withRouter} from "../tools/WithRouter";
 
 import FFooter from "../components/FFooter.js";
 import FHeader from "../components/FHeader";
@@ -13,6 +14,7 @@ import MovieService from "../services/movie.service";
 import UserService from "../services/user.service";
 
 import RsrcSearchIcon from "../resources/icon_search.svg";
+import RsrcPukeIcon from "../resources/icon_vomit.svg";
 
 class MyMoviesPage extends Component
 {
@@ -26,7 +28,7 @@ class MyMoviesPage extends Component
     this.sortOnTitle = this.sortOnTitle.bind(this);
     this.sortOnDirectors = this.sortOnDirectors.bind(this);
     this.sortOnScore = this.sortOnScore.bind(this);
-
+    this.goToAddMovies = this.goToAddMovies.bind(this)
     this.newSortOption = this.newSortOption.bind(this);
     this.newSearchOption = this.newSearchOption.bind(this);
 
@@ -45,13 +47,17 @@ class MyMoviesPage extends Component
     //sorter: een compare die 2 movie objecten neemt, en een gelijkenis tussen -1 en 1 teruggeeft
     //searchOption: naam van de gekozen zoek optie
     //score: neemt een movie en geeft een gelijkenis met de zoekterm terug. Wordt gebruikt door sorteren en filter
-    this.state = {movies:new Map(),page:1,sorter:(i,o)=>0,searchOption:"Title",score:(i)=>1};
+    this.state = {movies:new Map([["",{}]]),page:1,sorter:(i,o)=>0,searchOption:"Title",score:(i)=>1};
   }
 
     changePage(inc){
       this.setState((prev,_)=>({page:prev.page+inc}));
     }
 
+    goToAddMovies(){
+      this.props.navigate("/addmovies")
+        window.location.reload();
+    }
 
     setSearchTerm(st){
       this.searchTerm = st.target.value
@@ -158,7 +164,10 @@ class MyMoviesPage extends Component
   componentDidMount()
   {
     UserService.getReactions().then((data)=> {
+
         let filtered = data.filter(movie => movie.like)
+        this.allMovies = filtered.length
+        this.setState({movies:new Map()})
         filtered.forEach(movie=> {
             MovieService.getMovieInfo(movie.movie_id).then(info => {
                     this.setState(prev=>{
@@ -168,7 +177,6 @@ class MyMoviesPage extends Component
                 }
             )
         })
-        this.allMovies = filtered.length
     })
     document.title = "Filmer: My Movies";
   }
@@ -176,6 +184,8 @@ class MyMoviesPage extends Component
   render ()
   {
       let movies  = Array.from(this.state.movies.values())
+      console.log(movies)
+      console.log(this.allMovies)
       if(movies.length!==this.allMovies){
       return(
         <div className="container h-100 d-flex flex-column align-items-center">
@@ -193,14 +203,14 @@ class MyMoviesPage extends Component
         .filter(i=>this.state.score(i)>=minimum_likelihood)
     const amount = filteredMovies.length
     let rendered = filteredMovies.slice(this.maxOnPage*(this.state.page-1),this.maxOnPage*this.state.page).map(ele=>{
-        return <FMovieLine movie={ele.movie} seen={ele.seen} onSeen={()=>{
+        return <FMovieLine movie={ele.movie} seen={ele.seen} renderButtons={true} renderInfo={true} onSeen={()=>{
             UserService.changeReaction(ele.movie.id,true,!ele.seen)
             this.setState(prev=>{
                 prev.movies.set(ele.movie.id.toString(),{movie:ele.movie,seen:!ele.seen})
                 return prev
             })
         }}
-        onDislike={()=>{
+        onReact={()=>{
             this.allMovies--;
             UserService.changeReaction(ele.movie.id,false,ele.movie.seen)
             this.setState(prev=>{
@@ -208,7 +218,7 @@ class MyMoviesPage extends Component
                 return prev
             })
         }
-        }/>});
+        } reactIcon={RsrcPukeIcon}/>});
     if(amount === 0) {
         let text = "Like movies on the homepage to view them here!"
         if(this.searchView)
@@ -282,8 +292,8 @@ class MyMoviesPage extends Component
                         <img src={RsrcSearchIcon} height="30px" width="30px" className="hover-bg-dark fborder p-2" alt=""/>
                   </button>
                 </div>
-                <button className="btn btn-primary m-0 p-1 ffw-2 d-none d-md-block disabled">Add movie</button>
-                <button className="btn btn-primary m-0 p-1 ffw-2 d-md-none w-100 my-3 disabled">Add movie</button>
+                <button className="btn btn-primary m-0 p-1 ffw-2 d-none d-md-block " onClick={this.goToAddMovies} >Add movie</button>
+                <button className="btn btn-primary m-0 p-1 ffw-2 d-md-none w-100 my-3 " onClick={this.goToAddMovies} >Add movie</button>
               </div>
               {rendered}
               <div className="d-flex pt-5 m-5 m-xl-0 justify-content-center align-items-baseline">
@@ -301,5 +311,5 @@ class MyMoviesPage extends Component
 
 }
 
-export default MyMoviesPage;
+export default withRouter(MyMoviesPage);
 

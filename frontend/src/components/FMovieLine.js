@@ -10,41 +10,65 @@ class FMovieLine extends Component
 {
     render ()
     {
+        const buttons = this.props.renderButtons
+        const info = this.props.renderInfo
         const setSeen = this.props.onSeen
-        const setDislike = this.props.onDislike
+        const setDislike = this.props.onReact
+        const reactIcon = this.props.reactIcon
         const name = this.props.movie.original_title
-        const tags = this.props.movie.genres.map(genre=>genre.name)
-        const score = this.props.movie.vote_average.toFixed(1)
-        const director = this.props.movie.credits.crew.filter(x=>x.job==="Director").slice(0,3)
-            .map(x=>x.name).sort().join(", ")
+
         const inner =
             (this.props.seen)?
             <img src={RsrcIconSeen} width="18px" className="me-2" alt=""/>
             :<img src={RsrcIconNotSeen} width="18px" className="me-2" alt=""/>
 
-        const check =
+        const check = (buttons)?
             <button onClick={()=>setSeen()} className="bg-transparent border-0">
                 {inner}
-            </button>
+            </button>:<></>
+        const vomit = (buttons)?
+            <button className="bg-transparent border-0 " onClick={()=>setDislike()}>
+                    <img src={reactIcon} width="18px" className="me-2" alt=""/>
+                </button>:<></>
+        let line ;
+        if(info){
+            const tags = this.props.movie.genres.map(genre=>genre.name)
+            const score = this.props.movie.vote_average.toFixed(1)
+            const director = this.props.movie.credits.crew.filter(x=>x.job==="Director").slice(0,3).map(x=>x.name).sort().join(", ")
+
+            line=
+                <div>
+                    <div className="rgb-2">{director}</div>
+                    <div className="d-flex justify-content-between align-items-end">
+                        <FTagList tags={tags}/>
+                        <div className="d-flex justify-content-between">
+                            <div className="d-flex align-items-center me-3">
+                                <img src={RsrcIconStar} width="18px" className="me-2" alt=""/>
+                                {score}
+                            </div>
+                            {check}
+                            {vomit}
+                        </div>
+                    </div>
+                </div>
+        }else{
+            line=<div>
+                    <div className="d-flex justify-content-end align-items-end">
+                        <div className="d-flex justify-content-between">
+                            <div className="d-flex align-items-center me-3">
+                            </div>
+                            {check}
+                            {vomit}
+                        </div>
+                    </div>
+                </div>
+        }
 
         return (
           <div>
             <hr className="my-md-2"/>
             <div className="ffs-2 ffw-2 me-3">{name}</div>
-            <div className="rgb-2">{director}</div>
-            <div className="d-flex justify-content-between align-items-end">
-              <FTagList tags={tags}/>
-              <div className="d-flex justify-content-between">
-                <div className="d-flex align-items-center me-3">
-                  <img src={RsrcIconStar} width="18px" className="me-2" alt=""/>
-                  {score}
-                </div>
-                {check}
-                <button className="bg-transparent border-0 " onClick={()=>setDislike()}>
-                    <img src={RsrcPukeIcon} width="18px" className="me-2" alt=""/>
-                </button>
-              </div>
-            </div>
+              {line}
           </div>
         );
     }
