@@ -56,7 +56,6 @@ class MyMoviesPage extends Component
 
     goToAddMovies(){
       this.props.navigate("/addmovies")
-        window.location.reload();
     }
 
     setSearchTerm(st){

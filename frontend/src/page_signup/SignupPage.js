@@ -85,7 +85,6 @@ class SignupPage extends Component
         {
           this.setState({ message: response.data.message, successful: true });
           this.props.navigate("/home");
-          window.location.reload();
         },
         error => 
         {

@@ -14,7 +14,7 @@ import RsrcIconVomit from "../resources/icon_vomit.svg";
 
 class HomePage extends Component
 {
-  
+  static preloaded = ""
   constructor(props)
   {
       super(props)
@@ -87,7 +87,14 @@ class HomePage extends Component
   loadMovie()
   {
     this.setState({disableButtons: "disabled"})
-    MovieService.getRandomMovieInfo().then(data => {
+    let prom;
+    if(HomePage.preloaded==="")
+      prom = MovieService.getRandomMovieInfo()
+    else{
+      prom = MovieService.getMovieInfo(HomePage.preloaded)
+      HomePage.preloaded=""
+    }
+    prom.then(data => {
       this.setState({expandDescription: false, disableButtons: "", movie: data})
       UserService.likeCount(data.id).then((likes)=>this.setState({likes}))
       UserService.dislikeCount(data.id).then((dislikes)=>this.setState({dislikes}))

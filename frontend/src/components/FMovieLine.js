@@ -8,6 +8,7 @@ import RsrcIconStar from "../resources/icon_star.svg"
 import RsrcPukeIcon from "../resources/icon_vomit.svg"
 import {withRouter} from "../tools/WithRouter";
 import RsrcSearchIcon from "../resources/icon_search.svg";
+import HomePage from "../page_home/HomePage";
 
 class FMovieLine extends Component
 {
@@ -21,9 +22,8 @@ class FMovieLine extends Component
         const reactIcon = this.props.reactIcon
         const name = this.props.movie.original_title
         const link = (linked)?<button className="bg-transparent border-0" onClick={()=>{
-                                        MovieService.loadNext(this.props.movie.id)
+                                        HomePage.preloaded=this.props.movie.id
                                         this.props.navigate("/home")
-                                        window.location.reload()
                                     }}>
                         <img src={RsrcSearchIcon} height="30px" width="30px" className="hover-bg-dark fborder p-2" alt=""/>
                   </button>:<></>
@@ -56,9 +56,9 @@ class FMovieLine extends Component
                                 <img src={RsrcIconStar} width="18px" className="me-2" alt=""/>
                                 {score}
                             </div>
-                            {link}
                             {check}
                             {vomit}
+                            {link}
                         </div>
                     </div>
                 </div>
@@ -68,9 +68,9 @@ class FMovieLine extends Component
                         <div className="d-flex justify-content-between">
                             <div className="d-flex align-items-center me-3">
                             </div>
-                            {link}
                             {check}
                             {vomit}
+                            {link}
                         </div>
                     </div>
                 </div>
