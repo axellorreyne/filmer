@@ -184,16 +184,42 @@ class MyMoviesPage extends Component
 
   render ()
   {
-      let movies  = Array.from(this.state.movies.values())
-      if(movies.length!==this.allMovies){
+    let movies  = Array.from(this.state.movies.values())
+    if(movies.length!==this.allMovies){
       return(
-        <div className="container h-100 d-flex flex-column align-items-center">
-          <FHeader/>
-          <div className="mb-auto mt-auto text-center">
-            <span className="spinner-border spinner-border-sm me-3"/>
+      <div className="h-100 d-flex flex-column m-3 m-xl-0">
+        <FHeader/>
+        <main className="mb-5 container-fluid">
+          <div className="my-5 d-lg-flex justify-content-around align-items-center">
+            <div className="col-lg-7 mx-md-5 mb-5" >
+              <p className="ffs-1 ffw-2 m-0 p-0 me-4">My movies (0)</p>
+              <div className="d-md-flex mt-4 justify-content-between align-items-center">
+                <div className="col-md-6 d-flex align-items-center">
+                  <input type="text" className="FFormInput h-50 w-100 my-2 me-2" id="search"
+                         placeholder="Search"/>
+                  <div className="col-xl-3 dropdown">
+                    <button type="button" className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown"></button>
+                    <ul className="dropdown-menu fborder rgb-bg-1 w-100">
+                    </ul>
+                  </div>
+                  <button className="bg-transparent border-0">
+                        <img src={RsrcSearchIcon} height="30px" width="30px" className="hover-bg-dark fborder p-2" alt=""/>
+                  </button>
+                </div>
+                <div className="col-md-2 col-xxl-1 dropdown h-50">
+                  <button type="button" className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown"></button>
+                  <ul className="dropdown-menu fborder rgb-bg-1 w-100">
+                  </ul>
+                </div>
+              </div>
+              <div className="mt-5 pt-5 mb-auto d-flex justify-content-center">
+                <span className="spinner-border spinner-border-sm"/>
+              </div>
+            </div>
           </div>
-          <FFooter/>
-        </div>
+        </main>
+        <FFooter/>
+      </div>
       );
     }
     const minimum_likelihood = 0.2;
@@ -268,16 +294,7 @@ class MyMoviesPage extends Component
             <div className="col-lg-7 mx-md-5 mb-5" >
               <p className="ffs-1 ffw-2 m-0 p-0 me-4">My movies ({amount})</p>
               <div className="d-md-flex mt-4 justify-content-between align-items-center">
-                  <div className="col-md-2 dropdown h-50">
-                    <button type="button" className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown">{sortName}</button>
-                    <ul className="dropdown-menu fborder rgb-bg-1 w-100">
-                        {titleSort}
-                        {directorSort}
-                        {seenSort}
-                        {popuSort}
-                        {proximity}
-                    </ul>
-                  </div>
+
                 <div className="col-md-6 d-flex align-items-center">
                   <input type="text" className="FFormInput h-50 w-100 my-2 me-2" id="search"
                          placeholder="Search"  onChange={this.setSearchTerm}/>
@@ -293,6 +310,17 @@ class MyMoviesPage extends Component
                         <img src={RsrcSearchIcon} height="30px" width="30px" className="hover-bg-dark fborder p-2" alt=""/>
                   </button>
                 </div>
+
+                <div className="col-md-2 col-xxl-1 dropdown h-50">
+                  <button type="button" className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown">{sortName}</button>
+                  <ul className="dropdown-menu fborder rgb-bg-1 w-100">
+                      {titleSort}
+                      {directorSort}
+                      {seenSort}
+                      {proximity}
+                  </ul>
+                </div>
+
               </div>
               {rendered}
               <div className="d-flex pt-5 m-5 m-xl-0 justify-content-center align-items-baseline">

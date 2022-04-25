@@ -15,6 +15,8 @@ import SolidLoginPage from "../page_solidlogin/SolidLoginPage";
 import SearchMoviesPage from "../page_searchmovies/SearchMoviesPage";
 import FHeader from "./FHeader";
 import FFooter from "./FFooter";
+import RoomPage from "../page_room/RoomPage";
+import RoomHubPage from "../page_roomhub/RoomHubPage";
 
 class FTotalRoutes extends Component {
 
@@ -54,10 +56,12 @@ class FTotalRoutes extends Component {
                         <Route path="/signup" element={<SignupPage/>}/>
                         <Route path="/settings" element={this.check(<SettingsPage/>)}/>
                         <Route path="/mymovies" element={this.check(<MyMoviesPage/>)}/>
-                        <Route path="/friends" element={this.check(<FriendsPage/>)}/>
                         <Route path="/notimplemented" element={<NotImplementedPage/>}/>
                         <Route path="/solidlogin" element={<SolidLoginPage/>}/>
                         <Route path="/addmovies" element={this.check(<SearchMoviesPage/>)}/>
+                        <Route path="/solidlogin" element={<SolidLoginPage/>}/>
+                        <Route path="/room" element={<RoomPage/>}/>
+                        <Route path="/roomhub" element={<RoomHubPage/>}/>
                     </Routes>
                 </BrowserRouter>
     }

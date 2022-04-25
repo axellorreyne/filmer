@@ -8,8 +8,5 @@ import './style.css';
 
 import FTotalRoutes from "./components/FTotalRoutes";
 
-ReactDOM.render(
-        <FTotalRoutes/>,
-    document.getElementById('root')
-);
+ReactDOM.render(<FTotalRoutes/>, document.getElementById('root'));
 
