@@ -34,7 +34,7 @@ class MyMoviesPage extends Component
     this.formatDirector = this.formatDirector.bind(this);
     this.formatGenres = this.formatGenres.bind(this);
 
-    this.maxOnPage=18
+    this.maxOnPage=20
 
     this.searchTerm = "";
     this.proposedFormat = this.formatTitle;
@@ -110,7 +110,7 @@ class MyMoviesPage extends Component
       }
 
       this.searchView = finalTerm.length!==0;
-      this.setState({score:iS=>{
+      this.setState({page:1,score:iS=>{
             const i = format(iS)
             const max = i.map(x=>
                 score(x.toUpperCase())
@@ -227,7 +227,7 @@ class MyMoviesPage extends Component
         (<button className="btn" onClick={()=>this.changePage(-1)}>
           <img src={RsrcIconArrowLeftActive} width="21px"/>
         </button>);
-      let nextPage = (this.state.page===Math.ceil(filteredMovies.length/this.maxOnPage)) ? 
+      let nextPage = (this.state.page>=Math.ceil(filteredMovies.length/this.maxOnPage)) ?
         (<button className="btn disabled" disabled>
           <img src={RsrcIconArrowRight} width="21px"/>
         </button>) :
