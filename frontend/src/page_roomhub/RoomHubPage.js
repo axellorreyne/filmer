@@ -5,6 +5,7 @@ import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 import AuthService from "../services/auth.service";
 import UserService from "../services/user.service";
+import GroupService from "../services/group.service";
 
 import FFooter from "../components/FFooter.js";
 import FHeader from "../components/FHeader";
@@ -59,6 +60,28 @@ class RoomHub extends Component {
     // [ ] send request for new room
     // [ ] get back id for new room
     // [ ] go to room
+    form.preventDefault();
+    this.setState({message: "", loading: true})
+    this.formCreate.validateAll();
+    if (this.checkBtnCreate.context._errors.length === 0) 
+    {
+      GroupService.createGroup().then(
+        (data) => 
+        {
+          console.log(data);
+          this.setState({loading: false});
+        },
+        (error) => 
+        {
+          this.setState({loading: false});
+        }
+      );
+    }
+    else 
+    {
+      console.log("error");
+      this.setState({loading: false});
+    }
   }
 
   joinRoom(form)

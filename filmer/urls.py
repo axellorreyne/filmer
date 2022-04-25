@@ -3,6 +3,7 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
+    path('creategroup', views.NewGroupIdView.as_view(), name='creategroup'),
     path('random_movie', views.RandomMovieView.as_view(), name='random_movie'),
     path('movie/<int:movie_id>', views.MovieInfoView.as_view(), name='movie_info'),\
     path('like_count/<int:movie_id>', views.LikeCountView.as_view(), name='like_count'),
