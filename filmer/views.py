@@ -8,7 +8,7 @@ from filmer.models.Movie import Movie
 from filmer.models.Reaction import Reaction
 from filmer.scrapers.TMDBSCraper import get_movie_info, get_movies_by_string
 from filmer.serializers import MovieSerializer
-from settings import SOLID_CALLBACK
+from django.conf import settings
 
 
 class RandomMovieView(APIView):
@@ -49,4 +49,4 @@ class AuthenticatedTest(APIView):
 class OIDCMetadata(APIView):
     def get(self, request):
         return Response({"@context": "https://www.w3.org/ns/solid/oidc-context.jsonld",
-                         "redirect_uris": [SOLID_CALLBACK]})
+                         "redirect_uris": [settings.SOLID_CALLBACK]})

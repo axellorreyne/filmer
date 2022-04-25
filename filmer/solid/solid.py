@@ -12,6 +12,7 @@ rene_pod = "https://pod.inrupt.com/renevds/profile/card#me"
 CLIENT_ID = 'http://find-a-film.xyz/api/this'
 SOLID_CALLBACK = 'http://find-a-film.xyz/solid_callback'
 
+
 def solidOIDC(pod_url):
     SOLID = Namespace('http://www.w3.org/ns/solid/terms#')
 
