@@ -4,6 +4,10 @@ const API_URL = "/api/";
 
 class MovieService 
 {
+
+    constructor() {
+        this.preloaded = ""
+    }
     async getMovieInfo(movie_id) 
     {
         return ( await axios.get(API_URL + `movie/${movie_id}`) ).data;
@@ -11,14 +15,25 @@ class MovieService
     
     async getRandomMovie() 
     {
-        return ( await axios.get(API_URL + `random_movie`) ).data;
+        if(this.preloaded==="") {
+            return (await axios.get(API_URL + `random_movie`)).data;
+        }
+        else{
+            const ret = this.getMovieInfo(this.preloaded)
+            this.preloaded=""
+            return ret
+        }
     }
     
     async getRandomMovieInfo() 
     {
-        const movie_id = await (await axios.get(API_URL + `random_movie`)).data.movie_id;
+        const movie_id = (await this.getRandomMovie()).movie_id;
         return ( await axios.get(API_URL + `movie/${movie_id}` ) ).data;
 
+    }
+
+    loadNext(movie_id){
+        this.preloaded=movie_id
     }
 }
 

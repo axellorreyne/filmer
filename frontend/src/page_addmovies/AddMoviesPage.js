@@ -132,6 +132,7 @@ class AddMoviesPage extends Component
                             UserService.createReaction(ele.id,true,this.state.seen[ele.id])
                         }
                     }}
+                    isLinked={true}
                     renderInfo={false}
                     reactIcon={RsrcLikeIcon}/>}
 

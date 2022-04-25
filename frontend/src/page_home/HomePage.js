@@ -118,7 +118,6 @@ class HomePage extends Component
 
   render()
   {
-    console.log(this.state.movie.id)
     const icon_width   = "19px";
     const icon_width_2 = "33px";
     const icon_width_mobile = "27px";

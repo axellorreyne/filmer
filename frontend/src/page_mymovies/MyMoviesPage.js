@@ -184,8 +184,6 @@ class MyMoviesPage extends Component
   render ()
   {
       let movies  = Array.from(this.state.movies.values())
-      console.log(movies)
-      console.log(this.allMovies)
       if(movies.length!==this.allMovies){
       return(
         <div className="container h-100 d-flex flex-column align-items-center">
@@ -218,7 +216,7 @@ class MyMoviesPage extends Component
                 return prev
             })
         }
-        } reactIcon={RsrcPukeIcon}/>});
+        } reactIcon={RsrcPukeIcon} isLinked={false}/>});
     if(amount === 0) {
         let text = "Like movies on the homepage to view them here!"
         if(this.searchView)

@@ -1,22 +1,32 @@
 import React, {Component} from 'react';
 import FTagList from "./FTagList";
 
+import MovieService from "../services/movie.service"
 import RsrcIconSeen from "../resources/icon_seen.svg"
 import RsrcIconNotSeen from "../resources/icon_notseen.svg"
 import RsrcIconStar from "../resources/icon_star.svg"
 import RsrcPukeIcon from "../resources/icon_vomit.svg"
+import {withRouter} from "../tools/WithRouter";
+import RsrcSearchIcon from "../resources/icon_search.svg";
 
 class FMovieLine extends Component
 {
     render ()
     {
+        const linked = this.props.isLinked
         const buttons = this.props.renderButtons
         const info = this.props.renderInfo
         const setSeen = this.props.onSeen
         const setDislike = this.props.onReact
         const reactIcon = this.props.reactIcon
         const name = this.props.movie.original_title
-
+        const link = (linked)?<button className="bg-transparent border-0" onClick={()=>{
+                                        MovieService.loadNext(this.props.movie.id)
+                                        this.props.navigate("/home")
+                                        window.location.reload()
+                                    }}>
+                        <img src={RsrcSearchIcon} height="30px" width="30px" className="hover-bg-dark fborder p-2" alt=""/>
+                  </button>:<></>
         const inner =
             (this.props.seen)?
             <img src={RsrcIconSeen} width="18px" className="me-2" alt=""/>
@@ -46,6 +56,7 @@ class FMovieLine extends Component
                                 <img src={RsrcIconStar} width="18px" className="me-2" alt=""/>
                                 {score}
                             </div>
+                            {link}
                             {check}
                             {vomit}
                         </div>
@@ -57,6 +68,7 @@ class FMovieLine extends Component
                         <div className="d-flex justify-content-between">
                             <div className="d-flex align-items-center me-3">
                             </div>
+                            {link}
                             {check}
                             {vomit}
                         </div>
@@ -74,4 +86,4 @@ class FMovieLine extends Component
     }
 }
 
-export default FMovieLine;
+export default withRouter(FMovieLine);
