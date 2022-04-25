@@ -34,7 +34,7 @@ class DislikeCountView(APIView):
 
 
 class MovieSearchView(APIView):
-    def get(self, request):
+    def post(self, request):
         return Response(get_movies_by_string(request.body))
 
 
