@@ -138,17 +138,18 @@ class Profile extends Component {
       <div className="col-lg-7 mx-md-5 mb-5" >
         <p className="ffs-1 ffw-2 m-0 p-0 me-4">Settings</p>
         <hr/> 
+        <p className="rgb-1 ffs-3 ffw-2">Fill in the fields you want to update</p>
         <Form onSubmit={this.patchUser} ref={form => this.form = form}>
           <div>
             <div className="mb-5">
               <div className="FForm d-lg-flex mb-3 align-items-baseline">
                 <label className="form-label col-2 rgb-2 ffw-2" htmlFor="username">New Username</label>
-                <Input type="text" className="FFormInput w-100" name="new-username" placeholder={this.state.currentUsername}
+                <Input type="text" className="FFormInput w-100" name="new-username" 
                   value={this.state.username} onChange={this.buttonSetStateUsername}/>
               </div>
               <div className="FForm d-lg-flex mb-3 align-items-baseline">
                 <label className="form-label col-2 rgb-2 ffw-2" htmlFor="email">New Email</label>
-                <Input type="text" className="FFormInput w-100" name="new-email" placeholder={this.state.currentEmail}
+                <Input type="text" className="FFormInput w-100" name="new-email" 
                   value={this.state.email} onChange={this.buttonSetStateEmail} validations={[emailValidationTest]}/>
               </div>
               <div className="FForm d-lg-flex mb-3 align-items-baseline">
@@ -156,12 +157,13 @@ class Profile extends Component {
                 <Input type="password" className="FFormInput w-100" name="new-password"
                   value={this.state.password} onChange={this.buttonSetStatePassword} validations={[passwordValidationTest]}/>
               </div>
-              <div className="FForm d-lg-flex mb-3 mt-5 align-items-baseline">
+            </div>
+              <p className="rgb-1 ffs-3 ffw-2">Enter your password</p>
+              <div className="FForm d-lg-flex mb-3 align-items-baseline mb-5">
                 <label className="form-label col-2 rgb-2 ffw-2" htmlFor="password">Current Password</label>
                 <Input type="password" className="FFormInput w-100" name="current-password"
                   value={this.state.currentPassword} onChange={this.buttonSetStateCurrentPassword} validations={[requiredValidationTest]}/>
               </div>
-            </div>
             <div className="form-group">
               <button className="btn btn-primary btn-block" disabled={this.state.loading} >
                   {this.state.loading && <span className="spinner-border spinner-border-sm"/>}

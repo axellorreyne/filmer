@@ -11,7 +11,7 @@ import UserService from "../services/user.service";
 import RsrcIconStar from "../resources/icon_star.svg"
 import RsrcSearchIcon from "../resources/icon_search.svg";
 
-class FriendsPage extends Component
+class Room extends Component
 {
 
   constructor(probs) {
@@ -137,5 +137,5 @@ class FriendsPage extends Component
 
 }
 
-export default FriendsPage;
+export default Room;
 
