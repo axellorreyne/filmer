@@ -12,8 +12,14 @@ class FriendsPage extends Component
   constructor(probs) {
     super(probs);
     this.setSearchTerm = this.setSearchTerm.bind(this);
+    this.executeSearch = this.executeSearch.bind(this);
     this.getScore = this.getScore.bind(this);
-    this.state = {searchTerm: ""}
+    this.state = 
+      {
+        searchTerm: "", 
+        names: ["Bob", "Bob1", "Bob2", "Bobbobbob", "Bob", "Bobobobobob", "vim", "Elias"],
+        search: false
+      }
   }
     
   componentDidMount()
@@ -23,8 +29,13 @@ class FriendsPage extends Component
 
   setSearchTerm(fieldData)
   {
-    // this.state.searchTerm = fieldData.target.value;
-    this.setState({searchTerm: fieldData.target.value});
+    this.state.searchTerm = fieldData.target.value;
+    // this.setState({searchTerm: fieldData.target.value});
+  }
+
+  executeSearch(buttonData)
+  {
+    this.setState({search: true});
   }
 
   getScore(word)
@@ -44,16 +55,20 @@ class FriendsPage extends Component
   render()
   {
     const minimum_likelihood = 0.2;
-    let names = ["Bob", "Bob1", "Bob2", "Bobbobbob", "Bob", "Bobobobobob", "vim", "Elias"];
-    names = names.sort((w1,w2) => this.getScore(w2) - this.getScore(w1))
-      .filter((w) => this.getScore(w) >= minimum_likelihood);
+    let names = this.state.names;
+    if (this.state.search)
+    {
+      names = names.sort((w1,w2) => this.getScore(w2) - this.getScore(w1))
+        .filter((w) => this.getScore(w) >= minimum_likelihood);
+      this.state.search = false;
+    }
 
     const names_rendered = names.map((name) => 
       <div className="col-12 col-sm-6 col-md-4 pe-3">
         <hr className="my-2"/>
         <div className="d-flex justify-content-between">
           <div className="ffs-3 rgb-2 ffw-2 me-3">{name}</div>
-          <button type="button" height="15px" className="btn  btn-outline-danger ffw-1">-</button>
+          <button type="button" width="12px" height="12px" className="btn btn-outline-danger ffw-1">-</button>
         </div>
       </div>
     );
@@ -95,7 +110,7 @@ class FriendsPage extends Component
               <div className="d-md-flex mt-4 justify-content-between align-items-center mb-2">
                 <div className="col-md-6 d-flex align-items-center">
                   <input type="text" className="FFormInput h-50 w-100 my-2" id="search" placeholder="Search"  onChange={this.setSearchTerm}/>
-                  <button className="bg-transparent border-0" onClick={this.setSearchTerm}>
+                  <button className="bg-transparent border-0" onClick={this.executeSearch}>
                     <img src={RsrcSearchIcon} height="30px" width="30px" className="hover-bg-dark fborder p-2" alt=""/>
                   </button>
                 </div>
