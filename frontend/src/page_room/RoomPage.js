@@ -19,11 +19,14 @@ class FriendsPage extends Component
     this.state = 
       {
         movies: [],
+        error: false,
+        loadingMovies: false,
       }
   }
     
   componentDidMount()
   {
+    this.setState({loadingMovies: true});
     UserService.getReactions().then(
       (data) => 
       {
@@ -37,17 +40,22 @@ class FriendsPage extends Component
               if (index === likedMovies.length - 1)
               {
                 console.log(info)
-                this.setState({movies: movies});
+                this.setState({movies: movies, loadingMovies: false});
               }
             },
             (error) =>
             {
+              this.setState({error: true, loadingMovies: false});
             }
           )
         )
+      },
+      (error) =>
+      {
+        this.setState({error: true, loadingMovies: false});
       }
     );
-    document.title = "Filmer: Friends";
+    document.title = "Filmer: Room";
   }
   
   render()
@@ -63,31 +71,44 @@ class FriendsPage extends Component
         </div>
       </div>
     );
-    
+   
     const movies = this.state.movies;
-    const movies_rendered = movies.map((data) => {
-      const title = data.movie.original_title;
-      const director = data.movie.credits.crew.filter(x=>x.job==="Director")
-        .slice(0,3).map(x => x.name).sort().join(", ");
-      const score = data.movie.vote_average.toFixed(1)
-      const tags = data.movie.genres.map(genre=>genre.name).slice(0,3);
-      return(
-        <div>
-          <hr className="my-md-2"/>
-          <div className="ffs-2 ffw-2 me-3">{title}</div>
-          <div className="rgb-2">{director}</div>
-          <div className="d-flex justify-content-between align-items-end mt-2">
-            <FTagList tags={tags}/>
-            <div className="d-flex justify-content-between">
-              <div className="d-flex align-items-center me-3">
-                <img src={RsrcIconStar} width="18px" className="me-2" alt=""/>
-                {score}
+    let movies_rendered = <p className="mt-5 rgb-alert ffs-2 ffw-2 text-center">Failed to load movies :(</p>;
+    if (this.state.loadingMovies)
+    {
+      movies_rendered = <div className="d-flex justify-content-center mt-5">
+        <span className="spinner-border spinner-border-sm"/></div>;
+    }
+    else if (movies.length === 0)
+    {
+      movies_rendered = <p className="mt-5 ffs-2 ffw-2 text-center">No overlapping movies</p>;
+    }
+    else if (!this.state.error)
+    {
+      movies_rendered = movies.map((data) => { 
+        const title = data.movie.original_title; 
+        const director = data.movie.credits.crew.filter(x=>x.job==="Director")
+          .slice(0,3).map(x => x.name).sort().join(", ");
+        const score = data.movie.vote_average.toFixed(1)
+        const tags = data.movie.genres.map(genre=>genre.name).slice(0,3);
+        return(
+          <div>
+            <hr className="my-md-2"/>
+            <div className="ffs-2 ffw-2 me-3">{title}</div>
+            <div className="rgb-2">{director}</div>
+            <div className="d-flex justify-content-between align-items-end mt-2">
+              <FTagList tags={tags}/>
+              <div className="d-flex justify-content-between">
+                <div className="d-flex align-items-center me-3">
+                  <img src={RsrcIconStar} width="18px" className="me-2" alt=""/>
+                  {score}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      );
-    });
+        );
+      });
+    }
 
     return (
       <div className="h-100 d-flex flex-column m-3 m-xxl-0">
