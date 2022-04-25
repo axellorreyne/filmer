@@ -1,7 +1,8 @@
-django~=4.0.2
+django==4.0.4
 djangorestframework
 django-cors-headers
-python-dotenv~=0.17.1
+python-dotenv==0.20.0
 requests~=2.27.1
 djangorestframework-simplejwt~=5.1.0
 whitenoise~=6.0.0
+rdflib~=6.1.1

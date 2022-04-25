@@ -7,6 +7,7 @@ from django.db import models
 # Create your models here.
 from django.db.models import Max
 
+
 class Reaction(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     movie_id = models.CharField(max_length=100)

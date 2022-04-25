@@ -1,9 +1,21 @@
 import {Component} from 'react';
 import {Link} from "react-router-dom";
 import RsrcLogo from "../resources/logo_transparant.svg";
+import UserService from "../services/user.service";
 
 class FHeader extends Component 
 {
+
+  constructor(props)
+  {
+    super(props);
+    this.logout = this.logout.bind(this);
+  }
+
+  logout()
+  {
+  }
+  
   render () 
   {
     return (
@@ -27,6 +39,7 @@ class FHeader extends Component
             </ul>
             <ul className="text-center navbar-nav">
               <Link to="/settings"><li className="nav-item"><a className="nav-link" href="/settings">Settings</a></li></Link>
+              <Link to="/"><button className="border-0 rgb-bg-tr"><li className="nav-item"><a className="nav-link" href="/">Logout</a></li></button></Link>
             </ul>
           </div>
         </div>

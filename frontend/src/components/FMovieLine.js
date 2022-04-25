@@ -1,21 +1,17 @@
 import React, {Component} from 'react';
 import FTagList from "./FTagList";
 
+import RsrcIconSeen from "../resources/icon_seen.svg"
+import RsrcIconNotSeen from "../resources/icon_notseen.svg"
 import RsrcIconStar from "../resources/icon_star.svg"
-import RsrcIconCheck from "../resources/icon_check.svg"
-import RsrcArrowRight from "../resources/icon_arrow_right.svg"
+import RsrcPukeIcon from "../resources/icon_vomit.svg"
 
 class FMovieLine extends Component
 {
-
-    setSeen(movie_id,seen){
-        //to be implemented
-
-
-    }
-
     render ()
     {
+        const setSeen = this.props.onSeen
+        const setDislike = this.props.onDislike
         const name = this.props.movie.original_title
         const tags = this.props.movie.genres.map(genre=>genre.name)
         const score = this.props.movie.vote_average.toFixed(1)
@@ -23,11 +19,11 @@ class FMovieLine extends Component
             .map(x=>x.name).sort().join(", ")
         const inner =
             (this.props.seen)?
-            <img src={RsrcIconCheck} width="18px" className="me-2" alt=""/>
-            :<img src={RsrcArrowRight} width="18px" className="me-2" alt=""/>
+            <img src={RsrcIconSeen} width="18px" className="me-2" alt=""/>
+            :<img src={RsrcIconNotSeen} width="18px" className="me-2" alt=""/>
 
         const check =
-            <button onClick={()=>this.setSeen(this.props.movie.id,!this.props.seen)} className="bg-transparent border-0">
+            <button onClick={()=>setSeen()} className="bg-transparent border-0">
                 {inner}
             </button>
 
@@ -44,6 +40,9 @@ class FMovieLine extends Component
                   {score}
                 </div>
                 {check}
+                <button className="bg-transparent border-0 " onClick={()=>setDislike()}>
+                    <img src={RsrcPukeIcon} width="18px" className="me-2" alt=""/>
+                </button>
               </div>
             </div>
           </div>

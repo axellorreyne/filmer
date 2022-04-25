@@ -1,14 +1,19 @@
+import json
+
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from filmer.models.Movie import Movie
-from filmer.scrapers.TMDBSCraper import get_movie_info
+from filmer.models.Reaction import Reaction
+from filmer.scrapers.TMDBSCraper import get_movie_info, get_movies_by_string
 from filmer.serializers import MovieSerializer
+from django.conf import settings
 
 
 class RandomMovieView(APIView):
     print("gvd")
+
     def get(self, request):
         movie = Movie.get_random_movie()
         return Response(MovieSerializer(movie).data)
@@ -19,6 +24,21 @@ class MovieInfoView(APIView):
         return Response(get_movie_info(movie_id))
 
 
+class LikeCountView(APIView):
+    def get(self, request, movie_id):
+        return Response(Reaction.objects.filter(movie_id=movie_id, like=True).count())
+
+
+class DislikeCountView(APIView):
+    def get(self, request, movie_id):
+        return Response(Reaction.objects.filter(movie_id=movie_id, like=False).count())
+
+
+class MovieSearchView(APIView):
+    def post(self, request):
+        return Response(get_movies_by_string(request.body))
+
+
 class AuthenticatedTest(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -26,21 +46,9 @@ class AuthenticatedTest(APIView):
         return Response({"authenticated": True})
 
 
-# Error handling pages
-def custom_bad_request_view(request, exception):
-    return render(request, 'error.html', status=400, 
-            context={code: "400", message: "Test"})
-
-def custom_permission_denied_view(request, exception):
-    return render(request, 'error.html', status=403,
-            context={code: "403", message: "Test"})
-
-def custom_page_not_found_view(request, exception):
-    return render(request, 'error.html', status=404,
-            context={code: "404", message: "Test"})
-
-def custom_error_view(request):
-    return render(request, 'error.html', status=500,
-            context={code: "500", message: "Test"})
-
-
+class OIDCMetadata(APIView):
+    def get(self, request):
+        return Response({"@context": "https://www.w3.org/ns/solid/oidc-context.jsonld",
+                         "redirect_uris": [settings.SOLID_CALLBACK],
+                         "client_id": "http://find-a-film.xyz/api/this",
+                         "client_name": "filmer"})
