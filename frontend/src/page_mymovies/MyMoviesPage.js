@@ -175,13 +175,17 @@ class MyMoviesPage extends Component
 
   render ()
   {
-        let movies  = Array.from(this.state.movies.values())
+      let movies  = Array.from(this.state.movies.values())
       if(movies.length!==this.allMovies){
-        return (<div className="h-100 d-flex flex-column m-3 m-xl-0">
-            <FHeader/>
-            <h1>Loading</h1>
-            <FFooter/>
-        </div>)
+      return(
+        <div className="container h-100 d-flex flex-column align-items-center">
+          <FHeader/>
+          <div className="mb-auto mt-auto text-center">
+            <span className="spinner-border spinner-border-sm me-3"/>
+          </div>
+          <FFooter/>
+        </div>
+      );
     }
     const minimum_likelihood = 0.2;
 
