@@ -5,7 +5,7 @@ import MovieService from "./movie.service";
 const API_URL = "/api/";
 
 class UserService {
- 
+
   async getUserFromBrowserStrorage() {
     // localStorage.removeItem('name');
   }
@@ -43,7 +43,9 @@ class UserService {
   async changeReaction(movie_id,like,seen){
         await axios.patch(API_URL+"reaction/"+movie_id+"/",{movie_id,like,seen},{headers: authHeader()})
     }
-
+  async searchMovie(term){
+    return (await axios.post(API_URL+"searchmovie",term,{headers:authHeader()})).data
+  }
     async likeCount(movie_id){
       return (await axios.get(API_URL + "like_count/" + movie_id, {headers: authHeader()})).data
     }
