@@ -7,7 +7,11 @@ const API_URL = "/api/";
 class UserService {
 
   async getUserFromBrowserStrorage() {
-    return JSON.parse(localStorage.getItem('user'));;
+    // localStorage.removeItem('name');
+  }
+  
+  async removeUserFromBrowserStrorage() {
+    return JSON.parse(localStorage.getItem('user'));
   }
   
   async getUser() {

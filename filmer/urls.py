@@ -9,5 +9,6 @@ urlpatterns = [
     path('dislike_count/<int:movie_id>', views.DislikeCountView.as_view(), name='dislike_count'),
     path('searchmovie', views.MovieSearchView.as_view(), name='movie_search'),
     path('auth_test', views.AuthenticatedTest.as_view(), name='auth_test'),
-    path('', include('filmer.routers'))
+    path('', include('filmer.routers')),
+    path('this', views.OIDCMetadata.as_view(), name='oicdmetadata'),
 ]

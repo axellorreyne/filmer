@@ -8,6 +8,7 @@ from filmer.models.Movie import Movie
 from filmer.models.Reaction import Reaction
 from filmer.scrapers.TMDBSCraper import get_movie_info, get_movies_by_string
 from filmer.serializers import MovieSerializer
+from django.conf import settings
 
 
 class RandomMovieView(APIView):
@@ -34,7 +35,7 @@ class DislikeCountView(APIView):
 
 
 class MovieSearchView(APIView):
-    def get(self, request):
+    def post(self, request):
         return Response(get_movies_by_string(request.body))
 
 
@@ -43,3 +44,11 @@ class AuthenticatedTest(APIView):
 
     def get(self, request):
         return Response({"authenticated": True})
+
+
+class OIDCMetadata(APIView):
+    def get(self, request):
+        return Response({"@context": "https://www.w3.org/ns/solid/oidc-context.jsonld",
+                         "redirect_uris": [settings.SOLID_CALLBACK],
+                         "client_id": "http://find-a-film.xyz/api/this",
+                         "client_name": "filmer"})
