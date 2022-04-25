@@ -148,4 +148,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-SOLID_CALLBACK = 'http://find-a-film.xyz/solid_callback'
+# Solid stuff
+SOLID_CALLBACK = 'http://find-a-film.xyz/api/solid_callback'
+SOLID_CLIENT_ID = 'http://find-a-film.xyz/api/this'
