@@ -27,6 +27,7 @@ def solidOIDC(pod_url):
     '''Retrieve OP Configuration'''
     op_config = json.loads(requests.get(odcissuer + '.well-known/openid-configuration').text)
     print(op_config['authorization_endpoint'])
+    print(op_config)
 
     '''Generate PKCE code challenge and code verifier'''
     code_verifier = token_urlsafe(8).encode('utf-8')  # Random string encoded as uft-8
