@@ -36,7 +36,16 @@ class UserService {
   {
     return (await axios.get(API_URL + "reaction/", {headers: authHeader()})).data;
   }
+  async changeReaction(movie_id,like,seen){
+        await axios.patch(API_URL+"reaction/"+movie_id+"/",{movie_id,like,seen},{headers: authHeader()})
+    }
 
+    async likeCount(movie_id){
+      return (await axios.get(API_URL + "like_count/" + movie_id, {headers: authHeader()})).data
+    }
+    async dislikeCount(movie_id){
+      return (await axios.get(API_URL + "dislike_count/" + movie_id, {headers: authHeader()})).data
+    }
   async updateUser(username, email, password) 
   {
     const params = {}
@@ -44,6 +53,7 @@ class UserService {
     {
       params.username = username;
     }
+
     if (email)
     {
       params.email = email;
@@ -55,7 +65,6 @@ class UserService {
     console.log(params)
     return(await axios.patch(API_URL + 'user/', params, { headers: authHeader() }).data);
   }
-
 }
 
 export default new UserService();
