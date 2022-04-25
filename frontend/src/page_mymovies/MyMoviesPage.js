@@ -28,7 +28,6 @@ class MyMoviesPage extends Component
     this.sortOnTitle = this.sortOnTitle.bind(this);
     this.sortOnDirectors = this.sortOnDirectors.bind(this);
     this.sortOnScore = this.sortOnScore.bind(this);
-    this.goToAddMovies = this.goToAddMovies.bind(this)
     this.newSortOption = this.newSortOption.bind(this);
     this.newSearchOption = this.newSearchOption.bind(this);
 
@@ -54,9 +53,6 @@ class MyMoviesPage extends Component
       this.setState((prev,_)=>({page:prev.page+inc}));
     }
 
-    goToAddMovies(){
-      this.props.navigate("/addmovies")
-    }
 
     setSearchTerm(st){
       this.searchTerm = st.target.value
@@ -289,8 +285,6 @@ class MyMoviesPage extends Component
                         <img src={RsrcSearchIcon} height="30px" width="30px" className="hover-bg-dark fborder p-2" alt=""/>
                   </button>
                 </div>
-                <button className="btn btn-primary m-0 p-1 ffw-2 d-none d-md-block " onClick={this.goToAddMovies} >Add movie</button>
-                <button className="btn btn-primary m-0 p-1 ffw-2 d-md-none w-100 my-3 " onClick={this.goToAddMovies} >Add movie</button>
               </div>
               {rendered}
               <div className="d-flex pt-5 m-5 m-xl-0 justify-content-center align-items-baseline">
