@@ -8,12 +8,12 @@ class GroupService
 
   async createGroup()
   {
-    return((await axios.post(API_URL + 'group', {headers: authHeader()})).data);
+    return((await axios.get(API_URL + 'new_group',  {headers: authHeader()})).data);
   }
 
   async joinGroup(id)
   {
-    return((await axios.post(API_URL + 'groupadd', {id: id}, {headers: authHeader()})).data);
+    return((await axios.post(API_URL + 'join_group/' + id, {}, {headers: authHeader()})).data);
   }
 
 }
