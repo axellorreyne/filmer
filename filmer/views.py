@@ -1,6 +1,7 @@
 import json
 import secrets
 
+from django.contrib.auth.models import User
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -12,18 +13,25 @@ from filmer.scrapers.TMDBSCraper import get_movie_info, get_movies_by_string
 from filmer.serializers import MovieSerializer
 from django.conf import settings
 
+group_token_length = 3
 class NewGroupIdView(APIView):
-    def get(self, request):
-        id = secrets.token_hex(10) 
+    def post(self, request):
+        group_id = secrets.token_hex(group_token_length) 
         while Group.objects.filter(group_id=id).exists():
-            id = secrets.token_hex(10)
-        user = request.user
-        return Response({"id": id})
+            group_id = secrets.token_hex(group_token_length)
+
+        if request.user.is_authenticated:
+            user = request.user 
+        else:
+            return(Response({"error": "Not authenticated"}))
+        
+        record = Group(group_id=group_id, user=user)
+        return Response({"id": id, "user": request.user})
 
 class AddToGroupView(APIView):
     def post(self, request):
         user = request.user
-        id = request.body
+        id = request.POST.id
         return Response({"id": id})
 
 class RandomMovieView(APIView):

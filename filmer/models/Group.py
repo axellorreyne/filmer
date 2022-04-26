@@ -9,4 +9,4 @@ from django.db.models import Max
 
 class Group(models.Model):
     group_id = models.CharField(max_length=20);
-    # user = models.ForeignKey(User, on_delete=models.CASCADE);
+    user = models.ForeignKey(User, on_delete=models.CASCADE);

@@ -16,6 +16,7 @@ routes.register(r'user', UserViewSet, basename='user')
 # REACTION
 routes.register(r'reaction', ReactionViewSet, basename='user')
 
+# GROUP 
 urlpatterns = [
     *routes.urls
 ]

@@ -23,3 +23,4 @@ class ReactionSerializer(serializers.ModelSerializer):
         model = Reaction
         fields = ['movie_id', 'like', 'seen']
         read_only_field = ['is_active']
+

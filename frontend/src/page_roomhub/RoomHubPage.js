@@ -19,13 +19,9 @@ function requiredValidationTest(value)
 function roomIdValidationTest(value)
 {
   let result = undefined;
-  if (value.length !== 7)
+  if (value.length !== 6)
   {
     result = <div className="rgb-alert mb-2" role="alert">id is not the correct length</div>;
-  }
-  else if (value.charAt(0) !== "#")
-  {
-    result = <div className="rgb-alert mb-2" role="alert">id must begin with a #</div>;
   }
   else if (!Number(value.substring(1).replace('0', '1')))
   {
@@ -92,9 +88,7 @@ class RoomHub extends Component {
     if (this.checkBtnJoin.context._errors.length === 0)
     {
       this.setState({loading: false});
-      // [ ] check if room exists
-      // [ ] go to room
-      console.log("ls;kjl;askdjf")
+      GroupService.joinGroup(this.state.roomId);
       // window.location.reload()
     }
     else 
