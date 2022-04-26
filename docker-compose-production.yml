@@ -18,6 +18,7 @@ services:
         context: ./frontend
         dockerfile: ./Dockerfile-production
       volumes:
+        - ./nginx/conf/:/etc/nginx/conf.d/:rw
         - ./certbot/www:/var/www/certbot/:ro
         - ./certbot/conf/:/etc/nginx/ssl/:ro
       ports:
