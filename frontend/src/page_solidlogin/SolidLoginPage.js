@@ -98,7 +98,7 @@ class Login extends Component {
                         <div className="py-2 rgb-alert" role="alert">{this.state.message}</div>
                     </div>)}
                 <CheckButton style={{display: "none"}} ref={c => { this.checkBtn = c; }} />
-                <p className="mt-5 rgb-2">*The only pod authentication system supported is www.gvdkutpods.com</p>
+                <p className="mt-5 rgb-2">*The only pod authentication system supported is www.eenurlplease?.com</p>
             </Form>
         </div>
     </main>

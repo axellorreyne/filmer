@@ -50,6 +50,7 @@ class Login extends Component {
                 () => 
                 {
                     this.props.navigate("/home");
+                    window.location.reload();
                 },
                 error => 
                 {
