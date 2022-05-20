@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import { useParams } from 'react-router-dom';
 import StringSimilarity from "string-similarity";
 
 import FFooter from "../components/FFooter.js";
@@ -7,6 +8,7 @@ import FMovieLine from "../components/FMovieLine";
 import FTagList from "../components/FTagList";
 import MovieService from "../services/movie.service";
 import UserService from "../services/user.service";
+import GroupService from "../services/group.service";
 
 import RsrcIconStar from "../resources/icon_star.svg"
 import RsrcSearchIcon from "../resources/icon_search.svg";
@@ -14,41 +16,25 @@ import RsrcSearchIcon from "../resources/icon_search.svg";
 class Room extends Component
 {
 
-  constructor(probs) {
-    super(probs);
-    this.state = 
-      {
-        movies: [],
-        error: false,
-        loadingMovies: false,
-      }
+  constructor(props) {
+    super(props);
+    const url = window.location.href;
+    const id = url.substring(url.lastIndexOf('/') + 1);
+    this.state = {movies: [], names: [], error: false, 
+      loadingMovies: false, id: id,}
   }
     
   componentDidMount()
   {
+    console.log(window.location.href);
     this.setState({loadingMovies: true});
-    UserService.getReactions().then(
+    GroupService.getGroup(this.state.id).then(
       (data) => 
       {
-        let movies = [];
-        const likedMovies = data.filter(movie => movie.like);
-        likedMovies.forEach((movie, index) => 
-          MovieService.getMovieInfo(movie.movie_id).then(
-            (info) => 
-            {
-              movies.push({movie: info});
-              if (index === likedMovies.length - 1)
-              {
-                console.log(info)
-                this.setState({movies: movies, loadingMovies: false});
-              }
-            },
-            (error) =>
-            {
-              this.setState({error: true, loadingMovies: false});
-            }
-          )
-        )
+        this.setState({
+          movies: data.films, 
+          names: data.usernames, 
+          loadingMovies: false});
       },
       (error) =>
       {
@@ -60,7 +46,7 @@ class Room extends Component
   
   render()
   {
-    const names = ["Bob ", "Bob1", "Bob2", "Bobbobbob", "Bob", "Bobobobobob"];
+    const names = this.state.names; 
     const names_rendered = names.map((name, index) => 
       <div className="col-12 col-sm-6 col-md-4 pe-3">
         <hr className="my-2"/>
@@ -85,12 +71,13 @@ class Room extends Component
     }
     else if (!this.state.error)
     {
+      console.log(this.state.movies)
       movies_rendered = movies.map((data) => { 
-        const title = data.movie.original_title; 
-        const director = data.movie.credits.crew.filter(x=>x.job==="Director")
+        const title = data.original_title; 
+        const director = data.credits.crew.filter(x=>x.job==="Director")
           .slice(0,3).map(x => x.name).sort().join(", ");
-        const score = data.movie.vote_average.toFixed(1)
-        const tags = data.movie.genres.map(genre=>genre.name).slice(0,3);
+        const score = data.vote_average.toFixed(1)
+        const tags = data.genres.map(genre=>genre.name).slice(0,3);
         return(
           <div>
             <hr className="my-md-2"/>
@@ -109,14 +96,13 @@ class Room extends Component
         );
       });
     }
-
     return (
       <div className="h-100 d-flex flex-column m-3 m-xxl-0">
         <FHeader/>
         <main className="mb-5 container-fluid">
           <div className="mt-5 d-lg-flex justify-content-around align-items-center">
             <div className="col-lg-7 mx-md-5 mb-5" >
-              <p className="ffs-1 ffw-2 m-0 p-0 me-4">Room #24654</p>
+              <p className="ffs-1 ffw-2 m-0 p-0 me-4">Room #{this.state.id}</p>
               <p className="ffs-2 ffw-2 m-0 p-0 me-4 mt-5">{names.length} People</p>
               <div className="d-flex justify-content-left flex-wrap">
                 {names_rendered}
