@@ -15,8 +15,12 @@ import UserService from "../services/user.service";
 
 import RsrcSearchIcon from "../resources/icon_search.svg";
 import RsrcPukeIcon from "../resources/icon_vomit.svg";
+import SolidUserService from "../services/solid.user.service";
+import {SessionContext} from "@inrupt/solid-ui-react";
 
 class MyMoviesPage extends Component {
+
+    static contextType = SessionContext;
 
     constructor(probs) {
         super(probs);
@@ -169,6 +173,9 @@ class MyMoviesPage extends Component {
     }
 
     componentDidMount() {
+
+        SolidUserService.getReactions(this.context.session).then(console.log)
+
         UserService.getReactions().then((data) => {
 
             let filtered = data.filter(movie => movie.like)
