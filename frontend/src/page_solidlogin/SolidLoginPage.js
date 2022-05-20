@@ -8,6 +8,7 @@ import RsrcIconArrowLeft from "../resources/icon_arrow_left.svg";
 import FHeaderAlt from "../components/FHeaderAlt.js";
 import FFooter from "../components/FFooter.js";
 import SolidAuthService from "../services/solid.auth.service";
+import {handleIncomingRedirect} from "@inrupt/solid-client-authn-browser";
 
 
 const required = value => {
@@ -30,7 +31,7 @@ class SolidLogin extends Component {
     }
 
     handleLogin(e) {
-        SolidAuthService.login(this.state.url);
+        SolidAuthService.login(this.state.url).then(r => console.log(r));
     }
 
     render() {
