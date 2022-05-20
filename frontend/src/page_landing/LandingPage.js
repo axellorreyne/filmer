@@ -33,7 +33,6 @@ class LandingPage extends Component
       </div>
     </main>
     <FFooter/>
-    <maintitle text="settings"/>
 </div>
     );
   }
