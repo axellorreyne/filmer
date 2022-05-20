@@ -52,7 +52,7 @@ class SolidLogin extends Component {
                                          disabled={this.state.loading}
                                          authOptions={{clientName: "Filmer"}}
                                          oidcIssuer={this.state.oidcIssuer}
-                                         redirectUrl={window.location.protocol + '//' + window.location.host + '/mymovies'}
+                                         redirectUrl={window.location.protocol + '//' + window.location.host + '/home'}
                                          onError={console.error}>
                                 {this.state.loading && (<span className="spinner-border spinner-border-sm"/>)}
                                 <div className="d-flex align-items-center justify-content-center">
