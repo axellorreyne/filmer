@@ -31,7 +31,7 @@ class SolidLogin extends Component {
     }
 
     handleLogin(e) {
-        SolidAuthService.login(this.state.url).then(r => console.log(r));
+        SolidAuthService.login(this.state.url);
     }
 
     render() {

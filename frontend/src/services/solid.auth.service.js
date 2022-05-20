@@ -15,20 +15,16 @@ class SolidAuthService {
                 oidcIssuer: url[0] + "//" + url[2],
                 // Specify the URL the Solid Identity Provider should redirect to after the user logs in,
                 // e.g., the current page for a single-page app.
-                redirectUrl: window.location,
+                redirectUrl: window.location.protocol + '//' + window.location.host + '/mymovies',
                 // Pick an application name that will be shown when asked
                 // to approve the application's access to the requested data.
                 clientName: "Filmer"
             });
-
-            const myDataset = await getSolidDataset(url + '/card', {fetch: fetch});
-            console.log(myDataset)
         }
 
     }
 
-    async isLoggedIn() {
-        await handleIncomingRedirect({restorePreviousSession: true})
+    isLoggedIn() {
         return getDefaultSession().info.isLoggedIn;
     }
 

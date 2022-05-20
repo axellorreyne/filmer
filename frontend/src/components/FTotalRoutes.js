@@ -24,19 +24,34 @@ class FTotalRoutes extends Component {
 
     constructor(probs) {
         super(probs);
-        this.state = {logged: 0}
+        this.state = {logged: 0, checkingSolid: true}
     }
 
     componentDidMount() {
-      handleIncomingRedirect(window.location.href).then(r => console.log(r))
+        /*handleIncomingRedirect({
+            restorePreviousSession: true,
+            url: window.location.href
+        }).then((info) => {
+            if (info.webId) {
+                console.log(`Logged in with WebID [${info.webId}]`)
+            } else {
+                console.log('Not logged into solid pod.')
+            }
+            this.setState({checkingSolid: false});
+        })*/
     }
 
     check(page) {
-        UserService.getAuthTest().then(x => {
-            if (this.state.logged === 0) {
-                this.setState({logged: (x !== undefined && x !== "failed") ? 1 : -1})
-            }
-        })
+        console.log(SolidAuthService.isLoggedIn())
+        if (SolidAuthService.isLoggedIn()) {
+            this.setState({logged: 1})
+        } else {
+            UserService.getAuthTest().then(x => {
+                if (this.state.logged === 0) {
+                    this.setState({logged: (x !== undefined && x !== "failed") ? 1 : -1})
+                }
+            })
+        }
 
         if (this.state.logged === 1)
             return page
@@ -54,22 +69,22 @@ class FTotalRoutes extends Component {
 
     render() {
 
-        return <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<LandingPage/>}/>
-                <Route path="/home" element={this.check(<HomePage/>)}/>
-                <Route path="/login" element={<LoginPage/>}/>
-                <Route path="/signup" element={<SignupPage/>}/>
-                <Route path="/settings" element={this.check(<SettingsPage/>)}/>
-                <Route path="/mymovies" element={this.check(<MyMoviesPage/>)}/>
-                <Route path="/notimplemented" element={<NotImplementedPage/>}/>
-                <Route path="/solidlogin" element={<SolidLoginPage/>}/>
-                <Route path="/searchmovies" element={this.check(<SearchMoviesPage/>)}/>
-                <Route path="/solidlogin" element={<SolidLoginPage/>}/>
-                <Route path="/room" element={<RoomPage/>}/>
-                <Route path="/roomhub" element={<RoomHubPage/>}/>
-            </Routes>
-        </BrowserRouter>
+        return (<BrowserRouter>
+                {!this.state.checkingSolid && <Routes>
+                    <Route path="/" element={<LandingPage/>}/>
+                    <Route path="/home" element={this.check(<HomePage/>)}/>
+                    <Route path="/login" element={<LoginPage/>}/>
+                    <Route path="/signup" element={<SignupPage/>}/>
+                    <Route path="/settings" element={this.check(<SettingsPage/>)}/>
+                    <Route path="/mymovies" element={this.check(<MyMoviesPage/>)}/>
+                    <Route path="/notimplemented" element={<NotImplementedPage/>}/>
+                    <Route path="/solidlogin" element={<SolidLoginPage/>}/>
+                    <Route path="/searchmovies" element={this.check(<SearchMoviesPage/>)}/>
+                    <Route path="/solidlogin" element={<SolidLoginPage/>}/>
+                    <Route path="/room" element={<RoomPage/>}/>
+                    <Route path="/roomhub" element={<RoomHubPage/>}/>
+                </Routes>}
+            </BrowserRouter>)
     }
 
 }
