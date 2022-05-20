@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 from filmer.models.Movie import Movie
 from filmer.models.Reaction import Reaction 
+from filmer.models.Group import Group
 
 
 class MovieSerializer(serializers.ModelSerializer):
@@ -21,6 +22,14 @@ class UserSerializer(serializers.ModelSerializer):
 class ReactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reaction
-        fields = ['movie_id', 'like', 'seen']
+        fields = ['movie_id', 'user', 'like', 'seen']
         read_only_field = ['is_active']
+
+class GroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Group 
+        fields = ['group_id', 'user']
+
+
+
 
