@@ -17,18 +17,14 @@ import FHeader from "./FHeader";
 import FFooter from "./FFooter";
 import RoomPage from "../page_room/RoomPage";
 import RoomHubPage from "../page_roomhub/RoomHubPage";
-import SolidAuthService from "../services/solid.auth.service";
 import {handleIncomingRedirect} from "@inrupt/solid-client-authn-browser";
+import {SessionProvider, useSession} from "@inrupt/solid-ui-react";
 
 class FTotalRoutes extends Component {
 
     constructor(probs) {
         super(probs);
         this.state = {logged: 0}
-    }
-
-    componentDidMount() {
-      handleIncomingRedirect(window.location.href).then(r => console.log(r))
     }
 
     check(page) {
@@ -54,22 +50,24 @@ class FTotalRoutes extends Component {
 
     render() {
 
-        return <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<LandingPage/>}/>
-                <Route path="/home" element={this.check(<HomePage/>)}/>
-                <Route path="/login" element={<LoginPage/>}/>
-                <Route path="/signup" element={<SignupPage/>}/>
-                <Route path="/settings" element={this.check(<SettingsPage/>)}/>
-                <Route path="/mymovies" element={this.check(<MyMoviesPage/>)}/>
-                <Route path="/notimplemented" element={<NotImplementedPage/>}/>
-                <Route path="/solidlogin" element={<SolidLoginPage/>}/>
-                <Route path="/searchmovies" element={this.check(<SearchMoviesPage/>)}/>
-                <Route path="/solidlogin" element={<SolidLoginPage/>}/>
-                <Route path="/room" element={<RoomPage/>}/>
-                <Route path="/roomhub" element={<RoomHubPage/>}/>
-            </Routes>
-        </BrowserRouter>
+        return <SessionProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<LandingPage/>}/>
+                    <Route path="/home" element={this.check(<HomePage/>)}/>
+                    <Route path="/login" element={<LoginPage/>}/>
+                    <Route path="/signup" element={<SignupPage/>}/>
+                    <Route path="/settings" element={this.check(<SettingsPage/>)}/>
+                    <Route path="/mymovies" element={this.check(<MyMoviesPage/>)}/>
+                    <Route path="/notimplemented" element={<NotImplementedPage/>}/>
+                    <Route path="/solidlogin" element={<SolidLoginPage/>}/>
+                    <Route path="/searchmovies" element={this.check(<SearchMoviesPage/>)}/>
+                    <Route path="/solidlogin" element={<SolidLoginPage/>}/>
+                    <Route path="/room" element={<RoomPage/>}/>
+                    <Route path="/roomhub" element={<RoomHubPage/>}/>
+                </Routes>
+            </BrowserRouter>
+        </SessionProvider>
     }
 
 }
