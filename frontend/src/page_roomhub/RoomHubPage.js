@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import {Link} from "react-router-dom";
+import {withRouter} from "../tools/WithRouter";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
@@ -22,10 +24,6 @@ function roomIdValidationTest(value)
   if (value.length !== 6)
   {
     result = <div className="rgb-alert mb-2" role="alert">id is not the correct length</div>;
-  }
-  else if (!Number(value.substring(1).replace('0', '1')))
-  {
-    result = <div className="rgb-alert mb-2" role="alert">id must end with 6 numbers</div>;
   }
   return(result);
 }
@@ -64,8 +62,10 @@ class RoomHub extends Component {
       GroupService.createGroup().then(
         (data) => 
         {
-          console.log(data);
+          console.log(data.group_id);
           this.setState({loading: false});
+          this.props.navigate("/room/" + data.group_id);
+          window.location.reload();
         },
         (error) => 
         {
@@ -88,8 +88,17 @@ class RoomHub extends Component {
     if (this.checkBtnJoin.context._errors.length === 0)
     {
       this.setState({loading: false});
-      GroupService.joinGroup(this.state.roomId);
-      // window.location.reload()
+      GroupService.joinGroup(this.state.roomId).then(
+        (data) => {
+          this.setState({loading: false});
+          this.props.navigate("/room/" + data.group_id);
+          window.location.reload();
+        },
+        (error) => {
+          console.log("error");
+          this.setState({loading: false});
+        }
+      );
     }
     else 
     {
@@ -140,4 +149,4 @@ class RoomHub extends Component {
     }
 }
 
-export default RoomHub;
+export default withRouter(RoomHub);
