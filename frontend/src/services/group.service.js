@@ -30,5 +30,10 @@ class GroupService
     return((await axios.delete(API_URL + 'group_leave/' + id, {headers: authHeader()})).data);
   }
 
+  async closeGroup(id)
+  {
+    return((await axios.delete(API_URL + 'group_close/' + id, {headers: authHeader()})).data);
+  }
+
 }
 export default new GroupService();

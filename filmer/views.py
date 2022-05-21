@@ -41,10 +41,14 @@ class AddToGroupView(APIView):
             user = request.user
         else:
             return Response({"error": "Not authenticated"})
+        
         groupinfo = [*GroupInfo.objects.filter(group_id=group_id)]
-        print(groupinfo)
         if (len(groupinfo) < 1):
             return Response({"error": ("There is no group with id" + group_id)}, status=500)
+
+        groups = Group.objects.filter(user=user, group_id=group_id)
+        if len(groups) > 0:
+            return Response({"error": ("Already in group " + group_id)}, status=500)
 
         Group(group_id=group_id, user=user).save()
         return Response({"group_id": group_id})
@@ -54,7 +58,8 @@ class GetGroup(APIView):
         
         group = list(Group.objects.filter(group_id=group_id))
         users = [x.user for x in group]
-        usernames = [UserSerializer(x).data['username'] for x in users]
+        users_serialized = [UserSerializer(x).data for x in users]
+        print(users)
         user_reactions = [Reaction.objects.filter(user=x, like=True) for x in users]
         filmids = set(sum([[ReactionSerializer(y).data['movie_id'] for y in x] for x in user_reactions], []))
         films = [get_movie_info(x) for x in filmids]
@@ -64,7 +69,7 @@ class GetGroup(APIView):
             return Response({"error": "Server Error"}, status=500)
         groupinfo_serialized = GroupInfoSerializer(groupinfo[0]).data
 
-        return Response({"usernames": usernames, "films": films, "name": groupinfo_serialized['name'], "admin": UserSerializer(groupinfo[0].admin).data})
+        return Response({"users": users_serialized, "films": films, "name": groupinfo_serialized['name'], "admin": UserSerializer(groupinfo[0].admin).data})
 
 class LeaveGroup(APIView):
     def delete(self, request, group_id):
@@ -84,6 +89,30 @@ class LeaveGroup(APIView):
         for record in records:
             record.delete()
         return Response(0);
+
+class CloseGroup(APIView):
+    def delete(self, request, group_id):
+        if request.user.is_authenticated:
+            user = request.user
+        else:
+            return Response({"error": "Not authenticated"})
+        groupinfo = list(GroupInfo.objects.filter(group_id=group_id))
+        if (len(groupinfo) < 1):
+            return Response({"error": "Server Error"}, status=500)
+        groupinfo = groupinfo[0]
+        
+        if user != groupinfo.admin:
+            return Response({"error": "Not authenticated"})
+
+        records = GroupInfo.objects.filter(group_id=group_id)
+        for record in records:
+            record.delete()
+        records = Group.objects.filter(group_id=group_id)
+        for record in records:
+            record.delete()
+
+        return Response(0)
+
 
 
 class InGroup(APIView):
