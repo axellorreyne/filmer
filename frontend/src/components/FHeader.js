@@ -33,6 +33,9 @@ class FHeader extends Component
               <li className="nav-item">
                 <Link to="/mymovies"><a className="nav-link" href="/mymovies">My Movies</a></Link>
               </li>
+              <li className="nav-item">
+                <Link to="/searchmovies"><a className="nav-link" href="/mymovies">Search Movies</a></Link>
+              </li>
               <li className="text-center navbar-nav">
                 <Link to="/room"><li className="nav-item"><a className="nav-link" href="/room">Groups</a></li></Link>
               </li>

@@ -14,7 +14,8 @@ import RsrcIconVomit from "../resources/icon_vomit.svg";
 
 class HomePage extends Component
 {
-  
+  static preloaded = ""
+  static hasReaction = false
   constructor(props)
   {
       super(props)
@@ -22,6 +23,7 @@ class HomePage extends Component
       this.likeMovie = this.likeMovie.bind(this);
       this.dislikeMovie = this.dislikeMovie.bind(this);
       this.flipSeen = this.flipSeen.bind(this);
+      this.handleKeyPress = this.handleKeyPress.bind(this);
       this.state = {
         expandDescription: false,
         disableButtons: "disabled",
@@ -87,16 +89,38 @@ class HomePage extends Component
   loadMovie()
   {
     this.setState({disableButtons: "disabled"})
-    MovieService.getRandomMovieInfo().then(data => {
+    let prom;
+    if(HomePage.preloaded==="")
+      prom = MovieService.getRandomMovieInfo()
+    else{
+      prom = MovieService.getMovieInfo(HomePage.preloaded)
+      HomePage.preloaded=""
+    }
+    prom.then(data => {
       this.setState({expandDescription: false, disableButtons: "", movie: data})
       UserService.likeCount(data.id).then((likes)=>this.setState({likes}))
       UserService.dislikeCount(data.id).then((dislikes)=>this.setState({dislikes}))
     });
   }
 
+  handleKeyPress(event){
+    if(this.state.disableButtons !== "disabled") {
+      if (event.key === 'ArrowLeft') {
+        this.dislikeMovie()
+      } else if (event.key === 'ArrowRight') {
+        this.likeMovie()
+      }
+    }
+  }
+
   rateMovie(liked)
   {
-      UserService.createReaction(this.state.movie.id,liked,this.seenCheck)
+    if(HomePage.hasReaction){
+      HomePage.hasReaction=false
+      UserService.changeReaction(this.state.movie.id,liked,this.seenCheck)
+    }else {
+      UserService.createReaction(this.state.movie.id, liked, this.seenCheck)
+    }
       this.loadMovie()
   }
 
@@ -113,12 +137,16 @@ class HomePage extends Component
   componentDidMount()
   {
     document.title = "Filmer: Home";
+    document.addEventListener("keydown",this.handleKeyPress)
     this.loadMovie()
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown",this.handleKeyPress)
   }
 
   render()
   {
-    console.log(this.state.movie.id)
     const icon_width   = "19px";
     const icon_width_2 = "33px";
     const icon_width_mobile = "27px";
@@ -153,6 +181,7 @@ class HomePage extends Component
     const writers = [...new Set(movie.credits.crew.filter((x) => (x.department === "Writing") && (x.job = "Screenplay")).slice(0,5).map((x) => x.name))];
     const starring = [...new Set(movie.credits.cast.filter((x) => x.popularity > 15).slice(0, 5).map((x) => x.name).sort((x,y) => x.popularity - y.popularity))];
 
+
     let likes = this.state.likes;
     let dislikes = this.state.dislikes;
     if(likes==="" ||dislikes==="")
@@ -162,7 +191,7 @@ class HomePage extends Component
     }
 
     return(
-<div className="h-100 d-flex flex-column m-xl-0">
+<div className="h-100 d-flex flex-column m-xl-0" >
   <FHeader/> 
   <main className="mx-0">
     <div className="mb-5 d-flex justify-content-around">
