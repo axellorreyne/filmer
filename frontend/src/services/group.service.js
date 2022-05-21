@@ -20,6 +20,11 @@ class GroupService
   {
     return((await axios.get(API_URL + 'get_group/' + id, {headers: authHeader()})).data);
   }
+  
+  async leaveGroup(id)
+  {
+    return((await axios.delete(API_URL + 'group_leave/' + id, {headers: authHeader()})).data);
+  }
 
 }
 export default new GroupService();

@@ -1,12 +1,8 @@
 import React, { Component } from "react";
-import {Link} from "react-router-dom";
 import {withRouter} from "../tools/WithRouter";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-import { isEmail } from "validator";
-import AuthService from "../services/auth.service";
-import UserService from "../services/user.service";
 import GroupService from "../services/group.service";
 
 import FFooter from "../components/FFooter.js";
@@ -115,11 +111,10 @@ class RoomHub extends Component {
       <div className="col-lg-7 mx-md-5 mb-5" >
         <p className="ffs-1 ffw-2 m-0 p-0 me-4">Rooms</p>
         <hr/> 
-          
-          <p className="rgb-1 ffs-3 ffw-2">Join your friends in an already existing room</p>
+          <p className="ffw-3 rgb-1 ffs-3 mb-3">Join a room with your friends to find movies you all like!</p>
           <Form onSubmit={this.joinRoom} ref={form => this.formJoin = form} className="d-sm-flex mb-4 ">
             <Input type="text" name="room-id" className="FFormInput"
-              value={this.state.roomId} onChange={this.buttonSetStateRoomId} validations={[requiredValidationTest, roomIdValidationTest]}/> 
+              value={this.state.roomId} onChange={this.buttonSetStateRoomId} validations={[requiredValidationTest, roomIdValidationTest]}/>
             <div className="form-group">
               <button disabled={this.state.loading} className="btn btn-primary ms-sm-3 mt-3 mt-md-0">
                   {this.state.loading && <span className="spinner-border spinner-border-sm"/>}
@@ -128,8 +123,6 @@ class RoomHub extends Component {
             </div>
             <CheckButton style={{ display: "none" }} ref={c => { this.checkBtnJoin = c; }} />
           </Form>
-
-          <p className="rgb-1 ffs-3 ffw-2 mt-4">Create a room for you and your friends</p>
           <Form onSubmit={this.createRoom} ref={form => this.formCreate = form} className="mb-4">
             <div className="form-group">
               <button className="btn btn-primary" disabled={this.state.loading} >
@@ -139,7 +132,6 @@ class RoomHub extends Component {
             </div>
             <CheckButton style={{ display: "none" }} ref={c => { this.checkBtnCreate = c; }} />
           </Form>
-
       </div>
     </div>
   </main>

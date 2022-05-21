@@ -35,7 +35,11 @@ class NewGroupIdView(APIView):
 
 class AddToGroupView(APIView):
     def post(self, request, group_id):
-        Group(group_id=group_id, user=request.user).save()
+        if request.user.is_authenticated:
+            user = request.user
+        else:
+            return Response({"error": "Not authenticated"})
+        Group(group_id=group_id, user=user).save()
         return Response({"group_id": group_id})
 
 class GetGroup(APIView):
@@ -47,6 +51,18 @@ class GetGroup(APIView):
         filmids = set(sum(list(map(lambda x : list(map(lambda y : ReactionSerializer(y).data['movie_id'], x)), user_reactions)), []))
         films = list(map(lambda x : get_movie_info(x), filmids))
         return Response({"usernames": usernames, "films": films})
+
+class LeaveGroup(APIView):
+    def delete(self, request, group_id):
+        if request.user.is_authenticated:
+            user = request.user
+        else:
+            return Response({"error": "Not authenticated"})
+        records = Group.objects.filter(user=user, group_id=group_id)
+        for record in records:
+            record.delete()
+        return Response(0);
+
 
 class RandomMovieView(APIView):
     def get(self, request):

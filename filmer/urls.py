@@ -6,6 +6,7 @@ urlpatterns = [
     path('new_group', views.NewGroupIdView.as_view(), name='group'),
     path('join_group/<str:group_id>', views.AddToGroupView.as_view(), name='group'),
     path('get_group/<str:group_id>', views.GetGroup.as_view(), name='group'),
+    path('group_leave/<str:group_id>', views.LeaveGroup.as_view(), name='group'),
     path('random_movie', views.RandomMovieView.as_view(), name='random_movie'),
     path('movie/<int:movie_id>', views.MovieInfoView.as_view(), name='movie_info'),\
     path('like_count/<int:movie_id>', views.LikeCountView.as_view(), name='like_count'),

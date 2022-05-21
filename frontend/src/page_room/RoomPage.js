@@ -1,23 +1,18 @@
 import React, {Component} from "react";
-import { useParams } from 'react-router-dom';
-import StringSimilarity from "string-similarity";
-
+import {withRouter} from "../tools/WithRouter";
 import FFooter from "../components/FFooter.js";
 import FHeader from "../components/FHeader";
-import FMovieLine from "../components/FMovieLine";
 import FTagList from "../components/FTagList";
-import MovieService from "../services/movie.service";
-import UserService from "../services/user.service";
 import GroupService from "../services/group.service";
 
 import RsrcIconStar from "../resources/icon_star.svg"
-import RsrcSearchIcon from "../resources/icon_search.svg";
 
 class Room extends Component
 {
 
   constructor(props) {
     super(props);
+    this.leaveRoom = this.leaveRoom.bind(this);
     const url = window.location.href;
     const id = url.substring(url.lastIndexOf('/') + 1);
     this.state = {movies: [], names: [], error: false, 
@@ -42,6 +37,18 @@ class Room extends Component
       }
     );
     document.title = "Filmer: Room";
+  }
+
+  leaveRoom()
+  {
+    console.log("leaving room")  
+    GroupService.leaveGroup(this.state.id).then(
+      (data) => { 
+        this.props.navigate("/roomhub");
+        window.location.reload();
+      },
+      (error) => { console.log("error") }
+    );
   }
   
   render()
@@ -102,7 +109,10 @@ class Room extends Component
         <main className="mb-5 container-fluid">
           <div className="mt-5 d-lg-flex justify-content-around align-items-center">
             <div className="col-lg-7 mx-md-5 mb-5" >
-              <p className="ffs-1 ffw-2 m-0 p-0 me-4">Room #{this.state.id}</p>
+              <div className="d-flex justify-content-between">  
+                <p className="ffs-1 ffw-2 m-0 p-0 me-4">Room #{this.state.id}</p>
+                <button className="btn btn-danger mt-3 ffs-4" onClick={this.leaveRoom}>Leave Room</button>
+              </div>  
               <p className="ffs-2 ffw-2 m-0 p-0 me-4 mt-5">{names.length} People</p>
               <div className="d-flex justify-content-left flex-wrap">
                 {names_rendered}
@@ -123,5 +133,5 @@ class Room extends Component
 
 }
 
-export default Room;
+export default withRouter(Room);
 
