@@ -189,28 +189,43 @@ class MyMoviesPage extends Component {
         let filtered = data.filter(movie => movie.like)
         this.allMovies = filtered.length
         let movies = []
+        let ids = []
         filtered.forEach(movie => {
             MovieService.getMovieInfo(movie.movie_id).then(info => {
                     movies.push({movie: info, seen: movie.seen, url: movie.url})
-                    this.setState({movies})
+                    ids.push(movie.movie_id)
+                    this.setState({movies, ids})
                 }
             )
         })
     }
 
     deleteMovie(ele) {
-        console.log(ele);
         this.allMovies--;
-        if(SolidUserService.isSolidUser(this.context.session)){
+        if (SolidUserService.isSolidUser(this.context.session)) {
             SolidUserService.deleteMovie(this.context.session, ele.url)
-        }else{
-           UserService.changeReaction(ele.movie.id, false, ele.movie.seen)
+        } else {
+            UserService.changeReaction(ele.movie.id, false, ele.movie.seen)
         }
 
         this.setState(prev => {
-            prev.movies.splice(prev.movies.indexOf(ele.movie.id.toString()), 1)
+            prev.movies.splice(prev.ids.indexOf(ele.movie.id.toString()), 1)
             return prev
         })
+    }
+
+    seenMovie = (ele) => {
+        if (SolidUserService.isSolidUser(this.context.session)) {
+            SolidUserService.watchMovie(this.context.session, ele.url, !ele.seen)
+        } else {
+            UserService.changeReaction(ele.movie.id, true, !ele.seen)
+        }
+
+        this.setState(prev => {
+            prev.movies[prev.ids.indexOf(ele.movie.id.toString())].seen = !ele.seen
+            return prev
+        })
+
     }
 
     render() {
@@ -230,7 +245,7 @@ class MyMoviesPage extends Component {
                                         <div className="col-xl-3 dropdown">
                                             <button type="button"
                                                     className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle"
-                                                    data-bs-toggle="dropdown"></button>
+                                                    data-bs-toggle="dropdown"/>
                                             <ul className="dropdown-menu fborder rgb-bg-1 w-100">
                                             </ul>
                                         </div>
@@ -242,7 +257,7 @@ class MyMoviesPage extends Component {
                                     <div className="col-md-2 col-xxl-1 dropdown h-50">
                                         <button type="button"
                                                 className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle"
-                                                data-bs-toggle="dropdown"></button>
+                                                data-bs-toggle="dropdown"/>
                                         <ul className="dropdown-menu fborder rgb-bg-1 w-100">
                                         </ul>
                                     </div>
@@ -264,13 +279,10 @@ class MyMoviesPage extends Component {
         const amount = filteredMovies.length
         let rendered = filteredMovies.slice(this.maxOnPage * (this.state.page - 1), this.maxOnPage * this.state.page).map(ele => {
             return <FMovieLine key={ele.movie.id} movie={ele.movie} seen={ele.seen} renderInfo={true} onSeen={() => {
-                UserService.changeReaction(ele.movie.id, true, !ele.seen)
-                this.setState(prev => {
-                    prev.movies.set(ele.movie.id.toString(), {movie: ele.movie, seen: !ele.seen})
-                    return prev
-                })
-            }}
-                               onReact={() => {this.deleteMovie(ele)}} reactIcon={RsrcPukeIcon} isLinked={false}/>
+                this.seenMovie(ele)
+            }} onReact={() => {
+                this.deleteMovie(ele)
+            }} reactIcon={RsrcPukeIcon} isLinked={false}/>
         });
         if (amount === 0) {
             let text = "Like movies on the homepage to view them here!"

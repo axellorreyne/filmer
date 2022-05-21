@@ -1,10 +1,12 @@
 import {
+    addStringNoLocale, addUrl,
+    createThing,
     deleteSolidDataset,
     getSolidDataset, getStringNoLocale,
     getStringNoLocaleAll,
     getThing,
     getThingAll, getUrl,
-    getUrlAll
+    getUrlAll, saveSolidDatasetAt, setThing
 } from "@inrupt/solid-client";
 import {LDP, RDF} from "@inrupt/vocab-common-rdf";
 
@@ -30,7 +32,7 @@ class SolidUserService {
         }).map(movie => movie.url)
     }
 
-    getMovieIdFromThing(thing){
+    getMovieIdFromThing(thing) {
         const sameAs = getStringNoLocaleAll(thing, "https://schema.org/sameAs");
         return sameAs.filter(a => a.includes("themoviedb"))[0].split('/')[4]
     }
@@ -59,8 +61,27 @@ class SolidUserService {
         return movies
     }
 
-    async deleteMovie(session, url){
-        await deleteSolidDataset(url,{ fetch: session.fetch });
+    async deleteMovie(session, url) {
+        await deleteSolidDataset(url, {fetch: session.fetch});
+    }
+
+    async watchMovie(session, url, seen) {
+        if (seen) {
+            let movieDataset = await getSolidDataset(url, {fetch: session.fetch})
+            const all = getThingAll(movieDataset);
+
+            all.forEach(thing => {
+                const type = getUrl(thing, RDF.type)
+                if (type === "https://schema.org/Movie") {
+                    let watchActionThing = createThing({name: "seen"});
+                    watchActionThing = addUrl(watchActionThing, RDF.type, "https://schema.org/WatchAction");
+                    watchActionThing = addUrl(watchActionThing, "https://schema.org/object", thing.url);
+                    movieDataset = setThing(movieDataset, watchActionThing);
+                    saveSolidDatasetAt(url, movieDataset, {fetch: session.fetch});
+                }
+            })
+
+        }
     }
 }
 
