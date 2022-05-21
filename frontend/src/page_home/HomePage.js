@@ -15,6 +15,7 @@ import RsrcIconVomit from "../resources/icon_vomit.svg";
 class HomePage extends Component
 {
   static preloaded = ""
+  static hasReaction = false
   constructor(props)
   {
       super(props)
@@ -114,7 +115,12 @@ class HomePage extends Component
 
   rateMovie(liked)
   {
-      UserService.createReaction(this.state.movie.id,liked,this.seenCheck)
+    if(HomePage.hasReaction){
+      HomePage.hasReaction=false
+      UserService.changeReaction(this.state.movie.id,liked,this.seenCheck)
+    }else {
+      UserService.createReaction(this.state.movie.id, liked, this.seenCheck)
+    }
       this.loadMovie()
   }
 

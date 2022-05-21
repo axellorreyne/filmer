@@ -228,7 +228,7 @@ class MyMoviesPage extends Component
         .filter(i=>this.state.score(i)>=minimum_likelihood)
     const amount = filteredMovies.length
     let rendered = filteredMovies.slice(this.maxOnPage*(this.state.page-1),this.maxOnPage*this.state.page).map(ele=>{
-        return <FMovieLine movie={ele.movie} seen={ele.seen} renderInfo={true} onSeen={()=>{
+        return <FMovieLine hasReaction={true} movie={ele.movie} seen={ele.seen} renderInfo={true} onSeen={()=>{
             UserService.changeReaction(ele.movie.id,true,!ele.seen)
             this.setState(prev=>{
                 prev.movies.set(ele.movie.id.toString(),{movie:ele.movie,seen:!ele.seen})

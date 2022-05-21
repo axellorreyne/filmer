@@ -133,12 +133,13 @@ class SearchMoviesPage extends Component
     let rendered = this.state.movies.sort(this.state.sorter)
         .map(ele=>{
             let id = ele.id.toString()
-            return <FMovieLine movie={ele} seen={this.state.seen.get(id)}
+            let reacted = this.allReactions.includes(id)
+            return <FMovieLine hasReaction={reacted} movie={ele} seen={this.state.seen.get(id)}
                     onSeen={()=>{this.setState(prev=>{
                         prev.seen.set(id,!prev.seen.get(id))
                         return prev
                     })
-                    if(this.allReactions.includes(id)){
+                    if(reacted){
                         console.log(id)
                         console.log(this.state.likedMovies.get(id))
                         console.log(this.state.seen.get(id))
