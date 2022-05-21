@@ -40,6 +40,9 @@ class MyMoviesPage extends Component {
         this.formatDirector = this.formatDirector.bind(this);
         this.formatGenres = this.formatGenres.bind(this);
 
+        this.handleMovies = this.handleMovies.bind(this);
+        this.deleteMovie = this.deleteMovie.bind(this);
+
         this.maxOnPage = 20
 
         this.searchTerm = "";
@@ -52,7 +55,7 @@ class MyMoviesPage extends Component {
         //searchOption: naam van de gekozen zoek optie
         //score: neemt een movie en geeft een gelijkenis met de zoekterm terug. Wordt gebruikt door sorteren en filter
         this.state = {
-            movies: new Map([["", {}]]),
+            movies: {},
             page: 1,
             sorter: (i, o) => 0,
             searchOption: "Title",
@@ -173,29 +176,45 @@ class MyMoviesPage extends Component {
     }
 
     componentDidMount() {
-
-        SolidUserService.getReactions(this.context.session).then(console.log)
-
-        UserService.getReactions().then((data) => {
-
-            let filtered = data.filter(movie => movie.like)
-            this.allMovies = filtered.length
-            this.setState({movies: new Map()})
-            filtered.forEach(movie => {
-                MovieService.getMovieInfo(movie.movie_id).then(info => {
-                        this.setState(prev => {
-                            prev.movies.set(movie.movie_id, {movie: info, seen: movie.seen})
-                            return prev
-                        })
-                    }
-                )
-            })
-        })
+        if (SolidUserService.isSolidUser(this.context.session)) {
+            console.log('load solid movies')
+            SolidUserService.getReactions(this.context.session).then(this.handleMovies) // if solid user
+        } else {
+            UserService.getReactions().then(this.handleMovies) // if normal user
+        }
         document.title = "Filmer: My Movies";
     }
 
+    handleMovies(data) {
+        let filtered = data.filter(movie => movie.like)
+        this.allMovies = filtered.length
+        let movies = []
+        filtered.forEach(movie => {
+            MovieService.getMovieInfo(movie.movie_id).then(info => {
+                    movies.push({movie: info, seen: movie.seen, url: movie.url})
+                    this.setState({movies})
+                }
+            )
+        })
+    }
+
+    deleteMovie(ele) {
+        console.log(ele);
+        this.allMovies--;
+        if(SolidUserService.isSolidUser(this.context.session)){
+            SolidUserService.deleteMovie(this.context.session, ele.url)
+        }else{
+           UserService.changeReaction(ele.movie.id, false, ele.movie.seen)
+        }
+
+        this.setState(prev => {
+            prev.movies.splice(prev.movies.indexOf(ele.movie.id.toString()), 1)
+            return prev
+        })
+    }
+
     render() {
-        let movies = Array.from(this.state.movies.values())
+        let movies = this.state.movies
         if (movies.length !== this.allMovies) {
             return (
                 <div className="h-100 d-flex flex-column m-3 m-xl-0">
@@ -244,22 +263,14 @@ class MyMoviesPage extends Component {
             .filter(i => this.state.score(i) >= minimum_likelihood)
         const amount = filteredMovies.length
         let rendered = filteredMovies.slice(this.maxOnPage * (this.state.page - 1), this.maxOnPage * this.state.page).map(ele => {
-            return <FMovieLine movie={ele.movie} seen={ele.seen} renderInfo={true} onSeen={() => {
+            return <FMovieLine key={ele.movie.id} movie={ele.movie} seen={ele.seen} renderInfo={true} onSeen={() => {
                 UserService.changeReaction(ele.movie.id, true, !ele.seen)
                 this.setState(prev => {
                     prev.movies.set(ele.movie.id.toString(), {movie: ele.movie, seen: !ele.seen})
                     return prev
                 })
             }}
-                               onReact={() => {
-                                   this.allMovies--;
-                                   UserService.changeReaction(ele.movie.id, false, ele.movie.seen)
-                                   this.setState(prev => {
-                                       prev.movies.delete(ele.movie.id.toString())
-                                       return prev
-                                   })
-                               }
-                               } reactIcon={RsrcPukeIcon} isLinked={false}/>
+                               onReact={() => {this.deleteMovie(ele)}} reactIcon={RsrcPukeIcon} isLinked={false}/>
         });
         if (amount === 0) {
             let text = "Like movies on the homepage to view them here!"
