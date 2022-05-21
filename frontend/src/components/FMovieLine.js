@@ -23,6 +23,7 @@ class FMovieLine extends Component
         const score = this.props.movie.vote_average.toFixed(1)
         const link = (linked)?<button className="bg-transparent border-0" onClick={()=>{
                                         HomePage.preloaded=this.props.movie.id
+                                        HomePage.hasReaction = this.props.hasReaction
                                         this.props.navigate("/home")
                                     }}>
                         <img src={RsrcSearchIcon} height="30px" width="30px" className="hover-bg-dark fborder p-2" alt=""/>
