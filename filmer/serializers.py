@@ -35,7 +35,3 @@ class GroupInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = GroupInfo 
         fields = ['group_id', 'admin', 'name']
-
-
-
-

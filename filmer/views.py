@@ -62,10 +62,9 @@ class GetGroup(APIView):
         groupinfo = list(GroupInfo.objects.filter(group_id=group_id))
         if (len(groupinfo) < 1):
             return Response({"error": "Server Error"}, status=500)
-        groupinfo = GroupInfoSerializer(groupinfo[0]).data
-        print(groupinfo)
+        groupinfo_serialized = GroupInfoSerializer(groupinfo[0]).data
 
-        return Response({"usernames": usernames, "films": films, "name": groupinfo['name'], "admin": UserSerializer(groupinfo['admin'])})
+        return Response({"usernames": usernames, "films": films, "name": groupinfo_serialized['name'], "admin": UserSerializer(groupinfo[0].admin).data})
 
 class LeaveGroup(APIView):
     def delete(self, request, group_id):
@@ -95,6 +94,8 @@ class InGroup(APIView):
             return Response({"error": "Not authenticated"}, status=500)
         records = Group.objects.filter(user=user)
         records = [GroupSerializer(x).data['group_id'] for x in records]
+        records = set(sum([[*GroupInfo.objects.filter(group_id=x)] for x in records], []))
+        records = [GroupInfoSerializer(x).data for x in records]
         return Response(records);
 
 

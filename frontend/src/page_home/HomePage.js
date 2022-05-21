@@ -155,7 +155,8 @@ class HomePage extends Component
 
     let likes = this.state.likes;
     let dislikes = this.state.dislikes;
-    if(likes==="" ||dislikes===""){
+    if(likes==="" ||dislikes==="")
+    {
       likes=""
       dislikes=""
     }

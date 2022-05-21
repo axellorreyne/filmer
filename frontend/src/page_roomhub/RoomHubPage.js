@@ -51,7 +51,7 @@ class RoomHub extends Component {
         roomName: "",
         loading: false,
         message: "",
-        groups: [],
+        groups: [{group_id: 'c289ec', admin: 3, name: 'group1'}],
       }
     this.inGroup()
   }   
@@ -166,12 +166,12 @@ class RoomHub extends Component {
         </div>
         <h2 className="mt-5 mb-4">Current Groups ({this.state.groups.length})</h2>
         <div>
-          {this.state.groups.map((group_id, index) => 
+          {this.state.groups.map((group, index) => 
             <div>
               <hr/>
               <div className="d-flex align-items-center justify-content-between"> 
-                <label className="ffw-2 ffs-2">#{group_id}</label>
-                <Link to={group_id}><button className="btn btn-light px-5 ffw-2">enter</button></Link>
+                <label className="ffw-2 ffs-2">{group.name} (#{group.group_id})</label>
+                <Link to={group.group_id}><button className="btn btn-light px-5 ffw-2">enter</button></Link>
               </div> 
             </div> 
           )}
