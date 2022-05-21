@@ -46,7 +46,7 @@ class FTotalRoutes extends Component {
                         <Route path="/mymovies" element={this.check(<MyMoviesPage/>)}/>
                         <Route path="/solidlogin" element={<SolidLoginPage/>}/>
                         <Route path="/room/:id" element={<RoomPage/>}/>
-                        <Route path="/roomhub" element={<RoomHubPage/>}/>
+                        <Route path="/room" element={<RoomHubPage/>}/>
                         <Route path="/notimplemented" element={<NotImplementedPage/>}/>
                     </Routes>
                 </BrowserRouter>

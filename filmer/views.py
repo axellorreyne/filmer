@@ -7,11 +7,13 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from filmer.models.Group import Group
+from filmer.models.GroupInfo import GroupInfo
 from filmer.models.Movie import Movie
 from filmer.models.Reaction import Reaction
 from filmer.scrapers.TMDBSCraper import get_movie_info, get_movies_by_string
 from filmer.serializers import MovieSerializer
 from filmer.serializers import GroupSerializer 
+from filmer.serializers import GroupInfoSerializer 
 from filmer.serializers import ReactionSerializer 
 from filmer.serializers import UserSerializer
 from django.conf import settings
@@ -19,7 +21,7 @@ from django.conf import settings
 group_token_length = 3
 
 class NewGroupIdView(APIView):
-    def get(self, request):
+    def get(self, request, group_name):
         group_id = secrets.token_hex(group_token_length)
         while Group.objects.filter(group_id=id).exists():
             group_id = secrets.token_hex(group_token_length)
@@ -29,8 +31,8 @@ class NewGroupIdView(APIView):
         else:
             return Response({"error": "Not authenticated"})
 
-        record = Group(group_id=group_id, user=user)
-        record.save()
+        GroupInfo(group_id=group_id, admin=user, name=group_name).save()
+        Group(group_id=group_id, user=user).save()
         return Response({"group_id": group_id})
 
 class AddToGroupView(APIView):
@@ -39,18 +41,31 @@ class AddToGroupView(APIView):
             user = request.user
         else:
             return Response({"error": "Not authenticated"})
+        groupinfo = [*GroupInfo.objects.filter(group_id=group_id)]
+        print(groupinfo)
+        if (len(groupinfo) < 1):
+            return Response({"error": ("There is no group with id" + group_id)}, status=500)
+
         Group(group_id=group_id, user=user).save()
         return Response({"group_id": group_id})
 
 class GetGroup(APIView):
     def get(self, request, group_id):
+        
         group = list(Group.objects.filter(group_id=group_id))
-        users = list(map(lambda x : x.user, group))
-        usernames = list(map(lambda x : UserSerializer(x).data['username'], users))
-        user_reactions = list(map(lambda x : Reaction.objects.filter(user=x, like=True), users))
-        filmids = set(sum(list(map(lambda x : list(map(lambda y : ReactionSerializer(y).data['movie_id'], x)), user_reactions)), []))
-        films = list(map(lambda x : get_movie_info(x), filmids))
-        return Response({"usernames": usernames, "films": films})
+        users = [x.user for x in group]
+        usernames = [UserSerializer(x).data['username'] for x in users]
+        user_reactions = [Reaction.objects.filter(user=x, like=True) for x in users]
+        filmids = set(sum([[ReactionSerializer(y).data['movie_id'] for y in x] for x in user_reactions], []))
+        films = [get_movie_info(x) for x in filmids]
+
+        groupinfo = list(GroupInfo.objects.filter(group_id=group_id))
+        if (len(groupinfo) < 1):
+            return Response({"error": "Server Error"}, status=500)
+        groupinfo = GroupInfoSerializer(groupinfo[0]).data
+        print(groupinfo)
+
+        return Response({"usernames": usernames, "films": films, "name": groupinfo['name'], "admin": UserSerializer(groupinfo['admin'])})
 
 class LeaveGroup(APIView):
     def delete(self, request, group_id):
@@ -58,10 +73,29 @@ class LeaveGroup(APIView):
             user = request.user
         else:
             return Response({"error": "Not authenticated"})
+
+        groupinfo = list(GroupInfo.objects.filter(group_id=group_id))
+        if (len(groupinfo) < 1):
+            return Response({"error": "Server Error"}, status=500)
+        groupinfo = groupinfo[0]
+        if user == groupinfo.admin:
+            return Response({"error": "Admin cannot leave group"}, status=500)
+
         records = Group.objects.filter(user=user, group_id=group_id)
         for record in records:
             record.delete()
         return Response(0);
+
+
+class InGroup(APIView):
+    def get(self, request):
+        if request.user.is_authenticated:
+            user = request.user
+        else:
+            return Response({"error": "Not authenticated"}, status=500)
+        records = Group.objects.filter(user=user)
+        records = [GroupSerializer(x).data['group_id'] for x in records]
+        return Response(records);
 
 
 class RandomMovieView(APIView):

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import {withRouter} from "../tools/WithRouter";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -24,38 +25,65 @@ function roomIdValidationTest(value)
   return(result);
 }
 
+function roomNameValidationTest(value)
+{
+  let result = undefined;
+  if (value.length > 42)
+  {
+    result = <div className="rgb-alert mb-2" role="alert">id is not the correct length</div>;
+  }
+  return(result);
+}
+
 class RoomHub extends Component {
   
   constructor(props) 
   {
     super(props);
     this.buttonSetStateRoomId = this.buttonSetStateRoomId.bind(this);
+    this.buttonSetStateRoomName = this.buttonSetStateRoomName.bind(this);
     this.joinRoom = this.joinRoom.bind(this);
     this.createRoom = this.createRoom.bind(this);
+    this.inGroup = this.inGroup.bind(this);
     this.state = 
       {
         roomId: "",
+        roomName: "",
         loading: false,
         message: "",
+        groups: [],
       }
+    this.inGroup()
   }   
 
   buttonSetStateRoomId(button)
   {
     this.setState({roomId: button.target.value}) ;
   }
+  
+  buttonSetStateRoomName(button)
+  {
+    this.setState({roomName: button.target.value});
+  }
+
+  inGroup()
+  {
+    GroupService.inGroup().then(
+      (group_ids) => { 
+        this.setState({groups: group_ids});
+      },
+      (error) => {console.log("error: ", error)}
+    );
+  }
 
   createRoom(form)
   {
-    // [ ] send request for new room
-    // [ ] get back id for new room
-    // [ ] go to room
     form.preventDefault();
     this.setState({message: "", loading: true})
     this.formCreate.validateAll();
     if (this.checkBtnCreate.context._errors.length === 0) 
     {
-      GroupService.createGroup().then(
+      GroupService.createGroup(this.state.roomName).then(
         (data) => 
         {
           console.log(data.group_id);
@@ -91,7 +119,7 @@ class RoomHub extends Component {
           window.location.reload();
         },
         (error) => {
-          console.log("error");
+          console.log(error)
           this.setState({loading: false});
         }
       );
@@ -101,7 +129,7 @@ class RoomHub extends Component {
       this.setState({loading: false});
     }
   }
-
+  
   render() {
     return (
 <div className="h-100 d-flex flex-column m-3 m-xxl-0">
@@ -109,29 +137,45 @@ class RoomHub extends Component {
   <main className="mb-5 container-fluid">
     <div className="my-5 d-lg-flex justify-content-around align-items-center">
       <div className="col-lg-7 mx-md-5 mb-5" >
-        <p className="ffs-1 ffw-2 m-0 p-0 me-4">Rooms</p>
+        <p className="ffs-1 ffw-2 m-0 p-0 me-4">Groups</p>
+        <h2 className="rgb-1 ffw-2 ffs-3 mb-3 mb-4 mt-3">Join a group with your friends to find movies you all like!</h2>
         <hr/> 
-          <p className="ffw-3 rgb-1 ffs-3 mb-3">Join a room with your friends to find movies you all like!</p>
-          <Form onSubmit={this.joinRoom} ref={form => this.formJoin = form} className="d-sm-flex mb-4 ">
-            <Input type="text" name="room-id" className="FFormInput"
+        <div className="">
+          <Form onSubmit={this.joinRoom} ref={form => this.formJoin = form} className="d-flex me-4">
+            <Input type="text" name="room-id" className="FFormInput col-9 w-100" placeholder="Group id"
               value={this.state.roomId} onChange={this.buttonSetStateRoomId} validations={[requiredValidationTest, roomIdValidationTest]}/>
             <div className="form-group">
-              <button disabled={this.state.loading} className="btn btn-primary ms-sm-3 mt-3 mt-md-0">
-                  {this.state.loading && <span className="spinner-border spinner-border-sm"/>}
-                  {!this.state.loading && <span>Join Room</span>}
+              <button disabled={this.state.loading} className="btn btn-primary ms-3 mb-3">
+                {this.state.loading && <span className="spinner-border spinner-border-sm"/>}
+                {!this.state.loading && <span>Join Room</span>}
               </button>
             </div>
             <CheckButton style={{ display: "none" }} ref={c => { this.checkBtnJoin = c; }} />
           </Form>
-          <Form onSubmit={this.createRoom} ref={form => this.formCreate = form} className="mb-4">
+          <Form onSubmit={this.createRoom} ref={form => this.formCreate = form} className="d-flex mb-4">
+            <Input type="text" name="room-name" className="FFormInput me-3" placeholder="Groupname"
+               value={this.state.roomName} onChange={this.buttonSetStateRoomName} validations={[requiredValidationTest, roomNameValidationTest]}/>
             <div className="form-group">
               <button className="btn btn-primary" disabled={this.state.loading} >
-                  {this.state.loading && <span className="spinner-border spinner-border-sm"/>}
-                  {!this.state.loading && <span>Create Room</span>}
+                {this.state.loading && <span className="spinner-border spinner-border-sm"/>}
+                {!this.state.loading && <span>Create Room</span>}
               </button>
             </div>
             <CheckButton style={{ display: "none" }} ref={c => { this.checkBtnCreate = c; }} />
           </Form>
+        </div>
+        <h2 className="mt-5 mb-4">Current Groups ({this.state.groups.length})</h2>
+        <div>
+          {this.state.groups.map((group_id, index) => 
+            <div>
+              <hr/>
+              <div className="d-flex align-items-center justify-content-between"> 
+                <label className="ffw-2 ffs-2">#{group_id}</label>
+                <Link to={group_id}><button className="btn btn-light px-5 ffw-2">enter</button></Link>
+              </div> 
+            </div> 
+          )}
+        </div>
       </div>
     </div>
   </main>

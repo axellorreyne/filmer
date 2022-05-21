@@ -3,7 +3,8 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('new_group', views.NewGroupIdView.as_view(), name='group'),
+    path('in_group/', views.InGroup.as_view(), name='group'),
+    path('new_group/<str:group_name>', views.NewGroupIdView.as_view(), name='group'),
     path('join_group/<str:group_id>', views.AddToGroupView.as_view(), name='group'),
     path('get_group/<str:group_id>', views.GetGroup.as_view(), name='group'),
     path('group_leave/<str:group_id>', views.LeaveGroup.as_view(), name='group'),

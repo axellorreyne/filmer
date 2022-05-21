@@ -4,6 +4,7 @@ from rest_framework import serializers
 from filmer.models.Movie import Movie
 from filmer.models.Reaction import Reaction 
 from filmer.models.Group import Group
+from filmer.models.GroupInfo import GroupInfo
 
 
 class MovieSerializer(serializers.ModelSerializer):
@@ -29,6 +30,11 @@ class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group 
         fields = ['group_id', 'user']
+
+class GroupInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GroupInfo 
+        fields = ['group_id', 'admin', 'name']
 
 
 

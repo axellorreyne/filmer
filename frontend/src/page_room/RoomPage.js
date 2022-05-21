@@ -44,7 +44,7 @@ class Room extends Component
     console.log("leaving room")  
     GroupService.leaveGroup(this.state.id).then(
       (data) => { 
-        this.props.navigate("/roomhub");
+        this.props.navigate("/room");
         window.location.reload();
       },
       (error) => { console.log("error") }

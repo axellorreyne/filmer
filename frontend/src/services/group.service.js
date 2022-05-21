@@ -5,10 +5,14 @@ const API_URL = "/api/";
 
 class GroupService
 {
-
-  async createGroup()
+  async inGroup()
   {
-    return((await axios.get(API_URL + 'new_group',  {headers: authHeader()})).data);
+    return((await axios.get(API_URL + 'in_group',  {headers: authHeader()})).data);
+  }
+
+  async createGroup(id)
+  {
+    return((await axios.get(API_URL + 'new_group/' + id,  {headers: authHeader()})).data);
   }
 
   async joinGroup(id)
