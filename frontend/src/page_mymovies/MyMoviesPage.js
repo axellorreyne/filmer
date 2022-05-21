@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import stringSimilarity from "string-similarity";
+import {withRouter} from "../tools/WithRouter";
 
 import FFooter from "../components/FFooter.js";
 import FHeader from "../components/FHeader";
@@ -13,6 +14,7 @@ import MovieService from "../services/movie.service";
 import UserService from "../services/user.service";
 
 import RsrcSearchIcon from "../resources/icon_search.svg";
+import RsrcPukeIcon from "../resources/icon_vomit.svg";
 
 class MyMoviesPage extends Component
 {
@@ -26,6 +28,7 @@ class MyMoviesPage extends Component
     this.sortOnTitle = this.sortOnTitle.bind(this);
     this.sortOnDirectors = this.sortOnDirectors.bind(this);
     this.sortOnScore = this.sortOnScore.bind(this);
+    this.sortOnPopularity = this.sortOnPopularity.bind(this)
 
     this.newSortOption = this.newSortOption.bind(this);
     this.newSearchOption = this.newSearchOption.bind(this);
@@ -45,7 +48,7 @@ class MyMoviesPage extends Component
     //sorter: een compare die 2 movie objecten neemt, en een gelijkenis tussen -1 en 1 teruggeeft
     //searchOption: naam van de gekozen zoek optie
     //score: neemt een movie en geeft een gelijkenis met de zoekterm terug. Wordt gebruikt door sorteren en filter
-    this.state = {movies:new Map(),page:1,sorter:(i,o)=>0,searchOption:"Title",score:(i)=>1};
+    this.state = {movies:new Map([["",{}]]),page:1,sorter:(i,o)=>0,searchOption:"Title",score:(i)=>1};
   }
 
     changePage(inc){
@@ -89,6 +92,10 @@ class MyMoviesPage extends Component
     sortOnScore(i,o){
         return this.state.score(o)
             - this.state.score(i)
+    }
+
+    sortOnPopularity(i,o){
+      return o.movie.vote_average-i.movie.vote_average
     }
 
     setFilterSearch(){
@@ -158,7 +165,10 @@ class MyMoviesPage extends Component
   componentDidMount()
   {
     UserService.getReactions().then((data)=> {
+
         let filtered = data.filter(movie => movie.like)
+        this.allMovies = filtered.length
+        this.setState({movies:new Map()})
         filtered.forEach(movie=> {
             MovieService.getMovieInfo(movie.movie_id).then(info => {
                     this.setState(prev=>{
@@ -168,7 +178,6 @@ class MyMoviesPage extends Component
                 }
             )
         })
-        this.allMovies = filtered.length
     })
     document.title = "Filmer: My Movies";
   }
@@ -219,14 +228,14 @@ class MyMoviesPage extends Component
         .filter(i=>this.state.score(i)>=minimum_likelihood)
     const amount = filteredMovies.length
     let rendered = filteredMovies.slice(this.maxOnPage*(this.state.page-1),this.maxOnPage*this.state.page).map(ele=>{
-        return <FMovieLine movie={ele.movie} seen={ele.seen} onSeen={()=>{
+        return <FMovieLine hasReaction={true} movie={ele.movie} seen={ele.seen} renderInfo={true} onSeen={()=>{
             UserService.changeReaction(ele.movie.id,true,!ele.seen)
             this.setState(prev=>{
                 prev.movies.set(ele.movie.id.toString(),{movie:ele.movie,seen:!ele.seen})
                 return prev
             })
         }}
-        onDislike={()=>{
+        onReact={()=>{
             this.allMovies--;
             UserService.changeReaction(ele.movie.id,false,ele.movie.seen)
             this.setState(prev=>{
@@ -234,7 +243,7 @@ class MyMoviesPage extends Component
                 return prev
             })
         }
-        }/>});
+        } reactIcon={RsrcPukeIcon} isLinked={false}/>});
     if(amount === 0) {
         let text = "Like movies on the homepage to view them here!"
         if(this.searchView)
@@ -269,6 +278,7 @@ class MyMoviesPage extends Component
     const sortName = this.sortName;
     const searchOption = this.state.searchOption;
 
+      const popuSort = this.newSortOption("Popularity",this.sortOnPopularity)
       const titleSort = this.newSortOption("Title",this.sortOnTitle)
       const directorSort = this.newSortOption("Directors",this.sortOnDirectors)
       const seenSort = this.newSortOption("Seen",this.sortOnSeen)
@@ -284,6 +294,7 @@ class MyMoviesPage extends Component
             <div className="col-lg-7 mx-md-5 mb-5" >
               <p className="ffs-1 ffw-2 m-0 p-0 me-4">My movies ({amount})</p>
               <div className="d-md-flex mt-4 justify-content-between align-items-center">
+
                 <div className="col-md-6 d-flex align-items-center">
                   <input type="text" className="FFormInput h-50 w-100 my-2 me-2" id="search"
                          placeholder="Search"  onChange={this.setSearchTerm}/>
@@ -299,6 +310,7 @@ class MyMoviesPage extends Component
                         <img src={RsrcSearchIcon} height="30px" width="30px" className="hover-bg-dark fborder p-2" alt=""/>
                   </button>
                 </div>
+
                 <div className="col-md-2 col-xxl-1 dropdown h-50">
                   <button type="button" className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown">{sortName}</button>
                   <ul className="dropdown-menu fborder rgb-bg-1 w-100">
@@ -308,6 +320,7 @@ class MyMoviesPage extends Component
                       {proximity}
                   </ul>
                 </div>
+
               </div>
               {rendered}
               <div className="d-flex pt-5 m-5 m-xl-0 justify-content-center align-items-baseline">
@@ -325,5 +338,5 @@ class MyMoviesPage extends Component
 
 }
 
-export default MyMoviesPage;
+export default withRouter(MyMoviesPage);
 

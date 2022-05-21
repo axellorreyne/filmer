@@ -92,15 +92,14 @@ class SignupPage extends Component
               },
               error => 
               {
-                  const resMessage = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+                  const resMessage = (error.response && error.response.data && error.response.data.detail) || (error.response && error.response.data) || error.message || error.toString();
                   this.setState({successful: false, message: resMessage});
               }
           );
         },
         error => 
         {
-          const resMessage = (error.response && error.response.data 
-              && error.response.data.message) || error.message || error.toString();
+          const resMessage = (error.response && error.response.data && error.response.data.username) || (error.response && error.response.data) || error.message || error.toString();
           this.setState({ successful: false, message: resMessage });
         }
       );
