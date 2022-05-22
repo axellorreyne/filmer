@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
 
-    postgres:
+    database:
       image: postgres:13
       hostname: postgres
       environment:
@@ -18,12 +18,14 @@ services:
       networks: [ backend ]
       restart: always
 
-
     backend:
       build:
         context: .
       environment:
         - DJANGO_CONFIGURATION:Production
+        - POSTGRES_DB=postgres
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
       hostname: backend
       volumes:
         - '.:/code'
@@ -33,7 +35,7 @@ services:
         - backend
       restart: always
       depends_on:
-        - postgres
+        - database
 
     frontend:
       build:
