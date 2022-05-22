@@ -141,9 +141,9 @@ class Base(Configuration):
         'REFRESH_TOKEN_LIFETIME': timedelta(days=20),
     }
 
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    BASE_DIR = path.dirname(path.dirname(path.abspath(__file__)))
 
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATIC_ROOT = path.join(BASE_DIR, 'staticfiles')
 
     # Solid stuff
     SOLID_CALLBACK = 'http://find-a-film.xyz/api/solid_callback'
