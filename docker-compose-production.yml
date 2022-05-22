@@ -6,7 +6,6 @@ services:
       image: postgres:13
       hostname: postgres
       environment:
-        POSTGRES_USER: filmer
         POSTGRES_PASSWORD: vimislife
         #TODO: Make user and password a docker secret
         #POSTGRES_DB_FILE: /run/secrets/postgres_db

@@ -164,7 +164,7 @@ class Production(Base):
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'postgres',
-            'USER': 'filmer',
+            'USER': 'postgres',
             'PASSWORD': 'vimislife',
             'HOST': 'postgres',
             'PORT': '5432',
