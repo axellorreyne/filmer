@@ -1,5 +1,6 @@
 import {
-    addStringNoLocale, addUrl,
+    addDatetime,
+    addStringNoLocale, addUrl, buildThing, createSolidDataset,
     createThing,
     deleteSolidDataset,
     getSolidDataset, getStringNoLocale,
@@ -9,6 +10,7 @@ import {
     getUrlAll, removeThing, saveSolidDatasetAt, setThing
 } from "@inrupt/solid-client";
 import {LDP, RDF} from "@inrupt/vocab-common-rdf";
+import moment from "moment/moment";
 
 function cleanWebId(id, loc) {
     id = id.split('/')
@@ -70,20 +72,23 @@ class SolidUserService {
         const all = getThingAll(movieDataset);
 
         if (seen) {
-            for(const thing of all){
+            for (const thing of all) {
                 const type = getUrl(thing, RDF.type)
                 if (type === "https://schema.org/Movie") {
                     let watchActionThing = createThing({name: "seen"});
                     watchActionThing = addUrl(watchActionThing, RDF.type, "https://schema.org/WatchAction");
                     watchActionThing = addUrl(watchActionThing, "https://schema.org/object", thing.url);
+                    watchActionThing = addDatetime(watchActionThing, "http://purl.org/dc/terms/created", new Date())
+                    watchActionThing = addDatetime(watchActionThing, "https://schema.org/startTime", new Date())
+                    watchActionThing = addDatetime(watchActionThing, "https://schema.org/endTime", new Date())
                     movieDataset = setThing(movieDataset, watchActionThing);
                     await saveSolidDatasetAt(url, movieDataset, {fetch: session.fetch});
                     break;
                 }
             }
 
-        }else{
-            for(const thing of all){
+        } else {
+            for (const thing of all) {
                 const type = getUrl(thing, RDF.type)
                 if (type === "https://schema.org/WatchAction") {
                     movieDataset = removeThing(movieDataset, thing);
@@ -91,6 +96,33 @@ class SolidUserService {
                     break;
                 }
             }
+        }
+    }
+
+    async likeMovie(session, movie, seen) {
+        let newMovieDataSet = createSolidDataset();
+
+        const newMovieThing = buildThing(createThing({name: "it"}))
+            .addUrl(RDF.type, 'https://schema.org/Movie')
+            .addStringNoLocale('https://schema.org/name', movie.title)
+            .addStringNoLocale("https://schema.org/sameAs", `https://www.imdb.com/title/${movie.imdb_id}`)
+            .addStringNoLocale("https://schema.org/sameAs", `https://www.themoviedb.org/movie/${movie.id}`)
+            .addDatetime("http://purl.org/dc/terms/created", new Date())
+            .addDatetime("http://purl.org/dc/terms/modfied", new Date())
+            .addStringNoLocale('https://schema.org/description', movie.overview)
+            .addDatetime("https://schema.org/datePublished", moment(movie.release_date, 'YYYY-MM-DD').toDate())
+            .addStringNoLocale('https://schema.org/image', `https://image.tmdb.org/t/p/original/${movie.poster_path}`)
+            .build();
+
+        newMovieDataSet = setThing(newMovieDataSet, newMovieThing);
+        const url = cleanWebId(session.info.webId, `movies/${movie.title.toLowerCase().split(' ').join('-').replace(/[^a-zA-Z0-9-_]/g, '')}-`
+            + `${movie.release_date.toLowerCase().split(' ').join('-').replace(/[^a-zA-Z0-9-_]/g, '')}`)
+        console.log(url)
+
+        await saveSolidDatasetAt(url, newMovieDataSet, {fetch: session.fetch});
+
+        if (seen) {
+            await this.watchMovie(session, url, true);
         }
     }
 }
