@@ -161,11 +161,11 @@ class Development(Base):
 
 class Production(Base):
     DATABASES = values.DatabaseURLValue(
-        "postgres://postgres:postgres@filmer:5432/filmer",
+        "postgres://postgres:postgres@postgres:5432/filmer",
         environ=False,
     )
 
-    POSTGRES_HOST = values.Value("postgres")
+    POSTGRES_HOST = values.Value("filmer")
     POSTGRES_PORT = values.Value(5432)
     POSTGRES_USER = values.Value("filmer")
     POSTGRES_PASSWORD = values.Value("vimislife")
