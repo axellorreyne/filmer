@@ -8,5 +8,4 @@ requests~=2.27.1
 djangorestframework-simplejwt~=5.1.0
 whitenoise~=6.0.0
 rdflib~=6.1.1
-pg-config
-psycopg2
+psycopg2-binary
