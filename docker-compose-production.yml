@@ -4,6 +4,8 @@ services:
     backend:
       build:
         context: .
+      environment:
+        - DJANGO_CONFIGURATION:Production
       hostname: backend
       volumes:
         - '.:/code'

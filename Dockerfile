@@ -25,9 +25,6 @@ RUN pip install -r ./requirements.txt
 # TODO: exclude frontend
 COPY . .
 
-# Set enviroment to production
-ENV DJANGO_CONFIGURATION=Production
-
 # install gunicorn
 RUN python -m pip install gunicorn
 
