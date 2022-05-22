@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Route,Routes,BrowserRouter} from "react-router-dom";
+import {Route,Routes,BrowserRouter, userParams} from "react-router-dom";
 
 import UserService from '../services/user.service'
 
@@ -60,8 +60,9 @@ class FTotalRoutes extends Component {
                         <Route path="/solidlogin" element={<SolidLoginPage/>}/>
                         <Route path="/searchmovies" element={this.check(<SearchMoviesPage/>)}/>
                         <Route path="/solidlogin" element={<SolidLoginPage/>}/>
-                        <Route path="/room" element={<RoomPage/>}/>
-                        <Route path="/roomhub" element={<RoomHubPage/>}/>
+                        <Route path="/room/:id" element={<RoomPage/>}/>
+                        <Route path="/room" element={<RoomHubPage/>}/>
+                        <Route path="/notimplemented" element={<NotImplementedPage/>}/>
                     </Routes>
                 </BrowserRouter>
     }

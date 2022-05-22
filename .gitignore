@@ -2,7 +2,13 @@
 db.sqlite3
 staticfiles
 
+*pycache*
+*node_modules*
+*package-lock.json*
+
 # Elias' personal files
 startup.bat
+
+
 gunicorn.log
 static

@@ -4,6 +4,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from filmer.models.Group import Group 
 from filmer.models.Reaction import Reaction
 from filmer.models.Movie import Movie
 from filmer.serializers import UserSerializer, ReactionSerializer
