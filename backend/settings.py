@@ -167,5 +167,5 @@ class Production(Base):
 
     POSTGRES_HOST = values.Value("postgres")
     POSTGRES_PORT = values.Value(5432)
-    POSTGRES_USER = values.Value("postgres")
+    POSTGRES_USER = values.Value("filmer")
     POSTGRES_PASSWORD = values.Value("vimislife")
