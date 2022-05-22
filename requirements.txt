@@ -1,4 +1,4 @@
-django==4.0.4
+django~=4.0.4
 djangorestframework
 django-configurations
 django-cors-headers
@@ -8,5 +8,5 @@ requests~=2.27.1
 djangorestframework-simplejwt~=5.1.0
 whitenoise~=6.0.0
 rdflib~=6.1.1
-build-essentials
+pg-config
 psycopg2
