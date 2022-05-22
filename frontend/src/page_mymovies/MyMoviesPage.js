@@ -212,6 +212,7 @@ class MyMoviesPage extends Component
                   </ul>
                 </div>
               </div>
+              <hr/>
               <div className="mt-5 pt-5 mb-auto d-flex justify-content-center">
                 <span className="spinner-border spinner-border-sm"/>
               </div>
@@ -322,6 +323,7 @@ class MyMoviesPage extends Component
                 </div>
 
               </div>
+              <hr/>
                 <div className="d-flex justify-content-start" style={{flexWrap: 'wrap'}}>
                     {rendered}
                 </div>

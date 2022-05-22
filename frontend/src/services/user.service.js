@@ -28,12 +28,15 @@ class UserService {
 
   async getAuthTest() 
   {
-    return(await axios.get(API_URL + 'auth_test', {headers: authHeader()}).catch(e => {return ({data: "failed"})})).data;
+    let response = (await axios.get(API_URL + 'auth_test', {headers: authHeader()}).catch(e => {return ({data: "failed"})})).data;
+    return(response);
   }
 
   async createReaction(movie_id, like, seen = false) 
   {
-    await axios.post(API_URL + "reaction/", {movie_id, like, seen}, {headers: authHeader()})
+
+    let response = (await axios.post(API_URL + "reaction/", {movie_id, like, seen}, {headers: authHeader()}))
+    return(response);
   }
 
   async getReactions()

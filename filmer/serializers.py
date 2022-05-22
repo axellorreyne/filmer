@@ -23,7 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
 class ReactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reaction
-        fields = ['movie_id', 'user', 'like', 'seen']
+        fields = ['movie_id', 'like', 'seen']
         read_only_field = ['is_active']
 
 class GroupSerializer(serializers.ModelSerializer):
