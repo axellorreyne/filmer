@@ -7,14 +7,15 @@ services:
       hostname: postgres
       environment:
         - POSTGRES_DB=postgres
-        - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_USER=filmer
+        - POSTGRES_PASSWORD=vimislife
         #TODO: Make user and password a docker secret
         #POSTGRES_DB_FILE: /run/secrets/postgres_db
         #POSTGRES_USER_FILE: /run/secrets/postgres_user
         #POSTGRES_PASSWORD_FILE: /run/secrets/postgres_pw
       #secrets: [postgres_db, postgres_user, postgres_pass]
-      volumes: [ postgres_data:/var/lib/postgresql/data ]
+      volumes: 
+        - ./data/db:/var/lib/postgresql/data
       networks: [ backend ]
       restart: always
 
@@ -24,8 +25,8 @@ services:
       environment:
         - DJANGO_CONFIGURATION:Production
         - POSTGRES_DB=postgres
-        - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_USER=filmer
+        - POSTGRES_PASSWORD=vimislife
       hostname: backend
       volumes:
         - '.:/code'
