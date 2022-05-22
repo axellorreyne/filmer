@@ -160,12 +160,13 @@ class Development(Base):
 
 
 class Production(Base):
-    DATABASES = values.DatabaseURLValue(
-        "postgres://filmer:vimislife@postgres:5432/filmer",
-        environ=False,
-    )
-
-    #POSTGRES_HOST = values.Value("filmer")
-    #POSTGRES_PORT = values.Value(5432)
-    #POSTGRES_USER = values.Value("filmer")
-    #POSTGRES_PASSWORD = values.Value("vimislife")
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'postgres',
+            'USER': 'filmer',
+            'PASSWORD': 'vimislife',
+            'HOST': 'postgrest',
+            'PORT': '5432',
+        }
+    }
