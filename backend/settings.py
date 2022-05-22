@@ -161,7 +161,7 @@ class Development(Base):
 
 class Production(Base):
     DATABASES = values.DatabaseURLValue(
-        "postgres://postgres:postgres@database:5432/filmer",
+        "postgres://postgres:postgres@postgres:5432/filmer",
         environ=False,
     )
 
