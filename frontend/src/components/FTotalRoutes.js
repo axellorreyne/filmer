@@ -17,6 +17,7 @@ import FHeader from "./FHeader";
 import FFooter from "./FFooter";
 import RoomPage from "../page_room/RoomPage";
 import RoomHubPage from "../page_roomhub/RoomHubPage";
+import {SessionContext} from "@inrupt/solid-ui-react";
 
 class FTotalRoutes extends Component {
 

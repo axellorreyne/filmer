@@ -102,40 +102,6 @@ class HomePage extends Component {
 
   render()
   {
-    const icon_width   = "19px";
-    const icon_width_2 = "33px";
-    const icon_width_mobile = "27px";
-   
-    const movie = this.state.movie;
-    const title = movie.original_title;
-    const genres = movie.genres.map((element)=>element.name);
-    
-    const description = movie.overview;
-    const description_elips_length = 400;
-    let description_rendered = <p>{description.slice(0, description_elips_length) + "... "}
-      <button className="m-0 p-0 border-0 rgb-2 rgb-bg-tr ffw-2 hover-bg-dark" onClick={()=>this.setState({expandDescription: true})}>(read more)</button></p>
-    if (this.state.expandDescription || description.length < description_elips_length + 40)
-    {
-     description_rendered = <p>{description}</p>
-    }
-   
-    let videos = movie.videos.results
-    videos = videos.filter((x)=>x.official===true).concat((x)=>x.official=false)
-    let video = videos.filter((x) => x.type === "Trailer")[0];
-    if (typeof video === 'undefined')
-    {
-      video = movie.videos.results[0];
-    }
-    let video_rendered = <div class="rgb-2 d-flex justify-content-center align-items-center mb-5">video not available</div>;
-    if (typeof video !== 'undefined')
-    {
-      video_rendered = <iframe height={video.size} src={"https://www.youtube.com/embed/" + video.key + "?autoplay=1&origin=http://find-a-film.xyz"} title={video.name} allow='autoplay; encrypted-media'  frameBorder="0" allowFullscreen="true"></iframe>
-    }
-    
-    const directors = [...new Set(movie.credits.crew.filter((x) => x.job === "Director").slice(0,5).map((x) => x.name))];
-    const writers = [...new Set(movie.credits.crew.filter((x) => (x.department === "Writing") && (x.job = "Screenplay")).slice(0,5).map((x) => x.name))];
-    const starring = [...new Set(movie.credits.cast.filter((x) => x.popularity > 15).slice(0, 5).map((x) => x.name).sort((x,y) => x.popularity - y.popularity))];
-    render() {
         const icon_width = "19px";
         const icon_width_2 = "33px";
         const icon_width_mobile = "27px";
