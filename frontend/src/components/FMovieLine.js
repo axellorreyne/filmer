@@ -10,10 +10,8 @@ import {withRouter} from "../tools/WithRouter";
 import RsrcSearchIcon from "../resources/icon_search.svg";
 import HomePage from "../page_home/HomePage";
 
-class FMovieLine extends Component
-{
-    render ()
-    {
+class FMovieLine extends Component {
+    render() {
         const linked = this.props.isLinked
         const info = this.props.renderInfo
         const setSeen = this.props.onSeen
@@ -29,22 +27,22 @@ class FMovieLine extends Component
                         <img src={RsrcSearchIcon} height="30px" width="30px" className="hover-bg-dark fborder p-2" alt=""/>
                   </button>:<></>
         const inner =
-            (this.props.seen)?
-            <img src={RsrcIconSeen} width="18px" className="me-2" alt=""/>
-            :<img src={RsrcIconNotSeen} width="18px" className="me-2" alt=""/>
+            (this.props.seen) ?
+                <img src={RsrcIconSeen} width="18px" className="me-2" alt=""/>
+                : <img src={RsrcIconNotSeen} width="18px" className="me-2" alt=""/>
 
-        const check = <button onClick={()=>setSeen()} className="bg-transparent border-0">
-                {inner}
-            </button>
-        const vomit = <button className="bg-transparent border-0 " onClick={()=>setDislike()}>
-                    <img src={reactIcon} width="18px" className="me-2" alt=""/>
-                </button>
-        let line ;
-        if(info){
-            const tags = this.props.movie.genres.map(genre=>genre.name)
-            const director = this.props.movie.credits.crew.filter(x=>x.job==="Director").slice(0,3).map(x=>x.name).sort().join(", ")
+        const check = <button onClick={() => setSeen()} className="bg-transparent border-0">
+            {inner}
+        </button>
+        const vomit = <button className="bg-transparent border-0 " onClick={() => setDislike()}>
+            <img src={reactIcon} width="18px" className="me-2" alt=""/>
+        </button>
+        let line;
+        if (info) {
+            const tags = this.props.movie.genres.map(genre => genre.name)
+            const director = this.props.movie.credits.crew.filter(x => x.job === "Director").slice(0, 3).map(x => x.name).sort().join(", ")
 
-            line=
+            line =
                 <div>
                     <div className="rgb-2">{director}</div>
                     <div className="d-flex justify-content-between align-items-end">
@@ -60,28 +58,28 @@ class FMovieLine extends Component
                         </div>
                     </div>
                 </div>
-        }else{
-            line=<div>
-                    <div className="d-flex justify-content-end align-items-end">
-                        <div className="d-flex justify-content-between">
-                            <div className="d-flex align-items-center me-3">
-                                <img src={RsrcIconStar} width="18px" className="me-2" alt=""/>
-                                {score}
-                            </div>
-                            {check}
-                            {vomit}
-                            {link}
+        } else {
+            line = <div>
+                <div className="d-flex justify-content-end align-items-end">
+                    <div className="d-flex justify-content-between">
+                        <div className="d-flex align-items-center me-3">
+                            <img src={RsrcIconStar} width="18px" className="me-2" alt=""/>
+                            {score}
                         </div>
+                        {check}
+                        {vomit}
+                        {link}
                     </div>
                 </div>
+            </div>
         }
 
         return (
-          <div>
-            <hr className="my-md-2"/>
-            <div className="ffs-2 ffw-2 me-3">{name}</div>
-              {line}
-          </div>
+            <div>
+                <hr className="my-md-2"/>
+                <div className="ffs-2 ffw-2 me-3">{name}</div>
+                {line}
+            </div>
         );
     }
 }

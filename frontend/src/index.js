@@ -7,6 +7,7 @@ import 'bootstrap/dist/js/bootstrap.js';
 import './style.css';
 
 import FTotalRoutes from "./components/FTotalRoutes";
+import {SessionProvider} from "@inrupt/solid-ui-react";
 
-ReactDOM.render(<FTotalRoutes/>, document.getElementById('root'));
+ReactDOM.render(<SessionProvider restorePreviousSession={true}><FTotalRoutes/></SessionProvider>, document.getElementById('root'));
 
