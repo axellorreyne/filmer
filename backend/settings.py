@@ -166,7 +166,7 @@ class Production(Base):
             'NAME': 'postgres',
             'USER': 'filmer',
             'PASSWORD': 'vimislife',
-            'HOST': 'postgrest',
+            'HOST': 'postgres',
             'PORT': '5432',
         }
     }
