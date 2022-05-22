@@ -33,7 +33,6 @@ class UserService {
 
   async createReaction(movie_id, like, seen = false) 
   {
-    console.log(movie_id)
     await axios.post(API_URL + "reaction/", {movie_id, like, seen}, {headers: authHeader()})
   }
 

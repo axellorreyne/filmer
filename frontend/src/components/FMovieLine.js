@@ -13,25 +13,27 @@ import Dummy from "../resources/dummy_poster.svg";
 
 class FMovieLine extends Component
 {
+
+
+
     render ()
     {
+           let handleLink=()=>  {
+               HomePage.preloaded = this.props.movie.id
+               HomePage.hasReaction = this.props.hasReaction
+               this.props.navigate("/home")
+           }
+
         const linked = this.props.isLinked
         const hide = this.props.hideButtons
         const info = this.props.renderInfo
         const setSeen = this.props.onSeen
         const setDislike = this.props.onReact
         const reactIcon = this.props.reactIcon
-        const name = this.props.movie.original_title
+        const name = (linked)?<a onClick={()=>handleLink()} style={{cursor:'pointer'}}>{this.props.movie.original_title}</a>:this.props.movie.original_title
         const score = this.props.movie.vote_average.toFixed(1)
         let buttons=<div/>;
         if(!hide) {
-            const link = (linked) ? <button className="bg-transparent border-0" onClick={() => {
-                HomePage.preloaded = this.props.movie.id
-                HomePage.hasReaction = this.props.hasReaction
-                this.props.navigate("/home")
-            }}>
-                <img src={RsrcSearchIcon} height="30px" width="30px" className="hover-bg-dark fborder p-2" alt=""/>
-            </button> : <></>
             const inner =
                 (this.props.seen) ?
                     <img src={RsrcIconSeen} width="18px" className="me-2" alt=""/>
@@ -46,7 +48,7 @@ class FMovieLine extends Component
             buttons = <div>
                 {check}
                 {vomit}
-                {link}</div>
+                </div>
         }
         let line ;
         if(info){
@@ -62,15 +64,18 @@ class FMovieLine extends Component
                 </div>
         }
         let source = "https://image.tmdb.org/t/p/original/"+this.props.movie.poster_path
+        let onError = ({ currentTarget }) => {
+            currentTarget.onerror = null; // prevents looping
+            currentTarget.src=Dummy;
+        }
+        let image = (linked)?<img onClick={()=>handleLink()} src={source} className="card-img-top" onError={(x)=>onError(x)} style={{width: 170,cursor: 'pointer'}}/>
+        :<img src={source} className="card-img-top" onError={(x)=>onError(x)} style={{width: 170}}/>
         return (
           <div className="m-1 mb-5">
               <div className="card bg-dark h-100 w-100"  >
-                  <img src={source} className="card-img-top" onError={({ currentTarget }) => {
-                      currentTarget.onerror = null; // prevents looping
-                      currentTarget.src=Dummy;
-                  }} style={{width: 170}}/>
+                  {image}
                   <div className="card-body" style={{width: 170}}>
-                    <div className="ffs-2 ffw-2 me-3">{name}</div>
+                          <div className="ffs-2 ffw-2 me-3">{name}</div>
                       {line}
                   </div>
                   <div className="d-flex justify-content-between mb-2">
