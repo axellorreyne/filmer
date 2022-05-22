@@ -160,7 +160,7 @@ class SearchMoviesPage extends Component
                             UserService.createReaction(id,!this.state.likedMovies.get(id),this.state.seen.get(id))
                             this.allReactions.push(id)
                         }
-                    }}
+                    }} hideButtons={false}
                     isLinked={true}
                     renderInfo={false}
                     reactIcon={(this.state.likedMovies.get(id))?RsrcDislikeIcon:RsrcLikeIcon}/>}

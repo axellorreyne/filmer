@@ -243,7 +243,7 @@ class MyMoviesPage extends Component
                 return prev
             })
         }
-        } reactIcon={RsrcPukeIcon} isLinked={false}/>});
+        } reactIcon={RsrcPukeIcon} isLinked={false} hideButtons={false}/>});
     if(amount === 0) {
         let text = "Like movies on the homepage to view them here!"
         if(this.searchView)

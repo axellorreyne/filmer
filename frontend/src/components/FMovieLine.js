@@ -16,42 +16,46 @@ class FMovieLine extends Component
     render ()
     {
         const linked = this.props.isLinked
+        const hide = this.props.hideButtons
         const info = this.props.renderInfo
         const setSeen = this.props.onSeen
         const setDislike = this.props.onReact
         const reactIcon = this.props.reactIcon
         const name = this.props.movie.original_title
         const score = this.props.movie.vote_average.toFixed(1)
-        const link = (linked)?<button className="bg-transparent border-0" onClick={()=>{
-                                        HomePage.preloaded=this.props.movie.id
-                                        HomePage.hasReaction = this.props.hasReaction
-                                        this.props.navigate("/home")
-                                    }}>
-                        <img src={RsrcSearchIcon} height="30px" width="30px" className="hover-bg-dark fborder p-2" alt=""/>
-                  </button>:<></>
-        const inner =
-            (this.props.seen)?
-            <img src={RsrcIconSeen} width="18px" className="me-2" alt=""/>
-            :<img src={RsrcIconNotSeen} width="18px" className="me-2" alt=""/>
+        let buttons=<div/>;
+        if(!hide) {
+            const link = (linked) ? <button className="bg-transparent border-0" onClick={() => {
+                HomePage.preloaded = this.props.movie.id
+                HomePage.hasReaction = this.props.hasReaction
+                this.props.navigate("/home")
+            }}>
+                <img src={RsrcSearchIcon} height="30px" width="30px" className="hover-bg-dark fborder p-2" alt=""/>
+            </button> : <></>
+            const inner =
+                (this.props.seen) ?
+                    <img src={RsrcIconSeen} width="18px" className="me-2" alt=""/>
+                    : <img src={RsrcIconNotSeen} width="18px" className="me-2" alt=""/>
 
-        const check = <button onClick={()=>setSeen()} className="bg-transparent border-0">
+            const check = <button onClick={() => setSeen()} className="bg-transparent border-0">
                 {inner}
             </button>
-        const vomit = <button className="bg-transparent border-0 " onClick={()=>setDislike()}>
-                    <img src={reactIcon} width="18px" className="me-2" alt=""/>
-                </button>
+            const vomit = <button className="bg-transparent border-0 " onClick={() => setDislike()}>
+                <img src={reactIcon} width="18px" className="me-2" alt=""/>
+            </button>
+            buttons = <div>
+                {check}
+                {vomit}
+                {link}</div>
+        }
         let line ;
         if(info){
-            const tags = this.props.movie.genres.map(genre=>genre.name)
             const director = this.props.movie.credits.crew.filter(x=>x.job==="Director").slice(0,3).map(x=>x.name).sort().join(", ")
 
             line=
-                <div>
+
                     <div className="rgb-2">{director}</div>
-                    <div className="d-flex justify-content-between align-items-end">
-                        <FTagList tags={tags}/>
-                    </div>
-                </div>
+
         }else{
             line=<div>
 
@@ -69,14 +73,12 @@ class FMovieLine extends Component
                     <div className="ffs-2 ffw-2 me-3">{name}</div>
                       {line}
                   </div>
-                  <div className="d-flex justify-content-evenly mb-2">
+                  <div className="d-flex justify-content-between mb-2">
                       <div className="d-flex align-items-center me-3">
                           <img src={RsrcIconStar} width="18px" className="me-2" alt=""/>
                           {score}
                       </div>
-                      {check}
-                      {vomit}
-                      {link}
+                      {buttons}
                   </div>
               </div>
           </div>

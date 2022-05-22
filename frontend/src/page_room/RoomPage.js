@@ -7,6 +7,9 @@ import GroupService from "../services/group.service";
 import UserService from "../services/user.service";
 
 import RsrcIconStar from "../resources/icon_star.svg"
+import FMovieLine from "../components/FMovieLine";
+import RsrcDislikeIcon from "../resources/icon_vomit.svg";
+import RsrcLikeIcon from "../resources/icon_heart.svg";
 
 class Room extends Component
 {
@@ -119,27 +122,11 @@ class Room extends Component
     else if (!this.state.error)
     {
       movies_rendered = movies.map((data) => { 
-        const title = data.original_title; 
-        const director = data.credits.crew.filter(x=>x.job==="Director")
-          .slice(0,3).map(x => x.name).sort().join(", ");
-        const score = data.vote_average.toFixed(1)
-        const tags = data.genres.map(genre=>genre.name).slice(0,3);
-        return(
-          <div>
-            <hr className="my-md-2"/>
-            <div className="ffs-2 ffw-2 me-3">{title}</div>
-            <div className="rgb-2">{director}</div>
-            <div className="d-flex justify-content-between align-items-end mt-2">
-              <FTagList tags={tags}/>
-              <div className="d-flex justify-content-between">
-                <div className="d-flex align-items-center me-3">
-                  <img src={RsrcIconStar} width="18px" className="me-2" alt=""/>
-                  {score}
-                </div>
-              </div>
-            </div>
-          </div>
-        );
+        return <FMovieLine hasReaction={true} movie={data} seen={false} onSeen={{}} onReact={{}}
+        hideButtons={true}
+       isLinked={false}
+       renderInfo={false}
+       reactIcon={false}/>
       });
     }
 
@@ -171,7 +158,10 @@ class Room extends Component
           <div className="mb-5 d-lg-flex justify-content-around align-items-center">
             <div className="col-lg-7 mx-md-5 mb-5" >
               <p className="ffs-2 ffw-2 m-0 p-0 me-4">Found {movies.length} movies</p>
-              {movies_rendered} 
+
+              <div className="d-flex justify-content-start" style={{flexWrap: 'wrap'}}>
+                {movies_rendered}
+              </div>
             </div>
           </div>
         </main>
