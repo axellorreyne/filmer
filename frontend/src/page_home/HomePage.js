@@ -214,12 +214,6 @@ class HomePage extends Component
             </button>
           </div>
         </div>
-        <div className="d-flex mb-4">
-          <div className="form-check">
-            <label className="form-check-label" htmlFor="flexCheckDefault">Seen</label>
-            <input className="form-check-input" type="checkbox" value="0" id="flexCheckDefault" onClick={this.flipSeen}/>
-          </div>
-        </div>
         <label className="ffs-1 ffw-2 m-0 p-0">{title}</label>
         <FTagList tags={genres}/>
         <div className="d-xl-flex mt-4">
@@ -237,6 +231,10 @@ class HomePage extends Component
                   <img src={RsrcIconVomit} width={icon_width} className="me-2" alt=""/>
                   <label className="ffs-2">{dislikes}</label>
                 </div>
+              </div>
+              <div className="form-check form-switch me-4" style={{transform: 'scale(1.5)'}}>
+                <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onClick={()=>this.flipSeen()}/>
+                <label  className="form-check-label" htmlFor="flexSwitchCheckDefault">Seen</label>
               </div>
             </div>
             <div className="mb-3 mt-auto">
