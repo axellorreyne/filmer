@@ -151,10 +151,11 @@ class Base(Configuration):
 
 
 class Development(Base):
+    BASE_DIR = Base.BASE_DIR
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': Base.BASE_DIR / 'db.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
 
