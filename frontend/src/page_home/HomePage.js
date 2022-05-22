@@ -1,4 +1,4 @@
-import {Component} from "react";
+import { Component } from "react";
 
 import MovieService from "../services/movie.service";
 import UserService from "../services/user.service";
@@ -197,6 +197,7 @@ class HomePage extends Component {
                                             </div>
                                             <div className="form-check form-switch me-4"
                                                  style={{transform: 'scale(1.5)'}}>
+                                              <label  className="form-check-label me-5 h6 mt-2" style={{float:'left',fontSize:'65%'}} htmlFor="flexSwitchCheckDefault">Seen</label>
                                                 <input className="form-check-input" type="checkbox" role="switch"
                                                        id="flexSwitchCheckDefault" onClick={() => this.flipSeen()}/>
                                                 <label className="form-check-label"
