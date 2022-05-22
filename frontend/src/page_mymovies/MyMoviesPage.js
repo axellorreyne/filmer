@@ -322,7 +322,9 @@ class MyMoviesPage extends Component
                 </div>
 
               </div>
-              {rendered}
+                <div className="d-flex justify-content-center" style={{flexWrap: 'wrap'}}>
+                    {rendered}
+                </div>
               <div className="d-flex pt-5 m-5 m-xl-0 justify-content-center align-items-baseline">
                   {prevPage}
                   <p className="ffw-2 mx-2">page {this.state.page}</p>

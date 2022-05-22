@@ -211,7 +211,9 @@ class SearchMoviesPage extends Component
                   </button>
                 </div>
               </div>
-              {rendered}
+                <div className="d-flex justify-content-center" style={{flexWrap: 'wrap'}}>
+                    {rendered}
+                </div>
             </div>
           </div>
         </main>

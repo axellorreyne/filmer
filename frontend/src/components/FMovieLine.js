@@ -9,6 +9,7 @@ import RsrcPukeIcon from "../resources/icon_vomit.svg"
 import {withRouter} from "../tools/WithRouter";
 import RsrcSearchIcon from "../resources/icon_search.svg";
 import HomePage from "../page_home/HomePage";
+import Dummy from "../resources/dummy_poster.svg";
 
 class FMovieLine extends Component
 {
@@ -49,38 +50,35 @@ class FMovieLine extends Component
                     <div className="rgb-2">{director}</div>
                     <div className="d-flex justify-content-between align-items-end">
                         <FTagList tags={tags}/>
-                        <div className="d-flex justify-content-between">
-                            <div className="d-flex align-items-center me-3">
-                                <img src={RsrcIconStar} width="18px" className="me-2" alt=""/>
-                                {score}
-                            </div>
-                            {check}
-                            {vomit}
-                            {link}
-                        </div>
                     </div>
                 </div>
         }else{
             line=<div>
-                    <div className="d-flex justify-content-end align-items-end">
-                        <div className="d-flex justify-content-between">
-                            <div className="d-flex align-items-center me-3">
-                                <img src={RsrcIconStar} width="18px" className="me-2" alt=""/>
-                                {score}
-                            </div>
-                            {check}
-                            {vomit}
-                            {link}
-                        </div>
-                    </div>
+
                 </div>
         }
-
+        let source = "https://image.tmdb.org/t/p/original/"+this.props.movie.poster_path
         return (
-          <div>
-            <hr className="my-md-2"/>
-            <div className="ffs-2 ffw-2 me-3">{name}</div>
-              {line}
+          <div className="m-1 mb-5">
+              <div className="card bg-dark h-100 w-100"  >
+                  <img src={source} className="card-img-top" onError={({ currentTarget }) => {
+                      currentTarget.onerror = null; // prevents looping
+                      currentTarget.src=Dummy;
+                  }} style={{width: 170}}/>
+                  <div className="card-body" style={{width: 170}}>
+                    <div className="ffs-2 ffw-2 me-3">{name}</div>
+                      {line}
+                  </div>
+                  <div className="d-flex justify-content-evenly mb-2">
+                      <div className="d-flex align-items-center me-3">
+                          <img src={RsrcIconStar} width="18px" className="me-2" alt=""/>
+                          {score}
+                      </div>
+                      {check}
+                      {vomit}
+                      {link}
+                  </div>
+              </div>
           </div>
         );
     }
