@@ -46,6 +46,7 @@ class ReactionViewSet(viewsets.ModelViewSet):
         return Reaction.objects.filter(user=self.request.user)
 
     def create(self, request, *args, **kwargs):
+        print(request.body)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(user=request.user)

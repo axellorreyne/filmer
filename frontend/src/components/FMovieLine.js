@@ -50,35 +50,29 @@ class FMovieLine extends Component
         }
         let line ;
         if(info){
-            const director = this.props.movie.credits.crew.filter(x=>x.job==="Director").slice(0,3).map(x=>x.name).sort().join(", ")
-
-            line=
-
-                    <div className="rgb-2">{director}</div>
-
+          const director = this.props.movie.credits.crew.filter(x=>x.job==="Director").slice(0,3).map(x=>x.name).sort().join(", ")
+          line=<div className="rgb-2">{director}</div>
         }else{
-            line=<div>
-
-                </div>
+          line=<div></div>
         }
         let source = "https://image.tmdb.org/t/p/original/"+this.props.movie.poster_path
         return (
-          <div className="m-1 mb-5">
-              <div className="card bg-dark h-100 w-100"  >
-                  <img src={source} className="card-img-top" onError={({ currentTarget }) => {
-                      currentTarget.onerror = null; // prevents looping
-                      currentTarget.src=Dummy;
-                  }} style={{width: 170}}/>
-                  <div className="card-body" style={{width: 170}}>
-                    <div className="ffs-2 ffw-2 me-3">{name}</div>
-                      {line}
-                  </div>
-                  <div className="d-flex justify-content-between mb-2">
-                      <div className="d-flex align-items-center me-3">
-                          <img src={RsrcIconStar} width="18px" className="me-2" alt=""/>
-                          {score}
+          <div className="m-1 mb-1">
+            <div className="card rgb-bg-1 h-100 w-100">
+              <img src={source} className="card-img-top" onError={({ currentTarget }) => {
+                currentTarget.onerror = null; // prevents looping
+                currentTarget.src=Dummy;
+              }} style={{width: 170}}/>
+              <div className="card-body" style={{width: 170}}>
+                <div className="ffs-4 ffw-2 me-3">{name}</div>
+                  {line}
+                </div>
+                <div className="d-flex justify-content-between mb-2 p-3">
+                  <div className="d-flex align-items-center me-3">
+                    <img src={RsrcIconStar} width="18px" className="me-2" alt=""/>
+                      {score}
                       </div>
-                      {buttons}
+                    {buttons}
                   </div>
               </div>
           </div>
