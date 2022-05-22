@@ -25,9 +25,6 @@ RUN pip install -r ./requirements.txt
 # TODO: exclude frontend
 COPY . .
 
-# Migrate
-RUN python manage.py migrate
-
 # install gunicorn
 RUN python -m pip install gunicorn
 
