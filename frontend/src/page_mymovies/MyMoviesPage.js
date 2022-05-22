@@ -322,7 +322,7 @@ class MyMoviesPage extends Component
                 </div>
 
               </div>
-                <div className="d-flex justify-content-center" style={{flexWrap: 'wrap'}}>
+                <div className="d-flex justify-content-start" style={{flexWrap: 'wrap'}}>
                     {rendered}
                 </div>
               <div className="d-flex pt-5 m-5 m-xl-0 justify-content-center align-items-baseline">
