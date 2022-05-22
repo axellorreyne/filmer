@@ -162,7 +162,7 @@ class Development(Base):
 class Production(Base):
     DATABASES = values.DatabaseURLValue(
         "postgres://filmer:vimislife@postgres:5432/filmer",
-        environ=False,
+        environ=True,
     )
 
     POSTGRES_HOST = values.Value("filmer")
