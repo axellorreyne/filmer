@@ -297,7 +297,7 @@ class MyMoviesPage extends Component
               <div className="d-md-flex mt-4 justify-content-between align-items-center">
 
                 <div className="col-md-6 d-flex align-items-center">
-                  <input type="text" className="FFormInput h-50 w-100 my-2 me-2" id="search"
+                  <input type="text" className="FFormInput h-50 w-100 my-2 me-2" id="search" onKeyPress={(ele)=>{if(ele.key === 'Enter')this.setFilterSearch()}}
                          placeholder="Search"  onChange={this.setSearchTerm}/>
                   <div className="col-xl-3 dropdown">
                     <button type="button" className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown">{ searchOption}</button>
