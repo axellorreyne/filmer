@@ -162,10 +162,10 @@ class Development(Base):
 class Production(Base):
     DATABASES = values.DatabaseURLValue(
         "postgres://filmer:vimislife@postgres:5432/filmer",
-        environ=True,
+        environ=False,
     )
 
-    POSTGRES_HOST = values.Value("filmer")
-    POSTGRES_PORT = values.Value(5432)
-    POSTGRES_USER = values.Value("filmer")
-    POSTGRES_PASSWORD = values.Value("vimislife")
+    #POSTGRES_HOST = values.Value("filmer")
+    #POSTGRES_PORT = values.Value(5432)
+    #POSTGRES_USER = values.Value("filmer")
+    #POSTGRES_PASSWORD = values.Value("vimislife")
