@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 from datetime import timedelta
-from os import path
+import os
 from pathlib import Path
 
 from configurations import Configuration, values
@@ -63,7 +63,7 @@ class Base(Configuration):
     TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'DIRS': [path.join(BASE_DIR, 'templates')],
+            'DIRS': [os.path.join(BASE_DIR, 'templates')],
             'APP_DIRS': True,
             'OPTIONS': {
                 'context_processors': [
@@ -141,9 +141,9 @@ class Base(Configuration):
         'REFRESH_TOKEN_LIFETIME': timedelta(days=20),
     }
 
-    BASE_DIR = path.dirname(path.dirname(path.abspath(__file__)))
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-    STATIC_ROOT = path.join(BASE_DIR, 'staticfiles')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
     # Solid stuff
     SOLID_CALLBACK = 'http://find-a-film.xyz/api/solid_callback'
@@ -151,11 +151,10 @@ class Base(Configuration):
 
 
 class Development(Base):
-    BASE_DIR = Base.BASE_DIR
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+            'NAME': os.path.join(Base.BASE_DIR, 'db.sqlite3'),
         }
     }
 
