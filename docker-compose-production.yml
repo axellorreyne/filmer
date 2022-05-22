@@ -16,6 +16,7 @@ services:
       #secrets: [postgres_db, postgres_user, postgres_pass]
       volumes: 
         - ./data/db:/var/lib/postgresql/data
+        - ./scripts/:/docker-entrypoint-initdb.d/
       networks: [ backend ]
       restart: always
 
