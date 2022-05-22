@@ -230,7 +230,7 @@ class MyMoviesPage extends Component {
 
   render ()
   {
-    let movies  = Array.from(this.state.movies.values())
+    let movies  = this.state.movies
     if(movies.length!==this.allMovies){
       return(
       <div className="h-100 d-flex flex-column m-3 m-xl-0">
