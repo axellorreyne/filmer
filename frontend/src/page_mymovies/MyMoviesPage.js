@@ -228,51 +228,48 @@ class MyMoviesPage extends Component {
 
     }
 
-    render() {
-        let movies = this.state.movies
-        if (movies.length !== this.allMovies) {
-            return (
-                <div className="h-100 d-flex flex-column m-3 m-xl-0">
-                    <FHeader/>
-                    <main className="mb-5 container-fluid">
-                        <div className="my-5 d-lg-flex justify-content-around align-items-center">
-                            <div className="col-lg-7 mx-md-5 mb-5">
-                                <p className="ffs-1 ffw-2 m-0 p-0 me-4">My movies (0)</p>
-                                <div className="d-md-flex mt-4 justify-content-between align-items-center">
-                                    <div className="col-md-6 d-flex align-items-center">
-                                        <input type="text" className="FFormInput h-50 w-100 my-2 me-2" id="search"
-                                               placeholder="Search"/>
-                                        <div className="col-xl-3 dropdown">
-                                            <button type="button"
-                                                    className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle"
-                                                    data-bs-toggle="dropdown"/>
-                                            <ul className="dropdown-menu fborder rgb-bg-1 w-100">
-                                            </ul>
-                                        </div>
-                                        <button className="bg-transparent border-0">
-                                            <img src={RsrcSearchIcon} height="30px" width="30px"
-                                                 className="hover-bg-dark fborder p-2" alt=""/>
-                                        </button>
-                                    </div>
-                                    <div className="col-md-2 col-xxl-1 dropdown h-50">
-                                        <button type="button"
-                                                className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle"
-                                                data-bs-toggle="dropdown"/>
-                                        <ul className="dropdown-menu fborder rgb-bg-1 w-100">
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div className="mt-5 pt-5 mb-auto d-flex justify-content-center">
-                                    <span className="spinner-border spinner-border-sm"/>
-                                </div>
-                            </div>
-                        </div>
-                    </main>
-                    <FFooter/>
+  render ()
+  {
+    let movies  = Array.from(this.state.movies.values())
+    if(movies.length!==this.allMovies){
+      return(
+      <div className="h-100 d-flex flex-column m-3 m-xl-0">
+        <FHeader/>
+        <main className="mb-5 container-fluid">
+          <div className="my-5 d-lg-flex justify-content-around align-items-center">
+            <div className="col-lg-7 mx-md-5 mb-5" >
+              <p className="ffs-1 ffw-2 m-0 p-0 me-4">My movies (0)</p>
+              <div className="d-md-flex mt-4 justify-content-between align-items-center">
+                <div className="col-md-6 d-flex align-items-center">
+                  <input type="text" className="FFormInput h-50 w-100 my-2 me-2" id="search"
+                         placeholder="Search"/>
+                  <div className="col-xl-3 dropdown">
+                    <button type="button" className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown"></button>
+                    <ul className="dropdown-menu fborder rgb-bg-1 w-100">
+                    </ul>
+                  </div>
+                  <button className="bg-transparent border-0">
+                        <img src={RsrcSearchIcon} height="30px" width="30px" className="hover-bg-dark fborder p-2" alt=""/>
+                  </button>
                 </div>
-            );
-        }
-        const minimum_likelihood = 0.2;
+                <div className="col-md-2 col-xxl-1 dropdown h-50">
+                  <button type="button" className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown"></button>
+                  <ul className="dropdown-menu fborder rgb-bg-1 w-100">
+                  </ul>
+                </div>
+              </div>
+              <hr/>
+              <div className="mt-5 pt-5 mb-auto d-flex justify-content-center">
+                <span className="spinner-border spinner-border-sm"/>
+              </div>
+            </div>
+          </div>
+        </main>
+        <FFooter/>
+      </div>
+      );
+    }
+    const minimum_likelihood = 0.2;
 
         const filteredMovies = movies.sort(this.state.sorter)
             .filter(i => this.state.score(i) >= minimum_likelihood)
@@ -282,7 +279,7 @@ class MyMoviesPage extends Component {
                 this.seenMovie(ele)
             }} onReact={() => {
                 this.deleteMovie(ele)
-            }} reactIcon={RsrcPukeIcon} isLinked={false}/>
+            }} reactIcon={RsrcPukeIcon} isLinked={false} hideButtons={false}/>
         });
         if (amount === 0) {
             let text = "Like movies on the homepage to view them here!"
@@ -335,24 +332,21 @@ class MyMoviesPage extends Component {
                             <p className="ffs-1 ffw-2 m-0 p-0 me-4">My movies ({amount})</p>
                             <div className="d-md-flex mt-4 justify-content-between align-items-center">
 
-                                <div className="col-md-6 d-flex align-items-center">
-                                    <input type="text" className="FFormInput h-50 w-100 my-2 me-2" id="search"
-                                           placeholder="Search" onChange={this.setSearchTerm}/>
-                                    <div className="col-xl-3 dropdown">
-                                        <button type="button"
-                                                className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle"
-                                                data-bs-toggle="dropdown">{searchOption}</button>
-                                        <ul className="dropdown-menu fborder rgb-bg-1 w-100">
-                                            {searchByTitle}
-                                            {searchByDir}
-                                            {searchByGen}
-                                        </ul>
-                                    </div>
-                                    <button className="bg-transparent border-0" onClick={this.setFilterSearch}>
-                                        <img src={RsrcSearchIcon} height="30px" width="30px"
-                                             className="hover-bg-dark fborder p-2" alt=""/>
-                                    </button>
-                                </div>
+                <div className="col-md-6 d-flex align-items-center">
+                  <input type="text" className="FFormInput h-50 w-100 my-2 me-2" id="search" onKeyPress={(ele)=>{if(ele.key === 'Enter')this.setFilterSearch()}}
+                         placeholder="Search"  onChange={this.setSearchTerm}/>
+                  <div className="col-xl-3 dropdown">
+                    <button type="button" className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown">{ searchOption}</button>
+                    <ul className="dropdown-menu fborder rgb-bg-1 w-100">
+                        {searchByTitle}
+                        {searchByDir}
+                        {searchByGen}
+                    </ul>
+                  </div>
+                  <button className="bg-transparent border-0" onClick={this.setFilterSearch}>
+                        <img src={RsrcSearchIcon} height="30px" width="30px" className="hover-bg-dark fborder p-2" alt=""/>
+                  </button>
+                </div>
 
                                 <div className="col-md-2 col-xxl-1 dropdown h-50">
                                     <button type="button"
@@ -366,20 +360,23 @@ class MyMoviesPage extends Component {
                                     </ul>
                                 </div>
 
-                            </div>
-                            {rendered}
-                            <div className="d-flex pt-5 m-5 m-xl-0 justify-content-center align-items-baseline">
-                                {prevPage}
-                                <p className="ffw-2 mx-2">page {this.state.page}</p>
-                                {nextPage}
-                            </div>
-                        </div>
-                    </div>
-                </main>
-                <FFooter/>
+              </div>
+              <hr/>
+                <div className="d-flex justify-content-start" style={{flexWrap: 'wrap'}}>
+                    {rendered}
+                </div>
+              <div className="d-flex pt-5 m-5 m-xl-0 justify-content-center align-items-baseline">
+                  {prevPage}
+                  <p className="ffw-2 mx-2">page {this.state.page}</p>
+                  {nextPage}
+              </div>
             </div>
-        );
-    }
+          </div>
+        </main>
+        <FFooter/>
+      </div>
+    );
+  }
 
 }
 

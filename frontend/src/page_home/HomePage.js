@@ -148,109 +148,83 @@ class HomePage extends Component {
                 dislikes = ""
             }
 
-            return (
-                <div className="h-100 d-flex flex-column m-xl-0">
-                    <FHeader/>
-                    <main className="mx-0">
-                        <div className="mb-5 d-flex justify-content-around">
-                            <button
-                                className={"btn col rounded d-none d-xl-flex justify-content-center align-items-center rgb-bg-2 hover-bg-dark mt-5 me-5 border-0 " + this.state.disableButtons}
-                                onClick={this.dislikeMovie}>
-                                <img src={RsrcIconArrowLeft} width={icon_width_2} className="me-3" alt=""/>
-                                <img src={RsrcIconVomit} width={icon_width_2} alt=""/>
-                            </button>
-                            <div className="col-xl-7 ms-4 mt-3">
-                                <div className="d-flex mb-5 mb-xl-0 justify-content-center">
-                                    <div className="d-xl-none d-flex me-1">
-                                        <button className={"col btn hover-bg-dark " + this.state.disableButtons}
-                                                onClick={this.dislikeMovie}>
-                                            <img src={RsrcIconArrowLeft} width={icon_width_mobile} className="me-3"
-                                                 alt=""/>
-                                            <img src={RsrcIconVomit} width={icon_width_mobile} alt=""/>
-                                        </button>
-                                    </div>
-                                    <div className="d-xl-none d-flex">
-                                        <button className={"col btn hover-bg-dark " + this.state.disableButtons}
-                                                onClick={this.likeMovie}>
-                                            <img src={RsrcIconHeart} width={icon_width_mobile} className="me-3" alt=""/>
-                                            <img src={RsrcIconArrowRight} width={icon_width_mobile} alt=""/>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="d-flex mb-4">
-                                    <div className="form-check">
-                                        <label className="form-check-label" htmlFor="flexCheckDefault">Seen</label>
-                                        <input className="form-check-input" type="checkbox" value="0"
-                                               id="flexCheckDefault"
-                                               onClick={this.flipSeen}/>
-                                    </div>
-                                </div>
-                                <label className="ffs-1 ffw-2 m-0 p-0">{title}</label>
-                                <FTagList tags={genres}/>
-                                <div className="d-xl-flex mt-4">
-                                    <div className="col-xl-9 me-3">
-                                        <div className="ratio ratio-21x9">
-                                            {video_rendered}
-                                        </div>
-                                        <div className="d-flex mt-3 mb-2  justify-content-between">
-                                            <div className="d-flex">
-                                                <div className="d-flex me-4">
-                                                    <img src={RsrcIconHeart} width={icon_width} className="me-2"
-                                                         alt=""/>
-                                                    <label className="ffs-2">{likes}</label>
-                                                </div>
-                                                <div className="d-flex me-4">
-                                                    <img src={RsrcIconVomit} width={icon_width} className="me-2"
-                                                         alt=""/>
-                                                    <label className="ffs-2">{dislikes}</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="mb-3 mt-auto">
-                                            {description_rendered}
-                                        </div>
-                                    </div>
-                                    <div className="col d-sm-flex d-xl-block justify-content-left ffw-2 ms-1">
-                                        <div className="me-5 mb-3">
-                                            <p className="m-0 p-0 mb-1 rgb-2">Director</p>
-                                            {directors.map((element) => <p className="m-0 p-0">{element}</p>)}
-                                        </div>
-                                        <div className="me-5 mb-3">
-                                            <p className="m-0 p-0 mb-1 rgb-2">Writer</p>
-                                            {writers.map((element) => <p className="m-0 p-0">{element}</p>)}
-                                        </div>
-                                        <div>
-                                            <p className="m-0 p-0 mb-1 rgb-2">Starring</p>
-                                            {starring.map((element) => <p className="m-0 p-0">{element}</p>)}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button
-                                className={"btn col rounded d-none d-xl-flex justify-content-center align-items-center rgb-bg-2 hover-bg-dark mt-5 ms-5 border-0 " + this.state.disableButtons}
-                                onClick={this.likeMovie}>
-                                <img src={RsrcIconHeart} width={icon_width_2} className="me-3" alt=""/>
-                                <img src={RsrcIconArrowRight} width={icon_width_2} alt=""/>
-                            </button>
-                        </div>
-                    </main>
-                    <FFooter/>
+    return(
+<div className="h-100 d-flex flex-column m-xl-0" >
+  <FHeader/>
+  <main className="mx-0">
+    <div className="mb-5 d-flex justify-content-around">
+      <button className={"btn col rounded d-none d-xl-flex justify-content-center align-items-center rgb-bg-2 hover-bg-dark mt-5 me-5 border-0 " + this.state.disableButtons} onClick={this.dislikeMovie}>
+          <img src={RsrcIconArrowLeft} width={icon_width_2} className="me-3" alt=""/>
+          <img src={RsrcIconVomit} width={icon_width_2} alt=""/>
+        </button>
+      <div className="col-xl-7 ms-4 mt-3">
+        <div className="d-flex mb-5 mb-xl-0 justify-content-center">
+          <div className="d-xl-none d-flex me-1">
+            <button className={"col btn hover-bg-dark " + this.state.disableButtons} onClick={this.dislikeMovie}>
+              <img src={RsrcIconArrowLeft} width={icon_width_mobile} className="me-3" alt=""/>
+              <img src={RsrcIconVomit} width={icon_width_mobile} alt=""/>
+            </button>
+          </div>
+          <div className="d-xl-none d-flex">
+            <button className={"col btn hover-bg-dark " + this.state.disableButtons} onClick={this.likeMovie}>
+              <img src={RsrcIconHeart} width={icon_width_mobile} className="me-3" alt=""/>
+              <img src={RsrcIconArrowRight} width={icon_width_mobile} alt=""/>
+            </button>
+          </div>
+        </div>
+        <label className="ffs-1 ffw-2 m-0 p-0">{title}</label>
+        <FTagList tags={genres}/>
+        <div className="d-xl-flex mt-4">
+          <div className="col-xl-9 me-3">
+            <div className="ratio ratio-21x9">
+              {video_rendered}
+            </div>
+            <div className="d-flex mt-3 mb-2  justify-content-between">
+              <div className="d-flex">
+                <div className="d-flex me-4">
+                  <img src={RsrcIconHeart} width={icon_width} className="me-2" alt=""/>
+                  <label className="ffs-2">{likes}</label>
                 </div>
-            );
-        } else {
-            return (
-                <div className="h-100 d-flex flex-column m-xl-0">
-                    <FHeader/>
-                    <main className="mx-0">
-                        <div className="mt-5 pt-5 mb-auto d-flex justify-content-center">
-                            <span className="spinner-border spinner-border-sm"/>
-                        </div>
-                    </main>
-                    <FFooter/>
+                <div className="d-flex me-4">
+                  <img src={RsrcIconVomit} width={icon_width} className="me-2" alt=""/>
+                  <label className="ffs-2">{dislikes}</label>
                 </div>
-            )
-        }
-    }
+              </div>
+              <div className="form-check form-switch me-4" style={{transform: 'scale(1.5)'}}>
+                <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onClick={()=>this.flipSeen()}/>
+                <label  className="form-check-label" htmlFor="flexSwitchCheckDefault">Seen</label>
+              </div>
+            </div>
+            <div className="mb-3 mt-auto">
+              {description_rendered}
+            </div>
+          </div>
+          <div className="col d-sm-flex d-xl-block justify-content-left ffw-2 ms-1">
+            <div className="me-5 mb-3">
+              <p className="m-0 p-0 mb-1 rgb-2">Director</p>
+              {directors.map((element) => <p className="m-0 p-0">{element}</p>)}
+            </div>
+            <div className="me-5 mb-3">
+              <p className="m-0 p-0 mb-1 rgb-2">Writer</p>
+              {writers.map((element) => <p className="m-0 p-0">{element}</p>)}
+            </div>
+            <div>
+              <p className="m-0 p-0 mb-1 rgb-2">Starring</p>
+              {starring.map((element) => <p className="m-0 p-0">{element}</p>)}
+            </div>
+          </div>
+        </div>
+      </div>
+      <button className={"btn col rounded d-none d-xl-flex justify-content-center align-items-center rgb-bg-2 hover-bg-dark mt-5 ms-5 border-0 " + this.state.disableButtons} onClick={this.likeMovie}>
+        <img src={RsrcIconHeart} width={icon_width_2} className="me-3" alt=""/>
+        <img src={RsrcIconArrowRight} width={icon_width_2} alt=""/>
+      </button>
+    </div>
+  </main>
+  <FFooter/>
+</div>
+    );
+  }
 
 
 }

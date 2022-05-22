@@ -160,7 +160,7 @@ class SearchMoviesPage extends Component
                             UserService.createReaction(id,!this.state.likedMovies.get(id),this.state.seen.get(id))
                             this.allReactions.push(id)
                         }
-                    }}
+                    }} hideButtons={false}
                     isLinked={true}
                     renderInfo={false}
                     reactIcon={(this.state.likedMovies.get(id))?RsrcDislikeIcon:RsrcLikeIcon}/>}
@@ -204,14 +204,16 @@ class SearchMoviesPage extends Component
                     </ul>
                   </div>
                 <div className="col-md-6 d-flex align-items-center mx-5">
-                  <input type="text" className="FFormInput h-50 w-100 my-2 me-2" id="search"
+                  <input type="text" className="FFormInput h-50 w-100 my-2 me-2" id="search" onKeyPress={(ele)=>{if(ele.key === 'Enter')this.setFilterSearch()}}
                          placeholder="Search" value={this.state.searchTerm}  onChange={this.setSearchTerm}/>
                   <button className="bg-transparent border-0" onClick={this.setFilterSearch}>
                         <img src={RsrcSearchIcon} height="30px" width="30px" className="hover-bg-dark fborder p-2" alt=""/>
                   </button>
                 </div>
               </div>
-              {rendered}
+                <div className="d-flex justify-content-start" style={{flexWrap: 'wrap'}}>
+                    {rendered}
+                </div>
             </div>
           </div>
         </main>
