@@ -298,7 +298,7 @@ class MyMoviesPage extends Component {
     rendered = filteredMovies.map(ele => {
         return(<FMovieLine key={ele.movie.id} movie={ele.movie} seen={ele.seen} renderInfo={true} 
                 onSeen={() => {this.seenMovie(ele)}} onReact={() => {this.deleteMovie(ele)}} 
-                reactIcon={RsrcIconBin} isLinked={false} hideButtons={false}/>);
+                reactIcon={RsrcIconBin} hideButtons={false}/>);
     });
     if (amount === 0) {
         let text = "Like movies on the homepage to view them here!"
