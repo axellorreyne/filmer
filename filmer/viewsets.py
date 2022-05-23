@@ -4,6 +4,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from filmer.models.Group import Group 
 from filmer.models.Reaction import Reaction
 from filmer.models.Movie import Movie
 from filmer.serializers import UserSerializer, ReactionSerializer
@@ -45,6 +46,7 @@ class ReactionViewSet(viewsets.ModelViewSet):
         return Reaction.objects.filter(user=self.request.user)
 
     def create(self, request, *args, **kwargs):
+        print(request.body)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(user=request.user)
