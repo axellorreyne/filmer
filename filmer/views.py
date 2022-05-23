@@ -59,9 +59,8 @@ class GetGroup(APIView):
         group = list(Group.objects.filter(group_id=group_id))
         users = [x.user for x in group]
         users_serialized = [UserSerializer(x).data for x in users]
-        print(users)
         user_reactions = [Reaction.objects.filter(user=x, like=True) for x in users]
-        filmids = set(sum([[ReactionSerializer(y).data['movie_id'] for y in x] for x in user_reactions], []))
+        filmids = set.intersection(* [set([ReactionSerializer(y).data['movie_id'] for y in x]) for x in user_reactions])
         films = [get_movie_info(x) for x in filmids]
 
         groupinfo = list(GroupInfo.objects.filter(group_id=group_id))
