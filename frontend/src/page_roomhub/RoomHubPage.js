@@ -86,7 +86,6 @@ class RoomHub extends Component {
       GroupService.createGroup(this.state.roomName).then(
         (data) => 
         {
-          console.log(data.group_id);
           this.setState({loading: false});
           this.props.navigate("/room/" + data.group_id);
           window.location.reload();
@@ -112,17 +111,8 @@ class RoomHub extends Component {
     if (this.checkBtnJoin.context._errors.length === 0)
     {
       this.setState({loading: false});
-      GroupService.joinGroup(this.state.roomId).then(
-        (data) => {
-          this.setState({loading: false});
-          this.props.navigate("/room/" + data.group_id);
-          window.location.reload();
-        },
-        (error) => {
-          console.log(error)
-          this.setState({loading: false});
-        }
-      );
+      this.props.navigate("/room/" + this.state.roomId);
+      window.location.reload();
     }
     else 
     {

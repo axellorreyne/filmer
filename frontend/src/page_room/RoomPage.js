@@ -36,7 +36,14 @@ class Room extends Component
   componentDidMount()
   {
     document.title = "Filmer: Room";
-    this.getData();
+    GroupService.joinGroup(this.state.group_id).then(
+      (data) => {
+        this.getData();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
   
   getData()

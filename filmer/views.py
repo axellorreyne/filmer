@@ -32,7 +32,6 @@ class NewGroupIdView(APIView):
             return Response({"error": "Not authenticated"})
 
         GroupInfo(group_id=group_id, admin=user, name=group_name).save()
-        Group(group_id=group_id, user=user).save()
         return Response({"group_id": group_id})
 
 class AddToGroupView(APIView):
@@ -47,11 +46,12 @@ class AddToGroupView(APIView):
             return Response({"error": ("There is no group with id" + group_id)}, status=500)
 
         groups = Group.objects.filter(user=user, group_id=group_id)
-        if len(groups) > 0:
-            return Response({"error": ("Already in group " + group_id)}, status=500)
+        if groups.count() > 0:
+            print(groups.count())
+            return Response({"status": ("Already in group " + group_id)})
 
         Group(group_id=group_id, user=user).save()
-        return Response({"group_id": group_id})
+        return Response({"group_id": group_id, "status": "OK"})
 
 class GetGroup(APIView):
     def get(self, request, group_id):
