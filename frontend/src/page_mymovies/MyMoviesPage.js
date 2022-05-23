@@ -195,21 +195,23 @@ class MyMoviesPage extends Component {
     }
 
     handleMovies(data) {
-        let filtered = data.filter(movie => movie.like)
-        let movies = []
-        let ids = []
+        let filtered = data.filter(movie => movie.like);
+        let movies = [];
+        let ids = [];
+        let index = 0;
         if (filtered.length === 0)
         {
           this.setState({loading: false});
         }
         else
         {
-          filtered.forEach((movie, index) => { 
+          filtered.forEach((movie) => { 
             MovieService.getMovieInfo(movie.movie_id).then(
                 (info) => {
                     movies.push({movie: info, seen: movie.seen, url: movie.url});
                     ids.push(movie.movie_id);
-                    if (index === (filtered.length - 1))
+                    ++index;
+                    if (index === (filtered.length))
                     {
                       this.setState({movies: movies, ids: ids, loading: false});
                     }
