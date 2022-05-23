@@ -1,3 +1,3 @@
-CREATE USER postgres;
+CREATE USER postgres UNENCRYPTED PASSWORD postgres;
 CREATE DATABASE postgres;
 GRANT ALL PRIVILEGES ON DATABASE postgres TO postgres;

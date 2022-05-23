@@ -24,7 +24,7 @@ services:
       build:
         context: .
       environment:
-        - DJANGO_CONFIGURATION:Production
+        - DJANGO_CONFIGURATION=Production
         - POSTGRES_DB=postgres
         - POSTGRES_USER=postgres
         - POSTGRES_PASSWORD=postgres
