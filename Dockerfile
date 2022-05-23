@@ -17,6 +17,7 @@ RUN pip install --upgrade pip
 
 # Postgres libraries
 RUN apt-get update && apt-get install -y \
+    gcc \
     libpq-dev
 
 # Copy requirements.txt
