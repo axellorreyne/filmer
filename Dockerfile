@@ -15,6 +15,10 @@ WORKDIR /code
 # Upgrade pip
 RUN pip install --upgrade pip
 
+# Postgres libraries
+RUN apt-get update && apt-get install -y \
+    libpq-dev
+
 # Copy requirements.txt
 COPY requirements.txt ./requirements.txt
 
