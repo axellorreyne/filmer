@@ -18,11 +18,11 @@ class FMovieLine extends Component
 
     render ()
     {
-           let handleLink=()=>  {
-               HomePage.preloaded = this.props.movie.id
-               HomePage.hasReaction = this.props.hasReaction
-               this.props.navigate("/home")
-           }
+        let handleLink=()=>  {
+           HomePage.preloaded = this.props.movie.id
+           HomePage.hasReaction = this.props.hasReaction
+           this.props.navigate("/home")
+        }
 
         const linked = this.props.isLinked
         const hide = this.props.hideButtons
@@ -30,53 +30,44 @@ class FMovieLine extends Component
         const setSeen = this.props.onSeen
         const setDislike = this.props.onReact
         const reactIcon = this.props.reactIcon
-        const name = (linked)?<a onClick={()=>handleLink()} style={{cursor:'pointer'}}>{this.props.movie.original_title}</a>:this.props.movie.original_title
+        const name = <a onClick={()=>handleLink()} style={{cursor:'pointer'}}>{this.props.movie.original_title}</a>
         const score = this.props.movie.vote_average.toFixed(1)
         let buttons=<div/>;
         if(!hide) {
-            const inner =
-                (this.props.seen) ?
-                    <img src={RsrcIconSeen} width="18px" className="me-2" alt=""/>
-                    : <img src={RsrcIconNotSeen} width="18px" className="me-2" alt=""/>
+            const inner = (this.props.seen) ? <img src={RsrcIconSeen} width="18px" className="me-2" alt=""/>
+                                            : <img src={RsrcIconNotSeen} width="18px" className="me-2" alt=""/>
 
             const check = <button onClick={() => setSeen()} className="bg-transparent border-0">
                 {inner}
             </button>
-            const vomit = <button className="bg-transparent border-0 " onClick={() => setDislike()}>
-                <img src={reactIcon} width="18px" className="me-2" alt=""/>
-            </button>
-            buttons = <div>
-                {check}
-                {vomit}
+            const vomit = 
+              <button className="bg-transparent border-0 " onClick={() => setDislike()}>
+                  <img src={reactIcon} width="13px" className="" alt=""/>
+              </button>
+            buttons = <div className="d-flex justify-content-right">
+                  {check}
+                  {vomit}
                 </div>
         }
         let line ;
-        if(info){
-          const director = this.props.movie.credits.crew.filter(x=>x.job==="Director").slice(0,3).map(x=>x.name).sort().join(", ")
-          line=<div className="rgb-2">{director}</div>
-        }else{
-          line=<div></div>
-        }
+        const director = this.props.movie.credits.crew.filter(x=>x.job==="Director").slice(0,3).map(x=>x.name).sort().join(", ")
         let source = "https://image.tmdb.org/t/p/original/"+this.props.movie.poster_path
         let onError = ({ currentTarget }) => {
             currentTarget.onerror = null; // prevents looping
             currentTarget.src=Dummy;
         }
-        let image = (linked)?<img onClick={()=>handleLink()} src={source} className="card-img-top" onError={(x)=>onError(x)} style={{width: 170,cursor: 'pointer'}}/>
-        :<img src={source} className="card-img-top" onError={(x)=>onError(x)} style={{width: 170}}/>
         return (
           <div className="m-1 mb-1">
               <div className="card rgb-bg-1 h-100 w-100"  >
-                  {image}
+                  <img onClick={()=>handleLink()} src={source} className="card-img-top" onError={(x)=>onError(x)} style={{width: 170,cursor: 'pointer'}}/>
                   <div className="card-body" style={{width: 170}}>
                       <div className="ffs-4 ffw-2 me-3">{name}</div>
-                      {line}
+                      <div className="rgb-2">{director}</div>
                   </div>
                   <div className="d-flex justify-content-between mb-2 p-3">
                       <div className="d-flex align-items-center me-3">
                           <img src={RsrcIconStar} width="18px" className="me-2" alt=""/>
                           {score}
-
                       </div>
                     {buttons}
                   </div>

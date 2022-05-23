@@ -9,6 +9,8 @@ import RsrcIconArrowLeft from "../resources/icon_arrow_left.svg";
 import RsrcIconArrowRight from "../resources/icon_arrow_right.svg";
 import RsrcIconArrowLeftActive from "../resources/icon_arrow_left_active.svg";
 import RsrcIconArrowRightActive from "../resources/icon_arrow_right_active.svg";
+import RsrcIconBin from "../resources/icon_bin.svg";
+import RsrcIconBinActive from "../resources/icon_bin_active.svg";
 
 import MovieService from "../services/movie.service";
 import UserService from "../services/user.service";
@@ -275,11 +277,9 @@ class MyMoviesPage extends Component {
             .filter(i => this.state.score(i) >= minimum_likelihood)
         const amount = filteredMovies.length
         let rendered = filteredMovies.slice(this.maxOnPage * (this.state.page - 1), this.maxOnPage * this.state.page).map(ele => {
-            return <FMovieLine key={ele.movie.id} movie={ele.movie} seen={ele.seen} renderInfo={true} onSeen={() => {
-                this.seenMovie(ele)
-            }} onReact={() => {
-                this.deleteMovie(ele)
-            }} reactIcon={RsrcPukeIcon} isLinked={false} hideButtons={false}/>
+            return <FMovieLine key={ele.movie.id} movie={ele.movie} seen={ele.seen} renderInfo={true} 
+                    onSeen={() => {this.seenMovie(ele)}} onReact={() => {this.deleteMovie(ele)}} 
+                    reactIcon={RsrcIconBin} isLinked={false} hideButtons={false}/>
         });
         if (amount === 0) {
             let text = "Like movies on the homepage to view them here!"
