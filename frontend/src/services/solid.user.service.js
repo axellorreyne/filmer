@@ -27,7 +27,6 @@ class SolidUserService {
     async getUserInfo(session){
         const dataSet = await getSolidDataset(cleanWebId(session.info.webId,'profile/card'),{fetch:session.fetch});
         let ob = {oidcIssuer:"",name:""}
-        console.log(session.info.webId)
         for (const thing of getThingAll(dataSet)){
             const type = getUrl(thing,RDF.type)
             if(type==="http://xmlns.com/foaf/0.1/Person")
@@ -49,9 +48,7 @@ class SolidUserService {
     }
 
     getMovieIdFromThing(thing) {
-        console.log(thing)
         const sameAs = getStringNoLocaleAll(thing, "https://schema.org/sameAs");
-        console.log(sameAs)
         return sameAs.filter(a => a.includes("themoviedb"))[0].split('/')[4]
     }
 
