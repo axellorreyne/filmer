@@ -134,22 +134,20 @@ class SearchMoviesPage extends Component
         .map(ele=>{
             let id = ele.id.toString()
             let reacted = this.allReactions.includes(id)
-            return <FMovieLine hasReaction={reacted} movie={ele} seen={this.state.seen.get(id)}
-                    onSeen={()=>{this.setState(prev=>{
-                        prev.seen.set(id,!prev.seen.get(id))
-                        return prev
-                    })
-                    if(reacted){
-                        console.log(id)
-                        console.log(this.state.likedMovies.get(id))
-                        console.log(this.state.seen.get(id))
-                            UserService.changeReaction(id,this.state.likedMovies.get(id),!this.state.seen.get(id))
-                        }else{
-                            UserService.createReaction(id,this.state.likedMovies.get(id),!this.state.seen.get(id))
-                            this.allReactions.push(id)
+            return <FMovieLine 
+                      hasReaction={reacted} 
+                      movie={ele} 
+                      seen={this.state.seen.get(id)}
+                      onSeen={()=>{this.setState(prev => {
+                      prev.seen.set(id,!prev.seen.get(id)); return prev})
+                      if(reacted){
+                          UserService.changeReaction(id,this.state.likedMovies.get(id),!this.state.seen.get(id))
+                      } else{
+                          UserService.createReaction(id,this.state.likedMovies.get(id),!this.state.seen.get(id))
+                          this.allReactions.push(id)
                         }
-                    }}
-                    onReact={()=>{
+                      }}
+                      onReact={()=>{
                         this.setState(prev=>{
                             prev.likedMovies.set(id,!prev.likedMovies.get(id))
                             return prev
@@ -164,7 +162,6 @@ class SearchMoviesPage extends Component
                     isLinked={true}
                     renderInfo={false}
                     reactIcon={(this.state.likedMovies.get(id))?RsrcDislikeIcon:RsrcLikeIcon}/>}
-
     )
     if(rendered.length===0) {
         let text = "No movies found with the current search term!"

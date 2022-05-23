@@ -9,6 +9,8 @@ import RsrcIconArrowLeft from "../resources/icon_arrow_left.svg";
 import RsrcIconArrowRight from "../resources/icon_arrow_right.svg";
 import RsrcIconArrowLeftActive from "../resources/icon_arrow_left_active.svg";
 import RsrcIconArrowRightActive from "../resources/icon_arrow_right_active.svg";
+import RsrcIconBin from "../resources/icon_bin.svg";
+import RsrcIconBinActive from "../resources/icon_bin_active.svg";
 
 import MovieService from "../services/movie.service";
 import UserService from "../services/user.service";
@@ -49,17 +51,17 @@ class MyMoviesPage extends Component {
         this.proposedFormat = this.formatTitle;
         this.sortName = "Sort";
         this.searchView = false;
-        this.allMovies = -1
         //movies: list of movie objects (see reference)
         //sorter: een compare die 2 movie objecten neemt, en een gelijkenis tussen -1 en 1 teruggeeft
         //searchOption: naam van de gekozen zoek optie
         //score: neemt een movie en geeft een gelijkenis met de zoekterm terug. Wordt gebruikt door sorteren en filter
         this.state = {
-            movies: {},
+          movies: [],
             page: 1,
             sorter: (i, o) => 0,
             searchOption: "Title",
-            score: (i) => 1
+            score: (i) => 1,
+            loading: true,
         };
     }
 
@@ -177,31 +179,52 @@ class MyMoviesPage extends Component {
 
     componentDidMount() {
         if (SolidUserService.isSolidUser(this.context.session)) {
-            console.log('load solid movies')
             SolidUserService.getReactions(this.context.session).then(this.handleMovies) // if solid user
         } else {
-            UserService.getReactions().then(this.handleMovies) // if normal user
+            UserService.getReactions().then(
+              (data) => {
+                this.handleMovies(data) // if normal user
+              },
+              (error) => {
+                console.log(error);
+                this.setState({loading: false});
+              }
+            );
         }
         document.title = "Filmer: My Movies";
     }
 
     handleMovies(data) {
-        let filtered = data.filter(movie => movie.like)
-        this.allMovies = filtered.length
-        let movies = []
-        let ids = []
-        filtered.forEach(movie => {
-            MovieService.getMovieInfo(movie.movie_id).then(info => {
-                    movies.push({movie: info, seen: movie.seen, url: movie.url})
-                    ids.push(movie.movie_id)
-                    this.setState({movies, ids})
+        let filtered = data.filter(movie => movie.like);
+        let movies = [];
+        let ids = [];
+        let index = 0;
+        if (filtered.length === 0)
+        {
+          this.setState({loading: false});
+        }
+        else
+        {
+          filtered.forEach((movie) => { 
+            MovieService.getMovieInfo(movie.movie_id).then(
+                (info) => {
+                    movies.push({movie: info, seen: movie.seen, url: movie.url});
+                    ids.push(movie.movie_id);
+                    ++index;
+                    if (index === (filtered.length))
+                    {
+                      this.setState({movies: movies, ids: ids, loading: false});
+                    }
+                  },
+                (error) => {
+                  console.log(error);
                 }
-            )
-        })
+              )
+          })
+       }
     }
 
     deleteMovie(ele) {
-        this.allMovies--;
         if (SolidUserService.isSolidUser(this.context.session)) {
             SolidUserService.deleteMovie(this.context.session, ele.url)
         } else {
@@ -220,18 +243,16 @@ class MyMoviesPage extends Component {
         } else {
             UserService.changeReaction(ele.movie.id, true, !ele.seen)
         }
-
         this.setState(prev => {
             prev.movies[prev.ids.indexOf(ele.movie.id.toString())].seen = !ele.seen
             return prev
         })
-
     }
 
   render ()
   {
     let movies  = this.state.movies
-    if(movies.length!==this.allMovies){
+    if(this.state.loading){
       return(
       <div className="h-100 d-flex flex-column m-3 m-xl-0">
         <FHeader/>
@@ -269,47 +290,45 @@ class MyMoviesPage extends Component {
       </div>
       );
     }
+    
     const minimum_likelihood = 0.2;
+    const filteredMovies = this.state.movies.sort(this.state.sorter); //filter(i => this.state.score(i) >= minimum_likelihood)
+    const amount = filteredMovies.length
+    let rendered = filteredMovies.slice(this.maxOnPage * (this.state.page - 1), this.maxOnPage * this.state.page)
+    rendered = filteredMovies.map(ele => {
+        return(<FMovieLine key={ele.movie.id} movie={ele.movie} seen={ele.seen} renderInfo={true} 
+                onSeen={() => {this.seenMovie(ele)}} onReact={() => {this.deleteMovie(ele)}} 
+                reactIcon={RsrcIconBin} isLinked={false} hideButtons={false}/>);
+    });
+    if (amount === 0) {
+        let text = "Like movies on the homepage to view them here!"
+        if (this.searchView)
+            text = "Change your search term to see more movies!"
+        rendered = <div className="container-fluid mt-5">
+            <h5>No movies to show.</h5>
+            <h5>{text}</h5>
+        </div>
+    }
 
-        const filteredMovies = movies.sort(this.state.sorter)
-            .filter(i => this.state.score(i) >= minimum_likelihood)
-        const amount = filteredMovies.length
-        let rendered = filteredMovies.slice(this.maxOnPage * (this.state.page - 1), this.maxOnPage * this.state.page).map(ele => {
-            return <FMovieLine key={ele.movie.id} movie={ele.movie} seen={ele.seen} renderInfo={true} onSeen={() => {
-                this.seenMovie(ele)
-            }} onReact={() => {
-                this.deleteMovie(ele)
-            }} reactIcon={RsrcPukeIcon} isLinked={false} hideButtons={false}/>
-        });
-        if (amount === 0) {
-            let text = "Like movies on the homepage to view them here!"
-            if (this.searchView)
-                text = "Change your search term to see more movies!"
-            rendered = <div className="container-fluid mt-5">
-                <h5>No movies to show.</h5>
-                <h5>{text}</h5>
-            </div>
-        }
+    let proximity = <div/>
+    if (this.searchView) {
+        proximity = this.newSortOption("Search", this.sortOnScore)
+    }
 
-        let proximity = <div/>
-        if (this.searchView) {
-            proximity = this.newSortOption("Search", this.sortOnScore)
-        }
-
-        let prevPage = (this.state.page === 1) ?
-            (<button className="btn" disabled>
-                <img src={RsrcIconArrowLeft} width="21px"/>
-            </button>) :
-            (<button className="btn" onClick={() => this.changePage(-1)}>
-                <img src={RsrcIconArrowLeftActive} width="21px"/>
-            </button>);
-        let nextPage = (this.state.page >= Math.ceil(filteredMovies.length / this.maxOnPage)) ?
-            (<button className="btn disabled" disabled>
-                <img src={RsrcIconArrowRight} width="21px"/>
-            </button>) :
-            (<button className="btn" onClick={() => this.changePage(1)}>
-                <img src={RsrcIconArrowRightActive} width="21px"/>
-            </button>);
+    let prevPage = (this.state.page === 1) ?
+        (<button className="btn" disabled>
+            <img src={RsrcIconArrowLeft} width="21px"/>
+        </button>) :
+        (<button className="btn" onClick={() => this.changePage(-1)}>
+            <img src={RsrcIconArrowLeftActive} width="21px"/>
+        </button>);
+    let nextPage = (this.state.page >= Math.ceil(filteredMovies.length / this.maxOnPage)) ?
+        (<button className="btn disabled" disabled>
+            <img src={RsrcIconArrowRight} width="21px"/>
+        </button>) :
+        (<button className="btn" onClick={() => this.changePage(1)}>
+            <img src={RsrcIconArrowRightActive} width="21px"/>
+        </button>);
 
 
         const sortName = this.sortName;
