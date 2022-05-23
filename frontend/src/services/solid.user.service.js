@@ -24,6 +24,20 @@ class SolidUserService {
 
     }
 
+    async getUserInfo(session){
+        const dataSet = await getSolidDataset(cleanWebId(session.info.webId,'profile/card'),{fetch:session.fetch});
+        let ob = {oidcIssuer:"",name:""}
+        console.log(session.info.webId)
+        for (const thing of getThingAll(dataSet)){
+            const type = getUrl(thing,RDF.type)
+            if(type==="http://xmlns.com/foaf/0.1/Person")
+                ob.oidcIssuer = getUrl(thing,"http://www.w3.org/ns/solid/terms#oidcIssuer")
+            else if(type==='http://xmlns.com/foaf/0.1/PersonalProfileDocument')
+                ob.name = getUrl(thing,"http://xmlns.com/foaf/0.1/maker").split("/")[3]
+        }
+        return ob
+    }
+
     async getAllMovieURLs(session) {
         //TODO discover movie folder trough profile
         const moviesFolderDataset = await getSolidDataset(cleanWebId(session.info.webId, 'movies/'), {fetch: session.fetch});
@@ -35,7 +49,9 @@ class SolidUserService {
     }
 
     getMovieIdFromThing(thing) {
+        console.log(thing)
         const sameAs = getStringNoLocaleAll(thing, "https://schema.org/sameAs");
+        console.log(sameAs)
         return sameAs.filter(a => a.includes("themoviedb"))[0].split('/')[4]
     }
 
@@ -45,12 +61,12 @@ class SolidUserService {
         for (const movieURl of await this.getAllMovieURLs(session)) {
 
             let movieObj = {seen: false, like: true, url: movieURl}
-
             const movieDataset = await getSolidDataset(movieURl, {fetch: session.fetch})
             const all = getThingAll(movieDataset);
 
             all.forEach(thing => {
                 const type = getUrl(thing, RDF.type)
+                console.log(type)
                 if (type === "https://schema.org/Movie") {
                     movieObj.movie_id = this.getMovieIdFromThing(thing);
                 } else if (type === "https://schema.org/WatchAction") {
