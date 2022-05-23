@@ -15,6 +15,11 @@ WORKDIR /code
 # Upgrade pip
 RUN pip install --upgrade pip
 
+# Postgres libraries
+RUN apt-get update && apt-get install -y \
+    gcc \
+    libpq-dev
+
 # Copy requirements.txt
 COPY requirements.txt ./requirements.txt
 
@@ -24,9 +29,6 @@ RUN pip install -r ./requirements.txt
 # Copy source
 # TODO: exclude frontend
 COPY . .
-
-# Set enviroment to production
-ENV DJANGO_CONFIGURATION=Production
 
 # install gunicorn
 RUN python -m pip install gunicorn
