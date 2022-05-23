@@ -1,7 +1,7 @@
 import {Component} from 'react';
 import {Link} from "react-router-dom";
 import RsrcLogo from "../resources/logo_transparant.svg";
-import UserService from "../services/user.service";
+import AuthService from "../services/auth.service";
 
 class FHeader extends Component 
 {
@@ -14,6 +14,7 @@ class FHeader extends Component
 
   logout()
   {
+    AuthService.logout();
   }
   
   render () 
@@ -42,7 +43,7 @@ class FHeader extends Component
             </ul>
             <ul className="text-center navbar-nav">
               <Link to="/settings"><li className="nav-item"><a className="nav-link" href="/settings">Settings</a></li></Link>
-              <Link to="/"><button className="border-0 rgb-bg-tr"><li className="nav-item"><a className="nav-link" href="/">Logout</a></li></button></Link>
+              <Link to="/"><button className="border-0 rgb-bg-tr" onClick={this.logout}><li className="nav-item"><a className="nav-link" href="/">Logout</a></li></button></Link>
             </ul>
           </div>
         </div>
