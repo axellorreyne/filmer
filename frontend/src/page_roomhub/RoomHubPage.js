@@ -147,7 +147,7 @@ class RoomHub extends Component {
             <div className="form-group">
               <button disabled={this.state.loading} className="btn btn-primary ms-3 mb-3">
                 {this.state.loading && <span className="spinner-border spinner-border-sm"/>}
-                {!this.state.loading && <span>Join Room</span>}
+                {!this.state.loading && <span>Join Group</span>}
               </button>
             </div>
             <CheckButton style={{ display: "none" }} ref={c => { this.checkBtnJoin = c; }} />
@@ -158,7 +158,7 @@ class RoomHub extends Component {
             <div className="form-group">
               <button className="btn btn-primary" disabled={this.state.loading} >
                 {this.state.loading && <span className="spinner-border spinner-border-sm"/>}
-                {!this.state.loading && <span>Create Room</span>}
+                {!this.state.loading && <span>Create Group</span>}
               </button>
             </div>
             <CheckButton style={{ display: "none" }} ref={c => { this.checkBtnCreate = c; }} />
