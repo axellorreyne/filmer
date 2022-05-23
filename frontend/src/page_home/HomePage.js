@@ -200,8 +200,6 @@ class HomePage extends Component {
                                               <label  className="form-check-label me-5 h6 mt-2" style={{float:'left',fontSize:'65%'}} htmlFor="flexSwitchCheckDefault">Seen</label>
                                                 <input className="form-check-input" type="checkbox" role="switch"
                                                        id="flexSwitchCheckDefault" onClick={() => this.flipSeen()}/>
-                                                <label className="form-check-label"
-                                                       htmlFor="flexSwitchCheckDefault">Seen</label>
                                             </div>
                                         </div>
                                         <div className="mb-3 mt-auto">
