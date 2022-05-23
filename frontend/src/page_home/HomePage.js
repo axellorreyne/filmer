@@ -182,7 +182,7 @@ class HomePage extends Component {
                                         <div className="ratio ratio-21x9">
                                             {video_rendered}
                                         </div>
-                                        <div className="d-flex mt-3 mb-2  justify-content-between">
+                                        <div className="d-flex mt-3 mb-2 align-items-center justify-content-between">
                                             <div className="d-flex">
                                                 <div className="d-flex me-4">
                                                     <img src={RsrcIconHeart} width={icon_width} className="me-2"
@@ -197,9 +197,11 @@ class HomePage extends Component {
                                             </div>
                                             <div className="form-check form-switch me-4"
                                                  style={{transform: 'scale(1.5)'}}>
-                                              <label  className="form-check-label me-5 h6 mt-2" style={{float:'left',fontSize:'65%'}} htmlFor="flexSwitchCheckDefault">Seen</label>
-                                                <input className="form-check-input" type="checkbox" role="switch"
-                                                       id="flexSwitchCheckDefault" onClick={() => this.flipSeen()}/>
+                                                <div className='d-flex align-items-center'>
+                                                    <label  className="form-check-label me-5 h6 mt-2" style={{float:'left',fontSize:'65%'}} htmlFor="flexSwitchCheckDefault">Seen</label>
+                                                    <input className="form-check-input mb-1" type="checkbox" role="switch"
+                                                        id="flexSwitchCheckDefault" onClick={() => this.flipSeen()}/>
+                                                </div>
                                             </div>
                                         </div>
                                         <div className="mb-3 mt-auto">
