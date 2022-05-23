@@ -36,7 +36,14 @@ class Room extends Component
   componentDidMount()
   {
     document.title = "Filmer: Room";
-    this.getData();
+    GroupService.joinGroup(this.state.group_id).then(
+      (data) => {
+        this.getData();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
   
   getData()
@@ -94,7 +101,7 @@ class Room extends Component
   {
     const names_rendered = this.state.users.map(
       (user, index) => {
-        const admin = (user.id === this.state.admin.id) ? "(admin)" : "ilskdjf";
+        const admin = (user.id === this.state.admin.id) ? "(admin)" : "";
         return(
           <div className="col-12 col-sm-6 col-md-4 pe-3">
             <hr className="my-2"/>
