@@ -56,7 +56,7 @@ class MyMoviesPage extends Component {
         //searchOption: naam van de gekozen zoek optie
         //score: neemt een movie en geeft een gelijkenis met de zoekterm terug. Wordt gebruikt door sorteren en filter
         this.state = {
-            movies: [],
+          movies: [],
             page: 1,
             sorter: (i, o) => 0,
             searchOption: "Title",
@@ -179,7 +179,6 @@ class MyMoviesPage extends Component {
 
     componentDidMount() {
         if (SolidUserService.isSolidUser(this.context.session)) {
-            console.log('load solid movies')
             SolidUserService.getReactions(this.context.session).then(this.handleMovies) // if solid user
         } else {
             UserService.getReactions().then(
@@ -205,19 +204,22 @@ class MyMoviesPage extends Component {
         }
         else
         {
-          filtered.forEach(movie => { 
+          filtered.forEach((movie, index) => { 
             MovieService.getMovieInfo(movie.movie_id).then(
                 (info) => {
                     movies.push({movie: info, seen: movie.seen, url: movie.url});
                     ids.push(movie.movie_id);
+                    if (index === (filtered.length - 1))
+                    {
+                      this.setState({movies: movies, ids: ids, loading: false});
+                    }
                   },
                 (error) => {
                   console.log(error);
                 }
               )
-          });
-        }
-        this.setState({movies, ids, loading: false});
+          })
+       }
     }
 
     deleteMovie(ele) {
@@ -288,14 +290,13 @@ class MyMoviesPage extends Component {
     }
     
     const minimum_likelihood = 0.2;
-    
-    const filteredMovies = movies.sort(this.state.sorter)
-        .filter(i => this.state.score(i) >= minimum_likelihood)
+    const filteredMovies = this.state.movies.sort(this.state.sorter); //filter(i => this.state.score(i) >= minimum_likelihood)
     const amount = filteredMovies.length
-    let rendered = filteredMovies.slice(this.maxOnPage * (this.state.page - 1), this.maxOnPage * this.state.page).map(ele => {
-        return <FMovieLine key={ele.movie.id} movie={ele.movie} seen={ele.seen} renderInfo={true} 
+    let rendered = filteredMovies.slice(this.maxOnPage * (this.state.page - 1), this.maxOnPage * this.state.page)
+    rendered = filteredMovies.map(ele => {
+        return(<FMovieLine key={ele.movie.id} movie={ele.movie} seen={ele.seen} renderInfo={true} 
                 onSeen={() => {this.seenMovie(ele)}} onReact={() => {this.deleteMovie(ele)}} 
-                reactIcon={RsrcIconBin} isLinked={false} hideButtons={false}/>
+                reactIcon={RsrcIconBin} isLinked={false} hideButtons={false}/>);
     });
     if (amount === 0) {
         let text = "Like movies on the homepage to view them here!"
