@@ -9,14 +9,14 @@ class FSolidFriendInviteLine extends Component
     }
 
     invite () {
-        console.log("invited ", this.props.url);
+        console.log("invited ", this.props.contact.url);
     }
 
     render ()
     {
-        const url = this.props.url;
+        const url = this.props.contact.name || this.props.contact.url;
         return(
-            <div className="d-flex align-items-center">
+            <div className="d-flex justify-content-between">
                 <p className="text text-black m-1">{url}</p>
                 <button type="button" className="btn btn-bg-solid hover-bg-solid rgb-bg-solid rgb-1 m-2" onClick={this.invite}>
                     Invite

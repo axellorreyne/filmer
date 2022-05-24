@@ -18,6 +18,7 @@ import FFooter from "./FFooter";
 import RoomPage from "../page_room/RoomPage";
 import RoomHubPage from "../page_roomhub/RoomHubPage";
 import {SessionContext} from "@inrupt/solid-ui-react";
+import SolidUserService from "../services/solid.user.service";
 
 class FTotalRoutes extends Component {
 
@@ -37,8 +38,7 @@ class FTotalRoutes extends Component {
     }
 
     check(page) {
-        if (this.context.session.info.isLoggedIn) {
-            console.log(this.context.session.info.webId)
+        if (SolidUserService.isSolidUser(this.context.session)) {
             return page
         } else if (this.state.logged === 1) {
             return page

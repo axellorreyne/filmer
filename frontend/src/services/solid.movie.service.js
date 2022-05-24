@@ -12,15 +12,24 @@ import {
 import {LDP, RDF} from "@inrupt/vocab-common-rdf";
 import moment from "moment/moment";
 import {cleanWebId} from "../tools/SolidTools";
+import SolidUserService from "./solid.user.service";
 
 class SolidMovieService{
+
+    async getMovieLocation(session){
+        await SolidUserService.discoverType(session, "https://schema.org/WatchAction", "movies/");
+        return SolidUserService.discoverType(session, "https://schema.org/Movie", "movies/");
+    }
+
     async getAllMovieURLs(session) {
-        //TODO discover movie folder trough profile
-        const moviesFolderDataset = await getSolidDataset(cleanWebId(session.info.webId, 'movies/'), {fetch: session.fetch});
+        const movieLocation = await this.getMovieLocation(session);
+        console.log(movieLocation)
+
+        const moviesFolderDataset = await getSolidDataset(movieLocation, {fetch: session.fetch});
         let moviesURls = getThingAll(moviesFolderDataset);
 
         return moviesURls.filter(movie => {
-            return getUrlAll(movie, RDF.type).indexOf(LDP.Container) < 0 //Filter out the containers
+            return getUrlAll(movie, RDF.type).indexOf(LDP.Container) < 0 && movie.url !== cleanWebId(session.info.webId, 'movies/') //Filter out the containers
         }).map(movie => movie.url)
     }
 
@@ -104,8 +113,9 @@ class SolidMovieService{
             .build();
 
         newMovieDataSet = setThing(newMovieDataSet, newMovieThing);
-        const url = cleanWebId(session.info.webId, `movies/${movie.title.toLowerCase().split(' ').join('-').replace(/[^a-zA-Z0-9-_]/g, '')}-`
-            + `${movie.release_date.toLowerCase().split(' ').join('-').replace(/[^a-zA-Z0-9-_]/g, '')}`)
+        const movieLocation = await this.getMovieLocation(session);
+        const url = movieLocation + `${movie.title.toLowerCase().split(' ').join('-').replace(/[^a-zA-Z0-9-_]/g, '')}-`
+            + `${movie.release_date.toLowerCase().split(' ').join('-').replace(/[^a-zA-Z0-9-_]/g, '')}`
 
         await saveSolidDatasetAt(url, newMovieDataSet, {fetch: session.fetch});
 
