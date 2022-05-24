@@ -49,7 +49,7 @@ $ docker-compose down
 ```
 
 
-### Build + start local setup (manual)
+### Build + start local setup (non dockerized)
 Backend:
 - (setup your python venv)
 - `pip install -r requirements.txt`
