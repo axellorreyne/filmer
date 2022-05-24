@@ -56,7 +56,7 @@ class MyMoviesPage extends Component {
         //searchOption: naam van de gekozen zoek optie
         //score: neemt een movie en geeft een gelijkenis met de zoekterm terug. Wordt gebruikt door sorteren en filter
         this.state = {
-          movies: [],
+            movies: [],
             page: 1,
             sorter: (i, o) => 0,
             searchOption: "Title",
@@ -182,13 +182,13 @@ class MyMoviesPage extends Component {
             SolidUserService.getReactions(this.context.session).then(this.handleMovies) // if solid user
         } else {
             UserService.getReactions().then(
-              (data) => {
-                this.handleMovies(data) // if normal user
-              },
-              (error) => {
-                console.log(error);
-                this.setState({loading: false});
-              }
+                (data) => {
+                    this.handleMovies(data) // if normal user
+                },
+                (error) => {
+                    console.log(error);
+                    this.setState({loading: false});
+                }
             );
         }
         document.title = "Filmer: My Movies";
@@ -199,42 +199,37 @@ class MyMoviesPage extends Component {
         let movies = [];
         let ids = [];
         let index = 0;
-        if (filtered.length === 0)
-        {
-          this.setState({loading: false});
-        }
-        else
-        {
-          filtered.forEach((movie) => { 
-            MovieService.getMovieInfo(movie.movie_id).then(
-                (info) => {
-                    movies.push({movie: info, seen: movie.seen, url: movie.url});
-                    ids.push(movie.movie_id);
-                    ++index;
-                    if (index === (filtered.length))
-                    {
-                      this.setState({movies: movies, ids: ids, loading: false});
+        if (filtered.length === 0) {
+            this.setState({loading: false});
+        } else {
+            filtered.forEach((movie) => {
+                MovieService.getMovieInfo(movie.movie_id).then(
+                    (info) => {
+                        movies.push({movie: info, seen: movie.seen, url: movie.url});
+                        ids.push(movie.movie_id);
+                        ++index;
+                        if (index === (filtered.length)) {
+                            this.setState({movies: movies, ids: ids, loading: false});
+                        }
+                    },
+                    (error) => {
+                        console.log(error);
                     }
-                  },
-                (error) => {
-                  console.log(error);
-                }
-              )
-          })
-       }
+                )
+            })
+        }
     }
 
     deleteMovie(ele) {
-        let task = (SolidUserService.isSolidUser(this.context.session))?
-            SolidUserService.deleteMovie(this.context.session, ele.url)
-        :
+        let task = (SolidUserService.isSolidUser(this.context.session)) ?
+            SolidUserService.deleteMovie(this.context.session, ele.url) :
             UserService.changeReaction(ele.movie.id, false, ele.movie.seen)
 
 
-        task.then(res=>this.setState(prev => {
+        task.then(res => this.setState(prev => {
             let pos = prev.ids.indexOf(ele.movie.id.toString())
             prev.movies.splice(pos, 1)
-            prev.ids.splice(pos,1)
+            prev.ids.splice(pos, 1)
             return prev
         }))
     }
@@ -251,86 +246,94 @@ class MyMoviesPage extends Component {
         })
     }
 
-  render ()
-  {
-    let movies  = this.state.movies
-    if(this.state.loading){
-      return(
-      <div className="h-100 d-flex flex-column m-3 m-xl-0">
-        <FHeader/>
-        <main className="mb-5 container-fluid">
-          <div className="my-5 d-lg-flex justify-content-around align-items-center">
-            <div className="col-lg-7 mx-md-5 mb-5" >
-              <p className="ffs-1 ffw-2 m-0 p-0 me-4">My movies (0)</p>
-              <div className="d-md-flex mt-4 justify-content-between align-items-center">
-                <div className="col-md-6 d-flex align-items-center">
-                  <input type="text" className="FFormInput h-50 w-100 my-2 me-2" id="search"
-                         placeholder="Search"/>
-                  <div className="col-xl-3 dropdown">
-                    <button type="button" className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown"></button>
-                    <ul className="dropdown-menu fborder rgb-bg-1 w-100">
-                    </ul>
-                  </div>
-                  <button className="bg-transparent border-0">
-                        <img src={RsrcSearchIcon} height="30px" width="30px" className="hover-bg-dark fborder p-2" alt=""/>
-                  </button>
+    render() {
+        let movies = this.state.movies
+        if (this.state.loading) {
+            return (
+                <div className="h-100 d-flex flex-column m-3 m-xl-0">
+                    <FHeader/>
+                    <main className="mb-5 container-fluid">
+                        <div className="my-5 d-lg-flex justify-content-around align-items-center">
+                            <div className="col-lg-7 mx-md-5 mb-5">
+                                <p className="ffs-1 ffw-2 m-0 p-0 me-4">My movies (0)</p>
+                                <div className="d-md-flex mt-4 justify-content-between align-items-center">
+                                    <div className="col-md-6 d-flex align-items-center">
+                                        <input type="text" className="FFormInput h-50 w-100 my-2 me-2" id="search"
+                                               placeholder="Search"/>
+                                        <div className="col-xl-3 dropdown">
+                                            <button type="button"
+                                                    className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle"
+                                                    data-bs-toggle="dropdown"></button>
+                                            <ul className="dropdown-menu fborder rgb-bg-1 w-100">
+                                            </ul>
+                                        </div>
+                                        <button className="bg-transparent border-0">
+                                            <img src={RsrcSearchIcon} height="30px" width="30px"
+                                                 className="hover-bg-dark fborder p-2" alt=""/>
+                                        </button>
+                                    </div>
+                                    <div className="col-md-2 col-xxl-1 dropdown h-50">
+                                        <button type="button"
+                                                className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle"
+                                                data-bs-toggle="dropdown"></button>
+                                        <ul className="dropdown-menu fborder rgb-bg-1 w-100">
+                                        </ul>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div className="mt-5 pt-5 mb-auto d-flex justify-content-center">
+                                    <span className="spinner-border spinner-border-sm"/>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                    <FFooter/>
                 </div>
-                <div className="col-md-2 col-xxl-1 dropdown h-50">
-                  <button type="button" className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown"></button>
-                  <ul className="dropdown-menu fborder rgb-bg-1 w-100">
-                  </ul>
-                </div>
-              </div>
-              <hr/>
-              <div className="mt-5 pt-5 mb-auto d-flex justify-content-center">
-                <span className="spinner-border spinner-border-sm"/>
-              </div>
+            );
+        }
+
+        const minimum_likelihood = 0.2;
+        const filteredMovies = this.state.movies.sort(this.state.sorter).filter(i => this.state.score(i) >= minimum_likelihood)
+        const amount = filteredMovies.length
+        let rendered = filteredMovies.slice(this.maxOnPage * (this.state.page - 1), this.maxOnPage * this.state.page)
+        rendered = rendered.map(ele => {
+            return (<FMovieLine key={ele.movie.id} movie={ele.movie} seen={ele.seen} renderInfo={true}
+                                onSeen={() => {
+                                    this.seenMovie(ele)
+                                }} onReact={() => {
+                this.deleteMovie(ele)
+            }}
+                                reactIcon={RsrcIconBin} isLinked={false} hideButtons={false}/>);
+        });
+        if (amount === 0) {
+            let text = "Like movies on the homepage to view them here!"
+            if (this.searchView)
+                text = "Change your search term to see more movies!"
+            rendered = <div className="container-fluid mt-5">
+                <h5>No movies to show.</h5>
+                <h5>{text}</h5>
             </div>
-          </div>
-        </main>
-        <FFooter/>
-      </div>
-      );
-    }
-    
-    const minimum_likelihood = 0.2;
-    const filteredMovies = this.state.movies.sort(this.state.sorter).filter(i => this.state.score(i) >= minimum_likelihood)
-    const amount = filteredMovies.length
-    let rendered = filteredMovies.slice(this.maxOnPage * (this.state.page - 1), this.maxOnPage * this.state.page)
-    rendered = rendered.map(ele => {
-        return(<FMovieLine key={ele.movie.id} movie={ele.movie} seen={ele.seen} renderInfo={true} 
-                onSeen={() => {this.seenMovie(ele)}} onReact={() => {this.deleteMovie(ele)}} 
-                reactIcon={RsrcIconBin} isLinked={false} hideButtons={false}/>);
-    });
-    if (amount === 0) {
-        let text = "Like movies on the homepage to view them here!"
-        if (this.searchView)
-            text = "Change your search term to see more movies!"
-        rendered = <div className="container-fluid mt-5">
-            <h5>No movies to show.</h5>
-            <h5>{text}</h5>
-        </div>
-    }
+        }
 
-    let proximity = <div/>
-    if (this.searchView) {
-        proximity = this.newSortOption("Search", this.sortOnScore)
-    }
+        let proximity = <div/>
+        if (this.searchView) {
+            proximity = this.newSortOption("Search", this.sortOnScore)
+        }
 
-    let prevPage = (this.state.page === 1) ?
-        (<button className="btn" disabled>
-            <img src={RsrcIconArrowLeft} width="21px"/>
-        </button>) :
-        (<button className="btn" onClick={() => this.changePage(-1)}>
-            <img src={RsrcIconArrowLeftActive} width="21px"/>
-        </button>);
-    let nextPage = (this.state.page >= Math.ceil(filteredMovies.length / this.maxOnPage)) ?
-        (<button className="btn disabled" disabled>
-            <img src={RsrcIconArrowRight} width="21px"/>
-        </button>) :
-        (<button className="btn" onClick={() => this.changePage(1)}>
-            <img src={RsrcIconArrowRightActive} width="21px"/>
-        </button>);
+        let prevPage = (this.state.page === 1) ?
+            (<button className="btn" disabled>
+                <img src={RsrcIconArrowLeft} width="21px"/>
+            </button>) :
+            (<button className="btn" onClick={() => this.changePage(-1)}>
+                <img src={RsrcIconArrowLeftActive} width="21px"/>
+            </button>);
+        let nextPage = (this.state.page >= Math.ceil(filteredMovies.length / this.maxOnPage)) ?
+            (<button className="btn disabled" disabled>
+                <img src={RsrcIconArrowRight} width="21px"/>
+            </button>) :
+            (<button className="btn" onClick={() => this.changePage(1)}>
+                <img src={RsrcIconArrowRightActive} width="21px"/>
+            </button>);
 
 
         const sortName = this.sortName;
@@ -353,21 +356,27 @@ class MyMoviesPage extends Component {
                             <p className="ffs-1 ffw-2 m-0 p-0 me-4">My movies ({amount})</p>
                             <div className="d-md-flex mt-4 justify-content-between align-items-center">
 
-                <div className="col-md-6 d-flex align-items-center">
-                  <input type="text" className="FFormInput h-50 w-100 my-2 me-2" id="search" onKeyPress={(ele)=>{if(ele.key === 'Enter')this.setFilterSearch()}}
-                         placeholder="Search"  onChange={this.setSearchTerm}/>
-                  <div className="col-xl-3 dropdown">
-                    <button type="button" className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle" data-bs-toggle="dropdown">{ searchOption}</button>
-                    <ul className="dropdown-menu fborder rgb-bg-1 w-100">
-                        {searchByTitle}
-                        {searchByDir}
-                        {searchByGen}
-                    </ul>
-                  </div>
-                  <button className="bg-transparent border-0" onClick={this.setFilterSearch}>
-                        <img src={RsrcSearchIcon} height="30px" width="30px" className="hover-bg-dark fborder p-2" alt=""/>
-                  </button>
-                </div>
+                                <div className="col-md-6 d-flex align-items-center">
+                                    <input type="text" className="FFormInput h-50 w-100 my-2 me-2" id="search"
+                                           onKeyPress={(ele) => {
+                                               if (ele.key === 'Enter') this.setFilterSearch()
+                                           }}
+                                           placeholder="Search" onChange={this.setSearchTerm}/>
+                                    <div className="col-xl-3 dropdown">
+                                        <button type="button"
+                                                className="FFormInput w-100 ffw-2 rgb-2 btn-sm dropdown-toggle"
+                                                data-bs-toggle="dropdown">{searchOption}</button>
+                                        <ul className="dropdown-menu fborder rgb-bg-1 w-100">
+                                            {searchByTitle}
+                                            {searchByDir}
+                                            {searchByGen}
+                                        </ul>
+                                    </div>
+                                    <button className="bg-transparent border-0" onClick={this.setFilterSearch}>
+                                        <img src={RsrcSearchIcon} height="30px" width="30px"
+                                             className="hover-bg-dark fborder p-2" alt=""/>
+                                    </button>
+                                </div>
 
                                 <div className="col-md-2 col-xxl-1 dropdown h-50">
                                     <button type="button"
@@ -381,23 +390,23 @@ class MyMoviesPage extends Component {
                                     </ul>
                                 </div>
 
-              </div>
-              <hr/>
-                <div className="d-flex justify-content-start" style={{flexWrap: 'wrap'}}>
-                    {rendered}
-                </div>
-              <div className="d-flex pt-5 m-5 m-xl-0 justify-content-center align-items-baseline">
-                  {prevPage}
-                  <p className="ffw-2 mx-2">page {this.state.page}</p>
-                  {nextPage}
-              </div>
+                            </div>
+                            <hr/>
+                            <div className="d-flex justify-content-start" style={{flexWrap: 'wrap'}}>
+                                {rendered}
+                            </div>
+                            <div className="d-flex pt-5 m-5 m-xl-0 justify-content-center align-items-baseline">
+                                {prevPage}
+                                <p className="ffw-2 mx-2">page {this.state.page}</p>
+                                {nextPage}
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <FFooter/>
             </div>
-          </div>
-        </main>
-        <FFooter/>
-      </div>
-    );
-  }
+        );
+    }
 
 }
 
