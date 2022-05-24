@@ -65,7 +65,7 @@ class SolidMovieService{
         await deleteSolidDataset(url, {fetch: session.fetch});
     }
 
-    async watchMovie(session, url, seen) {
+    async changeReaction(session, url, seen) {
         let movieDataset = await getSolidDataset(url, {fetch: session.fetch})
         const all = getThingAll(movieDataset);
 
@@ -120,7 +120,7 @@ class SolidMovieService{
         await saveSolidDatasetAt(url, newMovieDataSet, {fetch: session.fetch});
 
         if (seen) {
-            await this.watchMovie(session, url, true);
+            await this.changeReaction(session, url, true);
         }
 
         return url;

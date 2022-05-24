@@ -153,7 +153,7 @@ class SearchMoviesPage extends Component {
                                                return prev
                                            })
                                            if (SolidUserService.isSolidUser(this.context.session)) {
-                                               SolidMovieService.watchMovie(this.context.session, this.urls.get(id), !this.state.seen.get(id))
+                                               SolidMovieService.changeReaction(this.context.session, this.urls.get(id), !this.state.seen.get(id))
                                            } else {
                                                if (reacted) {
                                                    UserService.changeReaction(id, this.state.likedMovies.get(id), !this.state.seen.get(id))

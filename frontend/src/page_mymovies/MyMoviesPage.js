@@ -242,7 +242,7 @@ class MyMoviesPage extends Component {
 
     seenMovie = (ele) => {
         if (SolidUserService.isSolidUser(this.context.session)) {
-            SolidMovieService.watchMovie(this.context.session, ele.url, !ele.seen)
+            SolidMovieService.changeReaction(this.context.session, ele.url, !ele.seen)
         } else {
             UserService.changeReaction(ele.movie.id, true, !ele.seen)
         }

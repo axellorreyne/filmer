@@ -156,3 +156,9 @@ input:focus
 {
   background-color:   #653add;
 }
+
+ul>button{
+  background-color: transparent;
+  border: none;
+  color: #BBBBBB;
+}
