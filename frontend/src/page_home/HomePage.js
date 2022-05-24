@@ -119,13 +119,13 @@ class HomePage extends Component {
             if (typeof video === 'undefined') {
                 video = movie.videos.results[0];
             }
-            let video_rendered = <div class="rgb-2 d-flex justify-content-center align-items-center mb-5">video not
+            let video_rendered = <div className="rgb-2 d-flex justify-content-center align-items-center mb-5">video not
                 available</div>;
             if (typeof video !== 'undefined') {
                 video_rendered = <iframe height={video.size}
                                          src={"https://www.youtube.com/embed/" + video.key + "?autoplay=1&origin=http://find-a-film.xyz"}
                                          title={video.name} allow='autoplay; encrypted-media' frameBorder="0"
-                                         allowFullScreen="true"></iframe>
+                                         allowFullScreen={true}></iframe>
             }
 
             const directors = [...new Set(movie.credits.crew.filter((x) => x.job === "Director").slice(0, 5).map((x) => x.name))];
@@ -188,7 +188,7 @@ class HomePage extends Component {
                                                     <label className="ffs-2">{dislikes}</label>
                                                 </div>
                                             </div>
-                                            <FInvitePopup/>
+                                            {SolidUserService.isSolidUser(this.context.session) && <FInvitePopup/>}
                                             {SolidUserService.isSolidUser(this.context.session) && <button type="button"
                                                                                                            className="btn btn-bg-solid hover-bg-solid rgb-bg-solid rgb-1 m-1"
                                                                                                            data-bs-toggle="modal"
@@ -220,15 +220,15 @@ class HomePage extends Component {
                                     <div className="col d-sm-flex d-xl-block justify-content-left ffw-2 ms-1">
                                         <div className="me-5 mb-3">
                                             <p className="m-0 p-0 mb-1 rgb-2">Director</p>
-                                            {directors.map((element) => <p className="m-0 p-0">{element}</p>)}
+                                            {directors.map((element) => <p key={element} className="m-0 p-0">{element}</p>)}
                                         </div>
                                         <div className="me-5 mb-3">
                                             <p className="m-0 p-0 mb-1 rgb-2">Writer</p>
-                                            {writers.map((element) => <p className="m-0 p-0">{element}</p>)}
+                                            {writers.map((element) => <p key={element} className="m-0 p-0">{element}</p>)}
                                         </div>
                                         <div>
                                             <p className="m-0 p-0 mb-1 rgb-2">Starring</p>
-                                            {starring.map((element) => <p className="m-0 p-0">{element}</p>)}
+                                            {starring.map((element) => <p key={element} className="m-0 p-0">{element}</p>)}
                                         </div>
                                     </div>
                                 </div>
