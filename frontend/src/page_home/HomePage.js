@@ -6,6 +6,7 @@ import UserService from "../services/user.service";
 import FHeader from "../components/FHeader.js";
 import FFooter from "../components/FFooter.js";
 import FTagList from "../components/FTagList.js";
+import FInvitePopup from "../components/FInvitePopup";
 
 import RsrcIconArrowLeft from "../resources/icon_arrow_left_active.svg";
 import RsrcIconArrowRight from "../resources/icon_arrow_right_active.svg";
@@ -195,6 +196,13 @@ class HomePage extends Component {
                                                     <label className="ffs-2">{dislikes}</label>
                                                 </div>
                                             </div>
+                                            <FInvitePopup/>
+                                            <button type="button" className="btn btn-bg-solid hover-bg-solid rgb-bg-solid rgb-1 m-1 col-10 col-md-1" data-bs-toggle="modal" data-bs-target="#inviteModal">
+                                                <div className="d-flex align-items-center justify-content-center">
+                                                    <img className="me-1" src="https://genr.eu/wp/wp-content/uploads/2018/10/logo.svg" width="18px"/>
+                                                        invite
+                                                </div>
+                                            </button>
                                             <div className="form-check form-switch me-4"
                                                  style={{transform: 'scale(1.5)'}}>
                                                 <div className='d-flex align-items-center'>
