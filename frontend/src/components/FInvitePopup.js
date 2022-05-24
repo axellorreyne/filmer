@@ -21,20 +21,20 @@ class InvitePopup extends Component {
             return (<FSolidFriendInviteLine contact={friend}/>);
         });
         return (
-            <div class="modal fade" id="inviteModal" tabindex="-1" aria-labelledby="inviteModalLabel" role="dialog"
+            <div className="modal fade" id="inviteModal" tabindex="-1" aria-labelledby="inviteModalLabel" role="dialog"
                  aria-hidden="true">
-                <div class="modal-dialog modal-dialog-scrollable">
-                    <div class="modal-content text-black">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="inviteModalLabel">Invite Solid friends</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                <div className="modal-dialog modal-dialog-scrollable">
+                    <div className="modal-content text-black">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="inviteModalLabel">Invite Solid friends</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div className="modal-body">
                             {rendered}
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary " data-bs-dismiss="modal">Close</button>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary " data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>

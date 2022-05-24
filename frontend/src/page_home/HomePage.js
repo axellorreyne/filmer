@@ -119,7 +119,7 @@ class HomePage extends Component {
             if (typeof video === 'undefined') {
                 video = movie.videos.results[0];
             }
-            let video_rendered = <div class="rgb-2 d-flex justify-content-center align-items-center mb-5">video not
+            let video_rendered = <div className="rgb-2 d-flex justify-content-center align-items-center mb-5">video not
                 available</div>;
             if (typeof video !== 'undefined') {
                 video_rendered = <iframe height={video.size}
