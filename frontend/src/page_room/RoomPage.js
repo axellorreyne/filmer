@@ -131,7 +131,6 @@ class Room extends Component
       movies_rendered = movies.map((data) => { 
         return <FMovieLine hasReaction={true} movie={data} seen={false} onSeen={{}} onReact={{}}
         hideButtons={true}
-       isLinked={false}
        renderInfo={false}
        reactIcon={false}/>
       });

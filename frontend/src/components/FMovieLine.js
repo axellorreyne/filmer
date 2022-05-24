@@ -24,13 +24,12 @@ class FMovieLine extends Component
                this.props.navigate("/home")
            }
 
-        const linked = this.props.isLinked
         const hide = this.props.hideButtons
         const info = this.props.renderInfo
         const setSeen = this.props.onSeen
         const setDislike = this.props.onReact
         const reactIcon = this.props.reactIcon
-        const name = (linked)?<a onClick={()=>handleLink()} style={{cursor:'pointer'}}>{this.props.movie.original_title}</a>:this.props.movie.original_title
+        const name = <a onClick={()=>handleLink()} style={{cursor:'pointer'}}>{this.props.movie.original_title}</a>
         const score = this.props.movie.vote_average.toFixed(1)
         let buttons=<div/>;
         if(!hide) {
@@ -62,8 +61,8 @@ class FMovieLine extends Component
             currentTarget.onerror = null; // prevents looping
             currentTarget.src=Dummy;
         }
-        let image = (linked)?<img onClick={()=>handleLink()} src={source} className="card-img-top" onError={(x)=>onError(x)} style={{width: 170,cursor: 'pointer'}}/>
-        :<img src={source} className="card-img-top" onError={(x)=>onError(x)} style={{width: 170}}/>
+        let image = <img onClick={()=>handleLink()} src={source} className="card-img-top" onError={(x)=>onError(x)} style={{width: 170,cursor: 'pointer'}}/>
+        
         return (
           <div className="m-1 mb-1">
               <div className="card rgb-bg-1 h-100 w-100"  >
