@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
+import {SessionContext} from "@inrupt/solid-ui-react";
+import SolidContactsService from "../services/solid.contacts.service";
 
 class FSolidFriendInviteLine extends Component
 {
+
+    static contextType = SessionContext;
 
     constructor(props) {
         super(props);
@@ -9,7 +13,7 @@ class FSolidFriendInviteLine extends Component
     }
 
     invite () {
-        console.log("invited ", this.props.contact.url);
+        SolidContactsService.createInvite(this.context.session, this.props.contact.url, "test");
     }
 
     render ()

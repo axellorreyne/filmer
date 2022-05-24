@@ -1,7 +1,7 @@
 import {
     buildThing, createThing,
     getSolidDataset, getThing,
-    getThingAll, getUrl, saveSolidDatasetAt, setThing,
+    getThingAll, getUrl, getUrlAll, saveSolidDatasetAt, setThing,
 } from "@inrupt/solid-client";
 import {RDF} from "@inrupt/vocab-common-rdf";
 import {cleanWebId} from "../tools/SolidTools";
@@ -20,7 +20,6 @@ class SolidUserService {
             const type = getUrl(thing, RDF.type)
             if (type === "http://www.w3.org/ns/solid/terms#TypeRegistration") {
                 if (getUrl(thing, "http://www.w3.org/ns/solid/terms#forClass") === searchType) {
-                    console.log("found")
                     return getUrl(thing, "http://www.w3.org/ns/solid/terms#instanceContainer")
                 }
             }
@@ -41,15 +40,20 @@ class SolidUserService {
         return url;
     }
 
-    async getUserInfo(session) {
-        const dataSet = await getSolidDataset(cleanWebId(session.info.webId, 'profile/card'), {fetch: session.fetch});
-        let ob = {oidcIssuer: "", name: ""}
+    async getUserInfo(session){
+        return this.getUserInfoForWebId(session, session.info.webId)
+    }
+
+    async getUserInfoForWebId(session, webId) {
+        const ob = {}
+        const dataSet = await getSolidDataset(cleanWebId(webId, 'profile/card'), {fetch: session.fetch});
         for (const thing of getThingAll(dataSet)) {
-            const type = getUrl(thing, RDF.type)
-            if (type === "http://xmlns.com/foaf/0.1/Person") {
+            const type = getUrlAll(thing, RDF.type)
+            if (type.indexOf("http://xmlns.com/foaf/0.1/Person") > 0) {
                 ob.oidcIssuer = getUrl(thing, "http://www.w3.org/ns/solid/terms#oidcIssuer")
                 ob.privateTypeIndex = getUrl(thing, "http://www.w3.org/ns/solid/terms#privateTypeIndex")
-            } else if (type === 'http://xmlns.com/foaf/0.1/PersonalProfileDocument') {
+                ob.inbox = getUrl(thing, "http://www.w3.org/ns/ldp#inbox")
+            } else if (type.indexOf('http://xmlns.com/foaf/0.1/PersonalProfileDocument') > 0) {
                 ob.name = getUrl(thing, "http://xmlns.com/foaf/0.1/maker").split("/")[3]
             }
         }
