@@ -8,9 +8,11 @@ import RsrcIconArrowLeft from "../resources/icon_arrow_left.svg";
 import RsrcIconArrowRight from "../resources/icon_arrow_right.svg";
 import RsrcIconArrowLeftActive from "../resources/icon_arrow_left_active.svg";
 import RsrcIconArrowRightActive from "../resources/icon_arrow_right_active.svg";
+import {SessionContext} from "@inrupt/solid-ui-react";
 
 import MovieService from "../services/movie.service";
 import UserService from "../services/user.service";
+import SolidUserService from "../services/solid.user.service"
 
 import RsrcSearchIcon from "../resources/icon_search.svg";
 import RsrcLikeIcon from "../resources/icon_heart.svg"
@@ -18,6 +20,8 @@ import RsrcDislikeIcon from "../resources/icon_vomit.svg"
 
 class SearchMoviesPage extends Component
 {
+
+    static contextType = SessionContext
 
   constructor(probs) {
     super(probs);
@@ -29,6 +33,7 @@ class SearchMoviesPage extends Component
     this.sortOnPopularity = this.sortOnPopularity.bind(this)
     this.newSortOption = this.newSortOption.bind(this);
 
+    this.urls = new Map()
     this.allReactions = []
     this.currentSearchTerm = "";
     this.sortName = "Sort";
@@ -107,10 +112,12 @@ class SearchMoviesPage extends Component
   componentDidMount()
   {
       this.setState(prev=>({loading:prev.loading+1}))
-    UserService.getReactions().then(reactions=>{
+      let task = (SolidUserService.isSolidUser(this.context.session))?SolidUserService.getReactions(this.context.session):UserService.getReactions()
+      task.then(reactions=>{
+          console.log("rammus quote")
             this.allReactions=reactions.map(reaction=>reaction.movie_id)
+            reactions.forEach(react=>this.urls.set(react.movie_id,react.url))
             reactions.forEach(react=>this.state.seen.set(react.movie_id,react.seen))
-        console.log(this.state.seen)
             reactions.forEach(reaction=>this.state.likedMovies.set(reaction.movie_id,reaction.like))
             this.setState(prev=>({loading:prev.loading-1}))
         })
@@ -139,27 +146,34 @@ class SearchMoviesPage extends Component
                         prev.seen.set(id,!prev.seen.get(id))
                         return prev
                     })
-                    if(reacted){
-                        console.log(id)
-                        console.log(this.state.likedMovies.get(id))
-                        console.log(this.state.seen.get(id))
-                            UserService.changeReaction(id,this.state.likedMovies.get(id),!this.state.seen.get(id))
-                        }else{
-                            UserService.createReaction(id,this.state.likedMovies.get(id),!this.state.seen.get(id))
-                            this.allReactions.push(id)
-                        }
-                    }}
+                        if(SolidUserService.isSolidUser(this.context.session)){
+                            SolidUserService.watchMovie(this.context.session,this.urls.get(id),!this.state.seen.get(id))
+                        }else
+                            if(reacted){
+                                    UserService.changeReaction(id,this.state.likedMovies.get(id),!this.state.seen.get(id))
+                                }else{
+                                    UserService.createReaction(id,this.state.likedMovies.get(id),!this.state.seen.get(id))
+                                    this.allReactions.push(id)
+                                }
+                            }}
                     onReact={()=>{
                         this.setState(prev=>{
                             prev.likedMovies.set(id,!prev.likedMovies.get(id))
                             return prev
                         })
-                        if(this.allReactions.includes(id)){
-                            UserService.changeReaction(id,!this.state.likedMovies.get(id),this.state.seen.get(id))
-                        }else{
-                            UserService.createReaction(id,!this.state.likedMovies.get(id),this.state.seen.get(id))
-                            this.allReactions.push(id)
-                        }
+                        if(SolidUserService.isSolidUser(this.context.session)){
+                            if(!this.state.likedMovies.get(id)){
+                                SolidUserService.likeMovie(this.context.session,ele,this.state.seen.get(id))
+                            }else{
+                                SolidUserService.deleteMovie(this.context.session,this.urls.get(id))
+                            }
+                        }else
+                            if(this.allReactions.includes(id)){
+                                UserService.changeReaction(id,!this.state.likedMovies.get(id),this.state.seen.get(id))
+                            }else{
+                                UserService.createReaction(id,!this.state.likedMovies.get(id),this.state.seen.get(id))
+                                this.allReactions.push(id)
+                            }
                     }} hideButtons={false}
                     isLinked={true}
                     renderInfo={false}
