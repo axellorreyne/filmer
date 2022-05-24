@@ -6,7 +6,7 @@ class FTagList extends Component
   render () 
   {
     const tags = this.props.tags.map((element) => 
-      <div className="px-1 me-2 bg-light rounded ffw-2 rgb-bg-gr">
+      <div key={element} className="px-1 me-2 bg-light rounded ffw-2 rgb-bg-gr">
       {element}
       </div>
     );

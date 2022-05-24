@@ -220,15 +220,15 @@ class HomePage extends Component {
                                     <div className="col d-sm-flex d-xl-block justify-content-left ffw-2 ms-1">
                                         <div className="me-5 mb-3">
                                             <p className="m-0 p-0 mb-1 rgb-2">Director</p>
-                                            {directors.map((element) => <p className="m-0 p-0">{element}</p>)}
+                                            {directors.map((element) => <p key={element} className="m-0 p-0">{element}</p>)}
                                         </div>
                                         <div className="me-5 mb-3">
                                             <p className="m-0 p-0 mb-1 rgb-2">Writer</p>
-                                            {writers.map((element) => <p className="m-0 p-0">{element}</p>)}
+                                            {writers.map((element) => <p key={element} className="m-0 p-0">{element}</p>)}
                                         </div>
                                         <div>
                                             <p className="m-0 p-0 mb-1 rgb-2">Starring</p>
-                                            {starring.map((element) => <p className="m-0 p-0">{element}</p>)}
+                                            {starring.map((element) => <p key={element} className="m-0 p-0">{element}</p>)}
                                         </div>
                                     </div>
                                 </div>
