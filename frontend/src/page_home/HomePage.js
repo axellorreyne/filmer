@@ -197,7 +197,7 @@ class HomePage extends Component {
                                                 </div>
                                             </div>
                                             <FInvitePopup/>
-                                            <button type="button" className="btn btn-bg-solid hover-bg-solid rgb-bg-solid rgb-1 m-1 col-10 col-md-1" data-bs-toggle="modal" data-bs-target="#inviteModal">
+                                            <button type="button" className="btn btn-bg-solid hover-bg-solid rgb-bg-solid rgb-1 m-1" data-bs-toggle="modal" data-bs-target="#inviteModal">
                                                 <div className="d-flex align-items-center justify-content-center">
                                                     <img className="me-1" src="https://genr.eu/wp/wp-content/uploads/2018/10/logo.svg" width="18px"/>
                                                         invite
