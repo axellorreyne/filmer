@@ -188,7 +188,7 @@ class HomePage extends Component {
                                                     <label className="ffs-2">{dislikes}</label>
                                                 </div>
                                             </div>
-                                            <FInvitePopup/>
+                                            {SolidUserService.isSolidUser(this.context.session) && <FInvitePopup/>}
                                             {SolidUserService.isSolidUser(this.context.session) && <button type="button"
                                                                                                            className="btn btn-bg-solid hover-bg-solid rgb-bg-solid rgb-1 m-1"
                                                                                                            data-bs-toggle="modal"
