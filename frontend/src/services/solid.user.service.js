@@ -63,7 +63,6 @@ class SolidUserService {
 
             all.forEach(thing => {
                 const type = getUrl(thing, RDF.type)
-                console.log(type)
                 if (type === "https://schema.org/Movie") {
                     movieObj.movie_id = this.getMovieIdFromThing(thing);
                 } else if (type === "https://schema.org/WatchAction") {
@@ -130,7 +129,6 @@ class SolidUserService {
         newMovieDataSet = setThing(newMovieDataSet, newMovieThing);
         const url = cleanWebId(session.info.webId, `movies/${movie.title.toLowerCase().split(' ').join('-').replace(/[^a-zA-Z0-9-_]/g, '')}-`
             + `${movie.release_date.toLowerCase().split(' ').join('-').replace(/[^a-zA-Z0-9-_]/g, '')}`)
-        console.log(url)
 
         await saveSolidDatasetAt(url, newMovieDataSet, {fetch: session.fetch});
 
