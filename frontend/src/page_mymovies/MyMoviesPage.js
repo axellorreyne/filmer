@@ -227,12 +227,10 @@ class MyMoviesPage extends Component {
     }
 
     getMovieIndex(id){
-        console.log(id)
         return this.state.movies.findIndex(movie => movie.movie.id === id)
     }
 
     deleteMovie(ele) {
-        console.log(ele)
         let task = (SolidUserService.isSolidUser(this.context.session)) ?
             SolidMovieService.deleteMovie(this.context.session, ele.url) :
             UserService.changeReaction(ele.movie.id, false, ele.movie.seen)
