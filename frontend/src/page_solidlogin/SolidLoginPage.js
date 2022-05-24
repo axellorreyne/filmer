@@ -8,15 +8,17 @@ import FFooter from "../components/FFooter.js";
 
 class SolidLogin extends Component {
 
+
     constructor(props) {
         super(props);
         this.onChangeURL = this.onChangeURL.bind(this);
-        this.state = {oidcIssuer: "", message: ""};
+        this.state = {oidcIssuer: "https://broker.pod.inrupt.com", message: ""};
     }
 
     onChangeURL(e) {
-        const url = e.target.value.split('/')
-        this.setState({oidcIssuer: url[0] + "//" + url[2]});
+        //const url = e.target.value.split('/')
+        //this.setState({oidcIssuer: url[0] + "//" + url[2]});\
+        this.setState({oidcIssuer: e.target.value});
     }
 
     render() {
