@@ -15,6 +15,7 @@ import RsrcIconVomit from "../resources/icon_vomit.svg";
 import {SessionContext} from "@inrupt/solid-ui-react";
 import SolidUserService from "../services/solid.user.service";
 import SolidMovieService from "../services/solid.movie.service";
+import SolidContactsService from "../services/solid.contacts.service";
 
 class HomePage extends Component {
 
@@ -84,7 +85,7 @@ class HomePage extends Component {
     componentDidMount() {
         document.title = "Filmer: Home";
         document.addEventListener("keydown", this.handleKeyPress)
-        this.loadMovie()
+        this.loadMovie();
     }
 
     componentWillUnmount() {

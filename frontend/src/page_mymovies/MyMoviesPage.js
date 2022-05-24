@@ -214,6 +214,11 @@ class MyMoviesPage extends Component {
                         }
                     },
                     (error) => {
+                        ++index;
+                        if (index === (filtered.length)) {
+                            this.setState({movies: movies, ids: ids, loading: false});
+                        }
+                        console.log(movie);
                         console.log(error);
                     }
                 )

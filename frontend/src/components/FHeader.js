@@ -2,9 +2,13 @@ import {Component} from 'react';
 import {Link} from "react-router-dom";
 import RsrcLogo from "../resources/logo_transparant.svg";
 import AuthService from "../services/auth.service";
+import {SessionContext} from "@inrupt/solid-ui-react";
+import SolidUserService from "../services/solid.user.service";
 
 class FHeader extends Component 
 {
+
+  static contextType = SessionContext;
 
   constructor(props)
   {
@@ -37,9 +41,11 @@ class FHeader extends Component
               <li className="nav-item">
                 <Link to="/searchmovies"><a className="nav-link" href="/mymovies">Search Movies</a></Link>
               </li>
-              <li className="text-center navbar-nav">
-                <Link to="/room"><a className="nav-link" href="/room">Group</a></Link>
-              </li>
+              {!SolidUserService.isSolidUser(this.context.session) &&
+                  <li className="text-center navbar-nav">
+                    <Link to="/room"><a className="nav-link" href="/room">Group</a></Link>
+                  </li>
+              }
             </ul>
             <ul className="text-center navbar-nav">
               <Link to="/settings"><li className="nav-item"><a className="nav-link" href="/settings">Settings</a></li></Link>
