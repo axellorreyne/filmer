@@ -225,16 +225,18 @@ class MyMoviesPage extends Component {
     }
 
     deleteMovie(ele) {
-        if (SolidUserService.isSolidUser(this.context.session)) {
+        let task = (SolidUserService.isSolidUser(this.context.session))?
             SolidUserService.deleteMovie(this.context.session, ele.url)
-        } else {
+        :
             UserService.changeReaction(ele.movie.id, false, ele.movie.seen)
-        }
 
-        this.setState(prev => {
-            prev.movies.splice(prev.ids.indexOf(ele.movie.id.toString()), 1)
+
+        task.then(res=>this.setState(prev => {
+            let pos = prev.ids.indexOf(ele.movie.id.toString())
+            prev.movies.splice(pos, 1)
+            prev.ids.splice(pos,1)
             return prev
-        })
+        }))
     }
 
     seenMovie = (ele) => {
@@ -292,10 +294,10 @@ class MyMoviesPage extends Component {
     }
     
     const minimum_likelihood = 0.2;
-    const filteredMovies = this.state.movies.sort(this.state.sorter); //filter(i => this.state.score(i) >= minimum_likelihood)
+    const filteredMovies = this.state.movies.sort(this.state.sorter).filter(i => this.state.score(i) >= minimum_likelihood)
     const amount = filteredMovies.length
     let rendered = filteredMovies.slice(this.maxOnPage * (this.state.page - 1), this.maxOnPage * this.state.page)
-    rendered = filteredMovies.map(ele => {
+    rendered = rendered.map(ele => {
         return(<FMovieLine key={ele.movie.id} movie={ele.movie} seen={ele.seen} renderInfo={true} 
                 onSeen={() => {this.seenMovie(ele)}} onReact={() => {this.deleteMovie(ele)}} 
                 reactIcon={RsrcIconBin} isLinked={false} hideButtons={false}/>);
