@@ -21,7 +21,7 @@ class InvitePopup extends Component {
             return (<FSolidFriendInviteLine contact={friend}/>);
         });
         return (
-            <div className="modal fade" id="inviteModal" tabindex="-1" aria-labelledby="inviteModalLabel" role="dialog"
+            <div className="modal fade" id="inviteModal" tabIndex="-1" aria-labelledby="inviteModalLabel" role="dialog"
                  aria-hidden="true">
                 <div className="modal-dialog modal-dialog-scrollable">
                     <div className="modal-content text-black">
