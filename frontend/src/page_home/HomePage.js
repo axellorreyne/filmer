@@ -125,7 +125,7 @@ class HomePage extends Component {
                 video_rendered = <iframe height={video.size}
                                          src={"https://www.youtube.com/embed/" + video.key + "?autoplay=1&origin=http://find-a-film.xyz"}
                                          title={video.name} allow='autoplay; encrypted-media' frameBorder="0"
-                                         allowFullScreen="true"></iframe>
+                                         allowFullScreen={true}></iframe>
             }
 
             const directors = [...new Set(movie.credits.crew.filter((x) => x.job === "Director").slice(0, 5).map((x) => x.name))];
