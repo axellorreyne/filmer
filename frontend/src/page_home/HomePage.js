@@ -1,4 +1,4 @@
-import { Component } from "react";
+import {Component} from "react";
 
 import MovieService from "../services/movie.service";
 import UserService from "../services/user.service";
@@ -6,6 +6,7 @@ import UserService from "../services/user.service";
 import FHeader from "../components/FHeader.js";
 import FFooter from "../components/FFooter.js";
 import FTagList from "../components/FTagList.js";
+import FInvitePopup from "../components/FInvitePopup";
 
 import RsrcIconArrowLeft from "../resources/icon_arrow_left_active.svg";
 import RsrcIconArrowRight from "../resources/icon_arrow_right_active.svg";
@@ -13,6 +14,7 @@ import RsrcIconHeart from "../resources/icon_heart.svg";
 import RsrcIconVomit from "../resources/icon_vomit.svg";
 import {SessionContext} from "@inrupt/solid-ui-react";
 import SolidUserService from "../services/solid.user.service";
+import SolidMovieService from "../services/solid.movie.service";
 
 class HomePage extends Component {
 
@@ -61,19 +63,9 @@ class HomePage extends Component {
     }
 
     rateMovie(liked) {
-        if (HomePage.hasReaction) {
-            HomePage.hasReaction = false
-            UserService.changeReaction(this.state.movie.id, liked, this.seenCheck)
-        } else {
-            UserService.createReaction(this.state.movie.id, liked, this.seenCheck)
-        }
-        this.loadMovie()
-    }
-
-    rateMovie(liked) {
         if (SolidUserService.isSolidUser(this.context.session)) {
             if (liked) {
-                SolidUserService.likeMovie(this.context.session, this.state.movie, this.seenCheck)
+                SolidMovieService.likeMovie(this.context.session, this.state.movie, this.seenCheck)
             }
         } else {
             UserService.createReaction(this.state.movie.id, liked, this.seenCheck)
@@ -195,12 +187,28 @@ class HomePage extends Component {
                                                     <label className="ffs-2">{dislikes}</label>
                                                 </div>
                                             </div>
+                                            <FInvitePopup/>
+                                            {SolidUserService.isSolidUser(this.context.session) && <button type="button"
+                                                                                                           className="btn btn-bg-solid hover-bg-solid rgb-bg-solid rgb-1 m-1"
+                                                                                                           data-bs-toggle="modal"
+                                                                                                           data-bs-target="#inviteModal">
+                                                <div className="d-flex align-items-center justify-content-center">
+                                                    <img className="me-1"
+                                                         src="https://genr.eu/wp/wp-content/uploads/2018/10/logo.svg"
+                                                         width="18px"/>
+                                                    invite to watch
+                                                </div>
+                                            </button>}
+
                                             <div className="form-check form-switch me-4"
                                                  style={{transform: 'scale(1.5)'}}>
                                                 <div className='d-flex align-items-center'>
-                                                    <label  className="form-check-label me-5 h6 mt-2" style={{float:'left',fontSize:'65%'}} htmlFor="flexSwitchCheckDefault">Seen</label>
-                                                    <input className="form-check-input mb-1" type="checkbox" role="switch"
-                                                        id="flexSwitchCheckDefault" onClick={() => this.flipSeen()}/>
+                                                    <label className="form-check-label me-5 h6 mt-2"
+                                                           style={{float: 'left', fontSize: '65%'}}
+                                                           htmlFor="flexSwitchCheckDefault">Seen</label>
+                                                    <input className="form-check-input mb-1" type="checkbox"
+                                                           role="switch"
+                                                           id="flexSwitchCheckDefault" onClick={() => this.flipSeen()}/>
                                                 </div>
                                             </div>
                                         </div>

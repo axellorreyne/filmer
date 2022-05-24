@@ -19,6 +19,7 @@ import RsrcSearchIcon from "../resources/icon_search.svg";
 import RsrcPukeIcon from "../resources/icon_vomit.svg";
 import SolidUserService from "../services/solid.user.service";
 import {SessionContext} from "@inrupt/solid-ui-react";
+import SolidMovieService from "../services/solid.movie.service";
 
 class MyMoviesPage extends Component {
 
@@ -179,7 +180,7 @@ class MyMoviesPage extends Component {
 
     componentDidMount() {
         if (SolidUserService.isSolidUser(this.context.session)) {
-            SolidUserService.getReactions(this.context.session).then(this.handleMovies) // if solid user
+            SolidMovieService.getReactions(this.context.session).then(this.handleMovies) // if solid user
         } else {
             UserService.getReactions().then(
                 (data) => {
@@ -222,7 +223,7 @@ class MyMoviesPage extends Component {
 
     deleteMovie(ele) {
         let task = (SolidUserService.isSolidUser(this.context.session)) ?
-            SolidUserService.deleteMovie(this.context.session, ele.url) :
+            SolidMovieService.deleteMovie(this.context.session, ele.url) :
             UserService.changeReaction(ele.movie.id, false, ele.movie.seen)
 
 
@@ -236,7 +237,7 @@ class MyMoviesPage extends Component {
 
     seenMovie = (ele) => {
         if (SolidUserService.isSolidUser(this.context.session)) {
-            SolidUserService.watchMovie(this.context.session, ele.url, !ele.seen)
+            SolidMovieService.watchMovie(this.context.session, ele.url, !ele.seen)
         } else {
             UserService.changeReaction(ele.movie.id, true, !ele.seen)
         }
