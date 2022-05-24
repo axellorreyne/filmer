@@ -103,11 +103,11 @@ class Room extends Component
       (user, index) => {
         const admin = (user.id === this.state.admin.id) ? "(admin)" : "";
         return(
-          <div className="col-12 col-sm-6 col-md-4 pe-3">
+          <div key={index} className="col-12 col-sm-6 col-md-4 pe-3">
             <hr className="my-2"/>
             <div className="d-flex justify-content-between">
               <div className="d-flex">
-                <div className="ffs-3 ffw-2">{user.username} 
+                <div className="ffs-3 ffw-2">{user.username}
                 <span className="rgb-2">{" " + admin}</span></div>
               </div>
             </div>
@@ -129,7 +129,7 @@ class Room extends Component
     else if (!this.state.error)
     {
       movies_rendered = movies.map((data) => { 
-        return <FMovieLine hasReaction={true} movie={data} seen={false} onSeen={{}} onReact={{}}
+        return <FMovieLine key={data.id} hasReaction={true} movie={data} seen={false} onSeen={{}} onReact={{}}
         hideButtons={true}
        renderInfo={false}
        reactIcon={false}/>

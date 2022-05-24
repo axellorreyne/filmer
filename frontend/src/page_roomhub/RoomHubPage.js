@@ -157,9 +157,9 @@ class RoomHub extends Component {
         <h2 className="mt-5 mb-4">Current Groups ({this.state.groups.length})</h2>
         <div>
           {this.state.groups.map((group, index) => 
-            <div>
+            <div key={index}>
               <hr/>
-              <div className="d-flex align-items-center justify-content-between"> 
+              <div className="d-flex align-items-center justify-content-between">
                 <label className="ffw-2 ffs-2">{group.name} (#{group.group_id})</label>
                 <Link to={group.group_id}><button className="btn btn-light px-5 ffw-2">enter</button></Link>
               </div> 
