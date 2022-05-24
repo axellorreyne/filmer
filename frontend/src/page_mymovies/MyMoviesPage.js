@@ -46,6 +46,8 @@ class MyMoviesPage extends Component {
         this.handleMovies = this.handleMovies.bind(this);
         this.deleteMovie = this.deleteMovie.bind(this);
 
+        this.getMovieIndex = this.getMovieIndex.bind(this);
+
         this.maxOnPage = 20
 
         this.searchTerm = "";
@@ -198,7 +200,6 @@ class MyMoviesPage extends Component {
     handleMovies(data) {
         let filtered = data.filter(movie => movie.like);
         let movies = [];
-        let ids = [];
         let index = 0;
         if (filtered.length === 0) {
             this.setState({loading: false});
@@ -207,16 +208,15 @@ class MyMoviesPage extends Component {
                 MovieService.getMovieInfo(movie.movie_id).then(
                     (info) => {
                         movies.push({movie: info, seen: movie.seen, url: movie.url});
-                        ids.push(movie.movie_id);
                         ++index;
                         if (index === (filtered.length)) {
-                            this.setState({movies: movies, ids: ids, loading: false});
+                            this.setState({movies: movies, loading: false});
                         }
                     },
                     (error) => {
                         ++index;
                         if (index === (filtered.length)) {
-                            this.setState({movies: movies, ids: ids, loading: false});
+                            this.setState({movies: movies, loading: false});
                         }
                         console.log(movie);
                         console.log(error);
@@ -226,16 +226,22 @@ class MyMoviesPage extends Component {
         }
     }
 
+    getMovieIndex(id){
+        console.log(id)
+        return this.state.movies.findIndex(movie => movie.movie.id === id)
+    }
+
     deleteMovie(ele) {
+        console.log(ele)
         let task = (SolidUserService.isSolidUser(this.context.session)) ?
             SolidMovieService.deleteMovie(this.context.session, ele.url) :
             UserService.changeReaction(ele.movie.id, false, ele.movie.seen)
 
 
-        task.then(res => this.setState(prev => {
-            let pos = prev.ids.indexOf(ele.movie.id.toString())
+        task.then(() => this.setState(prev => {
+            let pos = this.getMovieIndex(ele.movie.id)
+            console.log(pos)
             prev.movies.splice(pos, 1)
-            prev.ids.splice(pos, 1)
             return prev
         }))
     }
@@ -247,7 +253,7 @@ class MyMoviesPage extends Component {
             UserService.changeReaction(ele.movie.id, true, !ele.seen)
         }
         this.setState(prev => {
-            prev.movies[prev.ids.indexOf(ele.movie.id.toString())].seen = !ele.seen
+            prev.movies[this.getMovieIndex(ele.movie.id)].seen = !ele.seen
             return prev
         })
     }
