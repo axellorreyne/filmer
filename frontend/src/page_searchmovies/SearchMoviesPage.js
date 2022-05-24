@@ -175,7 +175,6 @@ class SearchMoviesPage extends Component
                                 this.allReactions.push(id)
                             }
                     }} hideButtons={false}
-                    isLinked={true}
                     renderInfo={false}
                     reactIcon={(this.state.likedMovies.get(id))?RsrcDislikeIcon:RsrcLikeIcon}/>}
 
