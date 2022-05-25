@@ -18,7 +18,7 @@ class InvitePopup extends Component {
 
     render() {
         let rendered = this.state.contacts.map(friend => {
-            return (<FSolidFriendInviteLine contact={friend}/>);
+            return (<FSolidFriendInviteLine key={friend.url} contact={friend} movie={this.props.movie}/>);
         });
         return (
             <div className="modal fade" id="inviteModal" tabIndex="-1" aria-labelledby="inviteModalLabel" role="dialog"

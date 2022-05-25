@@ -33,23 +33,23 @@ class FHeader extends Component
           <div className="collapse navbar-collapse" id="navbar">
             <ul className="text-center mt-3 navbar-nav m-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link" href="/home">Home</a>
+                <Link className="nav-link" to="/home">Home</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/mymovies">My Movies</a>
+                <Link className="nav-link" to="/mymovies">My Movies</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/searchmovies">Search Movies</a>
+                <Link className="nav-link" to="/searchmovies">Search Movies</Link>
               </li>
               {!SolidUserService.isSolidUser(this.context.session) &&
                   <li className="text-center navbar-nav">
-                    <a className="nav-link" href="/room">Group</a>
+                    <Link className="nav-link" to="/room">Group</Link>
                   </li>
               }
             </ul>
             <ul className="text-center navbar-nav">
-              <li className="nav-item"><a className="nav-link" href="/settings">Settings</a></li>
-              {!SolidUserService.isSolidUser(this.context.session)?<button className="border-0 rgb-bg-tr" onClick={this.logout}><li className="nav-item"><a className="nav-link" href="/">Logout</a></li></button>
+              <li className="nav-item"><Link className="nav-link" to="/settings">Settings</Link></li>
+              {!SolidUserService.isSolidUser(this.context.session)?<button className="border-0 rgb-bg-tr" onClick={this.logout}><li className="nav-item"><Link className="nav-link" to="/">Logout</Link></li></button>
                   :<LogoutButton/>}
             </ul>
           </div>
