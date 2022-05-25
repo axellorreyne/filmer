@@ -27,7 +27,7 @@ Frontend:
 ### Setup Docker (Linux)
 ```shell script
   $ sudo apt update && sudo apt install -y docker.io docker-compose
-  $ sudo systemctl enable --now docker  (only on Linux)
+  $ sudo systemctl enable --now docker
   $ sudo usermod -aG docker $USER
   $ newgrp docker
   ```
@@ -37,7 +37,7 @@ Frontend:
 - Build + start container + create superuser
 ```shell script
 $ docker-compose up -d --build
-$ docker-compose exec backed python manage.py createsuperuser
+$ docker-compose exec backend python manage.py createsuperuser
 ```
 
 
