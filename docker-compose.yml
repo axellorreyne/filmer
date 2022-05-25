@@ -1,32 +1,68 @@
 version: "3.7"
 
 services:
+
+    postgres:
+      image: postgres:13
+      hostname: postgres
+      environment:
+        - POSTGRES_DB=postgres
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        #TODO: Make user and password a docker secret
+        #POSTGRES_DB_FILE: /run/secrets/postgres_db
+        #POSTGRES_USER_FILE: /run/secrets/postgres_user
+        #POSTGRES_PASSWORD_FILE: /run/secrets/postgres_pw
+      #secrets: [postgres_db, postgres_user, postgres_pass]
+      volumes: 
+        - ./data/db:/var/lib/postgresql/data
+        - ./scripts/:/docker-entrypoint-initdb.d/
+      networks: [ backend ]
+      restart: always
+
     backend:
       build:
         context: .
-        #target: ${TARGET:-development}
+      environment:
+        - DJANGO_CONFIGURATION=Production
+        - POSTGRES_DB=postgres
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
       hostname: backend
       volumes:
         - '.:/code'
-      command: python manage.py runserver 0.0.0.0:8000
-      networks:
-        - local_network
-      restart: always
       ports:
-        - "8000:8000"
+        - 8000:8000
+      networks:
+        - backend
+      restart: always
+      depends_on:
+        - postgres
+
     frontend:
       build:
         context: ./frontend
-        target: ${TARGET:-development}
-      hostname: frontend
       volumes:
-        - './frontend:/code'
-      command: npm start
+        - ./certbot/www:/var/www/certbot/:ro
+        - ./certbot/conf/:/etc/nginx/ssl/:ro
+      ports:
+        - 80:80
+        - 443:443
+      depends_on:
+        - backend
       restart: always
       networks:
-        - local_network
-      ports:
-        - "3000:3000"
+        - backend
+
+    certbot:
+      image: certbot/certbot
+      volumes:
+        - ./certbot/www/:/var/www/certbot/:rw
+        - ./certbot/conf/:/etc/letsencrypt/:rw
+
 
 networks:
-  local_network:
+  backend:
+
+volumes:
+  postgres_data:

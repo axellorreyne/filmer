@@ -1,36 +1,41 @@
-##################
-### Base image ###
-##################
+###################
+### Build image ###
+###################
+FROM node:alpine as build
 
-# Use Node as base
-FROM node:alpine as base
-
-# Set workdir
+# Workdir is /code
 WORKDIR /code
 
-# add `/app/node_modules/.bin` to $PATH
+# Set node modules path
 ENV PATH /code/node_modules/.bin:$PATH
 
-# run npm install
+# copy package files
 COPY package.json ./
 COPY package-lock.json ./
-RUN npm install
+
+# run clean install
+RUN npm i --silent
+
+# Install react scripts
+RUN npm install react-scripts@4.0.3 -g --silent
 
 # Copy all
-COPY . .
+COPY . ./
 
-#########################
-### Development image ###
-#########################
-FROM base as development
-
-# Enable hot reloading
-ENV CHOKIDAR_USEPOLLING=true
-
-
-########################
-### Production image ###
-########################
-FROM base as production
-
+# Create an optimized production build
 RUN npm run build
+
+#######################
+### Production image ##
+#######################
+FROM nginx:stable-alpine
+
+# Copy nginx build and config files
+COPY --from=build /code/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose http and https port
+EXPOSE 80/tcp 443/tcp
+
+# Run Nginx
+CMD ["nginx", "-g", "daemon off;"]
