@@ -49,6 +49,7 @@ class SolidContactsService {
             .addUrl(RDF.type, "https://schema.org/InviteAction")
             .build();
         inviteDataset = setThing(inviteDataset, eventInviteThing);
+        console.log(userInfo.inbox + makeId(10))
         await saveSolidDatasetAt(
             userInfo.inbox + makeId(10),
             inviteDataset,
