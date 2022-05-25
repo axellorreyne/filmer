@@ -27,7 +27,6 @@ COPY requirements.txt ./requirements.txt
 RUN pip install -r ./requirements.txt
 
 # Copy source
-# TODO: exclude frontend
 COPY . .
 
 # install gunicorn

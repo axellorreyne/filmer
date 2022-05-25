@@ -9,11 +9,6 @@ services:
         - POSTGRES_DB=postgres
         - POSTGRES_USER=postgres
         - POSTGRES_PASSWORD=postgres
-        #TODO: Make user and password a docker secret
-        #POSTGRES_DB_FILE: /run/secrets/postgres_db
-        #POSTGRES_USER_FILE: /run/secrets/postgres_user
-        #POSTGRES_PASSWORD_FILE: /run/secrets/postgres_pw
-      #secrets: [postgres_db, postgres_user, postgres_pass]
       volumes: 
         - ./data/db:/var/lib/postgresql/data
         - ./scripts/:/docker-entrypoint-initdb.d/
