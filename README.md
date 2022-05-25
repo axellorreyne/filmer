@@ -4,12 +4,25 @@
 
 The swiping movie suggestor!
 
-## Dev Setup
+## Development Setup
 
-### Windows Preparation
 
-- [Install WSL 2](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
-- [Install Docker](https://docs.docker.com/docker-for-windows/install-windows-home/)
+### Build + start local setup (non dockerized)
+Backend:
+- (setup your python venv)
+- `pip install -r requirements.txt`
+- `python manage.py migrate`
+- `python manage.py createsuperuser` (choose a password etc)
+- `python manage.py populateMovies`
+- `python manage.py runserver`   
+
+Frontend:
+- `cd frontend`
+- `npm i`
+- `npm start`
+
+
+## Production Setup
 
 ### Setup Docker (Linux)
 ```shell script
@@ -19,7 +32,7 @@ The swiping movie suggestor!
   $ newgrp docker
   ```
 
-### Build + start local setup (Docker)
+### Build + run production server (Docker)
 
 - Build + start container + create superuser
 ```shell script
@@ -48,17 +61,3 @@ $ docker-compose up -d
 $ docker-compose down
 ```
 
-
-### Build + start local setup (non dockerized)
-Backend:
-- (setup your python venv)
-- `pip install -r requirements.txt`
-- `python manage.py migrate`
-- `python manage.py createsuperuser` (choose a password etc)
-- `python manage.py populateMovies`
-- `python manage.py runserver`   
-
-Frontend:
-- `cd frontend`
-- `npm i`
-- `npm start`

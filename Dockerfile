@@ -26,8 +26,10 @@ COPY requirements.txt ./requirements.txt
 # Install required packages
 RUN pip install -r ./requirements.txt
 
+# Install psycopg2
+RUN pip install psycopg2
+
 # Copy source
-# TODO: exclude frontend
 COPY . .
 
 # install gunicorn
