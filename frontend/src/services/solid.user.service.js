@@ -49,11 +49,12 @@ class SolidUserService {
         const dataSet = await getSolidDataset(cleanWebId(webId, 'profile/card'), {fetch: session.fetch});
         for (const thing of getThingAll(dataSet)) {
             const type = getUrlAll(thing, RDF.type)
-            if (type.indexOf("http://xmlns.com/foaf/0.1/Person") > 0) {
+            console.log(type)
+            if (type.indexOf("http://xmlns.com/foaf/0.1/Person") >= 0) {
                 ob.oidcIssuer = getUrl(thing, "http://www.w3.org/ns/solid/terms#oidcIssuer")
                 ob.privateTypeIndex = getUrl(thing, "http://www.w3.org/ns/solid/terms#privateTypeIndex")
                 ob.inbox = getUrl(thing, "http://www.w3.org/ns/ldp#inbox")
-            } else if (type.indexOf('http://xmlns.com/foaf/0.1/PersonalProfileDocument') > 0) {
+            } else if (type.indexOf('http://xmlns.com/foaf/0.1/PersonalProfileDocument') >= 0) {
                 ob.name = getUrl(thing, "http://xmlns.com/foaf/0.1/maker").split("/")[3]
             }
         }

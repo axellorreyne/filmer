@@ -13,7 +13,8 @@ class FSolidFriendInviteLine extends Component
     }
 
     invite () {
-        SolidContactsService.createInvite(this.context.session, this.props.contact.url, "test");
+        console.log(this.props)
+        SolidContactsService.createInvite(this.context.session, this.props.contact.url, this.props.movie.title);
     }
 
     render ()

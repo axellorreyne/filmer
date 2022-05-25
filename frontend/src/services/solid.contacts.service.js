@@ -43,7 +43,6 @@ class SolidContactsService {
 
     async createInvite(session, friendUrl, movieName) {
         const userInfo = await SolidUserService.getUserInfoForWebId(session, friendUrl)
-
         let inviteDataset = createSolidDataset();
         const eventInviteThing = buildThing(createThing({name: "invite"}))
             .addStringNoLocale("https://schema.org/description", `Want to watch ${movieName} with me?`)
