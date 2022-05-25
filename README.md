@@ -11,7 +11,7 @@ The swiping movie suggestor!
 - [Install WSL 2](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
 - [Install Docker](https://docs.docker.com/docker-for-windows/install-windows-home/)
 
-### Setup Docker (WSL + Linux)
+### Setup Docker (Linux)
 ```shell script
   $ sudo apt update && sudo apt install -y docker.io docker-compose
   $ sudo systemctl enable --now docker  (only on Linux)
