@@ -32,7 +32,7 @@ class Base(Configuration):
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = True
 
-    ALLOWED_HOSTS = ['backend', 'localhost', 'filmer.lorreyne.be', 'http://filmer.lorreyne.be', 'https://filmer.lorreyne.be']
+    ALLOWED_HOSTS = ['backend', 'localhost', '127.0.0.1', 'filmer.lorreyne.be', 'http://filmer.lorreyne.be', 'https://filmer.lorreyne.be']
     CSRF_TRUSTED_ORIGINS = ['http://filmer.lorreyne.be', 'https://filmer.lorreyne.be']
 
     # Application definition
