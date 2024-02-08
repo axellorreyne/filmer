@@ -14,7 +14,10 @@ import os
 from pathlib import Path
 
 from configurations import Configuration, values
+from dotenv import load_dotenv
 
+load_dotenv()
+DJANGO_SECRET_KEY = os.getenv('TMDB_API_KEY')
 
 class Base(Configuration):
     # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -24,7 +27,7 @@ class Base(Configuration):
     # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
     # SECURITY WARNING: keep the secret key used in production secret!
-    SECRET_KEY = 'django-insecure-_-5h^#&o5_@n2*w%f))=ktzr#typ*48q6($r90$6djt+=s#y2m'
+    SECRET_KEY = DJANGO_SECRET_KEY
 
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = True
