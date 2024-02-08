@@ -27,7 +27,7 @@ services:
       volumes:
         - '.:/code'
       ports:
-        - 8000:8000
+        - 8008:8008
       networks:
         - backend
       restart: always

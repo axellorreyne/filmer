@@ -14,4 +14,4 @@ python manage.py populateMovies
 python manage.py check --deploy
 
 # Start
-gunicorn backend.wsgi:application -c gunicorn.config.py --bind 0.0.0.0:8000 --log-file=- --log-level debug
+gunicorn backend.wsgi:application -c gunicorn.config.py --bind 0.0.0.0:8008 --log-file=- --log-level debug
