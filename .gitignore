@@ -12,3 +12,5 @@ startup.bat
 
 gunicorn.log
 static
+
+.env
