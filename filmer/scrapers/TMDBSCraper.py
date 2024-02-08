@@ -1,10 +1,10 @@
 import urllib
-
-import requests
 from os import getenv
 
-from filmer.models.Movie import Movie
+import requests
 from dotenv import load_dotenv
+
+from filmer.models.Movie import Movie
 
 load_dotenv()
 
@@ -22,7 +22,13 @@ TMDB_ERROR = error('TMDB ERROR')
 
 
 def get_top_movie(page):
-    req = requests.get(f'{API_URL}/movie/top_rated/?api_key={API_KEY}&page={page}')
+    req = requests.get(
+        f'{API_URL}/movie/top_rated?page={page}',
+        headers={
+            "accept": "application/json",
+            "Authorization": f"Bearer {API_KEY}"
+        })
+    print(req.json())
     if req.status_code != OK_CODE:
         return TMDB_ERROR
     else:
@@ -52,12 +58,17 @@ def create_movies():
     for i in scraped_movies:
         objs.append(Movie(title=i['original_title'], movie_id=i['id']))
     Movie.objects.all().delete()
-    Movie.objects.bulk_create(objs)
+    Movie.objects.bulk_create(objs, ignore_conflicts=True)
 
 
 def get_movie_info(movie_id):
     req = requests.get(
-        f'{API_URL}/movie/{movie_id}?api_key={API_KEY}&append_to_response=videos,images,credits&include_image_language=en,null&include_videos_language=en,null')
+        f'{API_URL}/movie/{movie_id}?append_to_response=videos,images,credits&include_image_language=en,null&include_videos_language=en,null',
+        headers={
+            "accept": "application/json",
+            "Authorization": f"Bearer {API_KEY}"
+        }
+    )
     if req.status_code == OK_CODE:
         return req.json()
     else:
@@ -66,7 +77,13 @@ def get_movie_info(movie_id):
 
 
 def get_movies_by_string(search):
-    req = requests.get(f'{API_URL}/search/movie?api_key={API_KEY}&query={urllib.parse.quote_plus(search)}')
+    req = requests.get(
+        f'{API_URL}/search/movie?query={urllib.parse.quote_plus(search)}',
+        headers={
+            "accept": "application/json",
+            "Authorization": f"Bearer {API_KEY}"
+        }
+    )
     if req.status_code == OK_CODE:
         return req.json()['results']
     else:
