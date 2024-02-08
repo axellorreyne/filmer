@@ -29,8 +29,8 @@ class Base(Configuration):
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = True
 
-    ALLOWED_HOSTS = ['backend', 'localhost', 'find-a-film.xyz', 'http://find-a-film.xyz', 'https://find-a-film.xyz']
-    CSRF_TRUSTED_ORIGINS = ['http://find-a-film.xyz', 'https://find-a-film.xyz']
+    ALLOWED_HOSTS = ['backend', 'localhost', 'filmer.lorreyne.be', 'http://filmer.lorreyne.be', 'https://filmer.lorreyne.be']
+    CSRF_TRUSTED_ORIGINS = ['http://filmer.lorreyne.be', 'https://filmer.lorreyne.be']
 
     # Application definition
 
@@ -123,8 +123,8 @@ class Base(Configuration):
     # whitelist the frontend
     CORS_ORIGIN_WHITELIST = [
         'http://localhost:3000',
-        'http://find-a-film.xyz',
-        'https://find-a-film.xyz'
+        'http://filmer.lorreyne.be',
+        'https://filmer.lorreyne.be'
     ]
 
     REST_FRAMEWORK = {
@@ -146,8 +146,8 @@ class Base(Configuration):
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
     # Solid stuff
-    SOLID_CALLBACK = 'http://find-a-film.xyz/api/solid_callback'
-    SOLID_CLIENT_ID = 'http://find-a-film.xyz/api/this'
+    SOLID_CALLBACK = 'http://filmer.lorreyne.be/api/solid_callback'
+    SOLID_CLIENT_ID = 'http://filmer.lorreyne.be/api/this'
 
 
 class Development(Base):

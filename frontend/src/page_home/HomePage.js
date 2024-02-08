@@ -123,7 +123,7 @@ class HomePage extends Component {
                 available</div>;
             if (typeof video !== 'undefined') {
                 video_rendered = <iframe height={video.size}
-                                         src={"https://www.youtube.com/embed/" + video.key + "?autoplay=1&origin=http://find-a-film.xyz"}
+                                         src={"https://www.youtube.com/embed/" + video.key + "?autoplay=1&origin=http://filmer.lorreyne.be"}
                                          title={video.name} allow='autoplay; encrypted-media' frameBorder="0"
                                          allowFullScreen={true}></iframe>
             }

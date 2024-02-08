@@ -162,5 +162,5 @@ class OIDCMetadata(APIView):
     def get(self, request):
         return Response({"@context": "https://www.w3.org/ns/solid/oidc-context.jsonld",
                          "redirect_uris": [settings.SOLID_CALLBACK],
-                         "client_id": "http://find-a-film.xyz/api/this",
+                         "client_id": "http://filmer.lorreyne.be/api/this",
                          "client_name": "filmer"})

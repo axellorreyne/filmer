@@ -16,7 +16,7 @@ certbot -n \
     --agree-tos \
     --redirect \
     --renew-with-new-domains \
-    -d find-a-film.xyz
+    -d filmer.lorreyne.be
 
 # Bring NGINX to the foreground
 fg %1

@@ -9,8 +9,8 @@ from rdflib import Graph, Namespace, URIRef
 
 rene_pod = "https://pod.inrupt.com/renevds/profile/card#me"
 
-CLIENT_ID = 'http://find-a-film.xyz/api/this'
-SOLID_CALLBACK = 'http://find-a-film.xyz/solid_callback'
+CLIENT_ID = 'http://filmer.lorreyne.be/api/this'
+SOLID_CALLBACK = 'http://filmer.lorreyne.be/solid_callback'
 
 
 def solidOIDC(pod_url):
